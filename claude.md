@@ -632,6 +632,39 @@ See "QuoteRequest Model" section above for complete field list (8 sections)
 
 ---
 
+## GitHub Authentication
+
+**Repository:** https://github.com/gauri1991/nageshcare.git
+
+**Username:** gauri1991
+
+**Personal Access Token:**
+```
+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
+```
+
+### How to Push to GitHub
+
+Using HTTPS with token:
+```bash
+cd /home/gss/Documents/projects/nageshcare
+git push -u origin main
+```
+
+When prompted:
+- **Username:** gauri1991
+- **Password:** (paste the token above)
+
+Alternatively, configure git to store credentials:
+```bash
+git config credential.helper store
+git push -u origin main
+```
+
+⚠️ **Security Note:** This file contains sensitive credentials. Make sure claude.md is added to .gitignore to prevent accidental commits.
+
+---
+
 **Last Updated:** 2025-10-13
 **Version:** 1.0
-**Status:** Development Started
+**Status:** Development Complete - Ready to Push to GitHub
