@@ -1,0 +1,289 @@
+/* NageshCare Custom Styles */
+
+:root {
+    /* Brand Colors - Adapted from finance theme */
+    --primary-color: #264653;
+    --primary-rgb: 38, 70, 83;
+    --secondary-color: #E9C46A;
+    --secondary-rgb: 233, 196, 106;
+    --accent-color: #2A9D8F;
+
+    /* Typography */
+    --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-heading: 'DM Serif Text', Georgia, serif;
+
+    /* Spacing */
+    --section-padding: 80px 0;
+}
+
+/* Typography */
+body {
+    font-family: var(--font-body);
+    color: #333;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--primary-color);
+}
+
+.color {
+    color: var(--primary-color) !important;
+}
+
+.color-2 {
+    color: var(--secondary-color) !important;
+}
+
+.bg-color {
+    background-color: var(--primary-color) !important;
+}
+
+.bg-color-2 {
+    background-color: var(--secondary-color) !important;
+}
+
+/* Buttons */
+.btn-primary-custom {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+}
+
+.btn-primary-custom:hover {
+    background-color: #1a4d59;
+    border-color: #1a4d59;
+}
+
+.btn-secondary-custom {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.btn-secondary-custom:hover {
+    background-color: #d4af37;
+    border-color: #d4af37;
+}
+
+/* Header / Navigation */
+#header {
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1030;
+}
+
+#header.sticky-header-shrink {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, rgba(38, 70, 83, 0.95), rgba(42, 157, 143, 0.9));
+    padding: 100px 0;
+    color: #fff;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* Feature Cards */
+.feature-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border-color: var(--secondary-color);
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--secondary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+/* Product Cards */
+.product-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0;
+}
+
+.product-card:hover {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    transform: translateY(-5px);
+}
+
+.product-card .product-image .badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 5;
+}
+
+.product-image {
+    position: relative;
+    overflow: hidden;
+    height: 250px;
+    background: #f8f9fa;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.05);
+}
+
+/* Forms */
+.form-control:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.2rem rgba(233, 196, 106, 0.25);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+/* Footer */
+#footer {
+    background: #1a3540;
+    color: #fff;
+    padding: 60px 0 30px;
+}
+
+#footer a {
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+#footer a:hover {
+    color: var(--secondary-color);
+}
+
+/* Sections */
+.section {
+    padding: var(--section-padding);
+}
+
+.section-title {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* Icons */
+.icon-check {
+    color: var(--secondary-color);
+    margin-right: 10px;
+}
+
+/* Badges */
+.badge-featured {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.badge-coming-soon {
+    background-color: var(--accent-color);
+    color: #fff;
+}
+
+/* CTA Sections */
+.cta-section {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    padding: 60px 0;
+    color: #fff;
+    border-radius: 15px;
+}
+
+/* Utility Classes */
+.text-primary-custom {
+    color: var(--primary-color) !important;
+}
+
+.text-secondary-custom {
+    color: var(--secondary-color) !important;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .section {
+        padding: 50px 0;
+    }
+}
+
+/* Loading States */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Print Styles */
+@media print {
+    #header, #footer, .btn {
+        display: none;
+    }
+}

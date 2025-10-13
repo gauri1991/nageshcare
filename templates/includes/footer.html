@@ -1,0 +1,114 @@
+{% load static %}
+<!-- Footer -->
+<footer id="footer" class="bg-dark text-white pt-5 pb-3">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Company Info -->
+            <div class="col-lg-4 col-md-6">
+                <h4 class="mb-3 text-secondary-custom">NageshCare</h4>
+                <p class="text-white-50">
+                    Your trusted wholesale trading partner for premium personal care and wellness products.
+                    Quality bulk supplies with custom white-label branding solutions.
+                </p>
+                <div class="d-flex gap-2 mt-3">
+                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+                        <i class="bi bi-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-lg-2 col-md-6">
+                <h5 class="mb-3 text-secondary-custom">Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="{% url 'core:home' %}" class="text-white-50 text-decoration-none">Home</a></li>
+                    <li class="mb-2"><a href="{% url 'core:about' %}" class="text-white-50 text-decoration-none">About Us</a></li>
+                    <li class="mb-2"><a href="{% url 'products:list' %}" class="text-white-50 text-decoration-none">Products</a></li>
+                    <li class="mb-2"><a href="{% url 'core:contact' %}" class="text-white-50 text-decoration-none">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Products -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="mb-3 text-secondary-custom">Our Products</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Premium Tissue Papers</a></li>
+                    <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Dhoop Batti</a></li>
+                    <li class="mb-2"><a href="{% url 'core:request_quote' %}" class="text-white-50 text-decoration-none">Request Quote</a></li>
+                    <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">White-Label Services</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="mb-3 text-secondary-custom">Contact Us</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <i class="bi bi-geo-alt text-secondary-custom me-2"></i>
+                        <span class="text-white-50">Your Business Address<br>City, State - PIN</span>
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-telephone text-secondary-custom me-2"></i>
+                        <a href="tel:+91XXXXXXXXXX" class="text-white-50 text-decoration-none">+91 XXXXX-XXXXX</a>
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-envelope text-secondary-custom me-2"></i>
+                        <a href="mailto:info@nageshcare.com" class="text-white-50 text-decoration-none">info@nageshcare.com</a>
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-whatsapp text-secondary-custom me-2"></i>
+                        <a href="https://wa.me/91XXXXXXXXXX" class="text-white-50 text-decoration-none">WhatsApp Us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Copyright Bar -->
+        <hr class="my-4 border-secondary">
+        <div class="row">
+            <div class="col-md-6 text-center text-md-start">
+                <p class="mb-0 text-white-50">&copy; {% now "Y" %} NageshCare. All Rights Reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <p class="mb-0 text-white-50">
+                    <a href="#" class="text-white-50 text-decoration-none me-3">Privacy Policy</a>
+                    <a href="#" class="text-white-50 text-decoration-none">Terms & Conditions</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Scroll to Top Button -->
+<a href="#" id="scroll-top" class="btn btn-secondary-custom rounded-circle position-fixed bottom-0 end-0 m-4" style="width: 50px; height: 50px; display: none; z-index: 9999;">
+    <i class="bi bi-arrow-up"></i>
+</a>
+
+<script>
+// Show/hide scroll to top button
+window.addEventListener('scroll', function() {
+    const scrollTop = document.getElementById('scroll-top');
+    if (window.scrollY > 300) {
+        scrollTop.style.display = 'flex';
+        scrollTop.style.alignItems = 'center';
+        scrollTop.style.justifyContent = 'center';
+    } else {
+        scrollTop.style.display = 'none';
+    }
+});
+
+// Scroll to top on click
+document.getElementById('scroll-top').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+</script>

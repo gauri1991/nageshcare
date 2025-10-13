@@ -1,0 +1,72 @@
+{% load static %}
+<!-- Top Bar -->
+<div id="top-bar" class="bg-color text-white py-2">
+    <div class="container">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-md-6">
+                <small>
+                    <i class="bi bi-envelope me-2"></i> info@nageshcare.com
+                    <span class="mx-2">|</span>
+                    <i class="bi bi-telephone me-2"></i> +91 XXXXX-XXXXX
+                </small>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <small>
+                    <i class="bi bi-clock me-2"></i> Mon-Sat: 9:00 AM - 6:00 PM
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Header -->
+<header id="header" class="sticky-top bg-white shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand" href="{% url 'core:home' %}">
+                <h3 class="mb-0 fw-bold text-primary-custom">
+                    NageshCare<span class="text-secondary-custom">.</span>
+                </h3>
+            </a>
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Menu -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active fw-bold{% endif %}" href="{% url 'core:home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active fw-bold{% endif %}" href="{% url 'core:about' %}">About Us</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {% if 'products' in request.resolver_match.namespace %}active fw-bold{% endif %}" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Products
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="productsDropdown">
+                            <li><a class="dropdown-item" href="{% url 'products:list' %}">All Products</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'products:list' %}?category=personal-care">Personal Care</a></li>
+                            <li><a class="dropdown-item" href="{% url 'products:list' %}?category=wellness-spiritual">Wellness & Spiritual</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active fw-bold{% endif %}" href="{% url 'core:contact' %}">Contact</a>
+                    </li>
+                </ul>
+
+                <!-- CTA Button -->
+                <div class="d-flex">
+                    <a href="{% url 'core:request_quote' %}" class="btn btn-secondary-custom rounded-pill px-4">
+                        <i class="bi bi-chat-dots me-2"></i>Request Quote
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

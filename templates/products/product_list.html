@@ -1,0 +1,358 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Wholesale Products Catalog | Personal Care & Wellness | NageshCare{% endblock %}
+
+{% block meta_description %}Browse our wholesale products catalog. Premium tissue papers, dhoop batti, and personal care items at bulk prices. White-label branding available. Request a quote today!{% endblock %}
+
+{% block meta_keywords %}wholesale products catalog, bulk personal care items, wholesale tissue paper, dhoop batti wholesale, incense wholesale{% endblock %}
+
+{% block content %}
+
+<!-- Page Hero Section -->
+<section class="hero-section text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="hero-title text-white mb-4">Quality Products at Wholesale Prices</h1>
+                <p class="lead">Explore Our Carefully Curated Collection of Personal Care and Wellness Products</p>
+                <p>Browse our growing catalog of premium wholesale products. Each item is carefully selected, quality-tested, and available with custom branding options to help you build your business.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Category Filter Section -->
+<section class="py-4 bg-light">
+    <div class="container">
+        <div class="row align-items-center mb-4">
+            <div class="col-md-6">
+                <h2 class="h4 mb-0">Shop by Category</h2>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <form method="get" action="{% url 'products:list' %}" class="d-inline-block">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Search products..." value="{{ search_query|default:'' }}">
+                        <button type="submit" class="btn btn-secondary-custom"><i class="bi bi-search"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2 mb-4" id="categoryFilters">
+            <button type="button" data-category="all" class="btn category-filter-btn {% if not current_category %}btn-primary-custom{% else %}btn-outline-primary-custom{% endif %}">
+                All Products
+            </button>
+            {% for category in categories %}
+            <button type="button" data-category="{{ category.slug }}" class="btn category-filter-btn {% if current_category == category.slug %}btn-primary-custom{% else %}btn-outline-primary-custom{% endif %}">
+                {{ category.name }}
+            </button>
+            {% endfor %}
+        </div>
+
+        <div class="alert alert-info" id="filterAlert" style="{% if not current_category and not search_query %}display: none;{% endif %}">
+            <i class="bi bi-funnel me-2"></i>
+            <span id="filterMessage">
+                Showing products
+                {% if current_category %}in category: <strong>{{ current_category }}</strong>{% endif %}
+                {% if search_query %}matching: <strong>"{{ search_query }}"</strong>{% endif %}
+            </span>
+            <a href="{% url 'products:list' %}" class="ms-2" id="clearFilter">Clear filters</a>
+        </div>
+    </div>
+</section>
+
+<!-- Products Section -->
+<section class="section" id="products-section">
+    <div class="container">
+        <!-- Product Grid -->
+        <div class="row g-4" id="productGrid">
+            {% for product in products %}
+            <div class="col-lg-4 col-md-6 product-item" data-category="{{ product.category.slug }}">
+                <div class="product-card h-100">
+                    <div class="product-image position-relative">
+                        {% if product.get_primary_image %}
+                        <img src="{{ product.get_primary_image.image.url }}" alt="{{ product.name }}" loading="lazy">
+                        {% else %}
+                        <div class="bg-light d-flex align-items-center justify-content-center h-100">
+                            <span class="text-muted">No image available</span>
+                        </div>
+                        {% endif %}
+
+                        {% if product.is_featured %}
+                        <span class="badge badge-featured">Best Seller</span>
+                        {% elif product.is_coming_soon %}
+                        <span class="badge badge-coming-soon">Coming Soon</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="p-4">
+                        <span class="badge bg-light text-primary-custom mb-2">{{ product.category.name }}</span>
+                        <h3 class="h5 mb-2">
+                            <a href="{% url 'products:detail' product.slug %}" class="text-decoration-none text-primary-custom">
+                                {{ product.name }}
+                            </a>
+                        </h3>
+
+                        {% if product.tagline %}
+                        <p class="text-secondary-custom fw-semibold small mb-2">{{ product.tagline }}</p>
+                        {% endif %}
+
+                        <p class="text-muted mb-3">{{ product.short_description|truncatewords:25 }}</p>
+
+                        {% if product.features %}
+                        <div class="mb-3">
+                            {% for feature in product.get_features_list|slice:":3" %}
+                            <small class="d-block text-muted">
+                                <i class="bi bi-check-circle-fill icon-check me-1"></i>{{ feature|truncatewords:5 }}
+                            </small>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'products:detail' product.slug %}" class="btn btn-primary-custom">
+                                View Details
+                            </a>
+                            <a href="{% url 'core:request_quote' %}" class="btn btn-outline-secondary-custom btn-sm">
+                                {% if product.is_coming_soon %}
+                                Notify Me
+                                {% else %}
+                                Get Bulk Quote
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12" id="emptyState">
+                <div class="text-center py-5">
+                    <i class="bi bi-inbox fs-1 text-muted mb-3"></i>
+                    <h3 class="h4 text-muted">No products found</h3>
+                    <p class="text-muted">
+                        {% if search_query or current_category %}
+                        Try adjusting your filters or <a href="{% url 'products:list' %}">view all products</a>
+                        {% else %}
+                        Check back soon for new products!
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+            <!-- Dynamic empty state (hidden by default) -->
+            <div class="col-12" id="noResultsMessage" style="display: none;">
+                <div class="text-center py-5">
+                    <i class="bi bi-inbox fs-1 text-muted mb-3"></i>
+                    <h3 class="h4 text-muted">No products found</h3>
+                    <p class="text-muted">Try selecting a different category</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Additional Information Section -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Bulk Ordering Made Easy</h2>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <i class="bi bi-percent fs-1 text-secondary-custom mb-3"></i>
+                    <h3 class="h5 mb-3">Volume Discounts</h3>
+                    <p class="text-muted mb-0">The more you order, the more you save</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <i class="bi bi-badge-tm fs-1 text-secondary-custom mb-3"></i>
+                    <h3 class="h5 mb-3">Custom Branding</h3>
+                    <p class="text-muted mb-0">White-label solutions for building your brand</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <i class="bi bi-award fs-1 text-secondary-custom mb-3"></i>
+                    <h3 class="h5 mb-3">Quality Guarantee</h3>
+                    <p class="text-muted mb-0">Every product is quality-tested before dispatch</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <i class="bi bi-truck fs-1 text-secondary-custom mb-3"></i>
+                    <h3 class="h5 mb-3">Fast Shipping</h3>
+                    <p class="text-muted mb-0">Reliable delivery across India</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <i class="bi bi-headset fs-1 text-secondary-custom mb-3"></i>
+                    <h3 class="h5 mb-3">Dedicated Support</h3>
+                    <p class="text-muted mb-0">Expert guidance for bulk orders</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <i class="bi bi-box-seam fs-1 text-secondary-custom mb-3"></i>
+                    <h3 class="h5 mb-3">Flexible MOQ</h3>
+                    <p class="text-muted mb-0">Minimum order quantities that fit your needs</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container text-center">
+        <h2 class="h1 text-white mb-4">Need a Custom Solution?</h2>
+        <p class="lead text-white mb-4">Looking for products not listed in our catalog? We offer custom sourcing services for businesses with specific requirements. Contact our team to discuss your needs.</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="{% url 'core:request_quote' %}" class="btn btn-secondary-custom btn-lg rounded-pill px-5">Request Custom Sourcing</a>
+            <a href="{% url 'core:contact' %}" class="btn btn-outline-light btn-lg rounded-pill px-5">Contact Our Team</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.category-filter-btn');
+    const productItems = document.querySelectorAll('.product-item');
+    const filterAlert = document.getElementById('filterAlert');
+    const filterMessage = document.getElementById('filterMessage');
+    const noResultsMessage = document.getElementById('noResultsMessage');
+    const emptyState = document.getElementById('emptyState');
+    const productsSection = document.getElementById('products-section');
+
+    // Hide the initial empty state if we have products
+    if (emptyState && productItems.length > 0) {
+        emptyState.style.display = 'none';
+    }
+
+    // Debug: Log all product categories
+    console.log('Total products:', productItems.length);
+    productItems.forEach(function(item, index) {
+        console.log('Product ' + index + ' category:', item.dataset.category);
+    });
+
+    // Category name mapping
+    const categoryNames = {
+        {% for category in categories %}
+        '{{ category.slug }}': '{{ category.name }}',
+        {% endfor %}
+    };
+
+    // Debug: Log available categories
+    console.log('Available categories:', categoryNames);
+
+    // Filter products function
+    function filterProducts(category, shouldScroll, isInitialLoad) {
+        let visibleCount = 0;
+
+        // Debug: Log filtering
+        console.log('Filtering by category:', category);
+
+        // Filter products
+        productItems.forEach(function(item) {
+            if (category === 'all' || item.dataset.category === category) {
+                item.style.display = '';
+                visibleCount++;
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        console.log('Visible products:', visibleCount);
+
+        // Hide filter alert (not needed with client-side filtering)
+        filterAlert.style.display = 'none';
+
+        // Show/hide no results message
+        if (visibleCount === 0) {
+            noResultsMessage.style.display = '';
+        } else {
+            noResultsMessage.style.display = 'none';
+        }
+
+        // Update active button state
+        filterButtons.forEach(function(btn) {
+            if (btn.dataset.category === category) {
+                btn.classList.remove('btn-outline-primary-custom');
+                btn.classList.add('btn-primary-custom');
+            } else {
+                btn.classList.remove('btn-primary-custom');
+                btn.classList.add('btn-outline-primary-custom');
+            }
+        });
+
+        // Update URL without reload
+        const newUrl = category === 'all'
+            ? '{% url "products:list" %}'
+            : '{% url "products:list" %}?category=' + category;
+
+        // Use replaceState for initial load, pushState for user actions
+        if (isInitialLoad) {
+            window.history.replaceState({ category: category }, '', newUrl);
+        } else {
+            window.history.pushState({ category: category }, '', newUrl);
+        }
+
+        // Smooth scroll to products section (only when user clicks, not on initial load)
+        if (shouldScroll !== false && productsSection) {
+            productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    // Add click event to filter buttons
+    filterButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            const category = this.dataset.category;
+            filterProducts(category);
+        });
+    });
+
+    // Handle browser back/forward buttons
+    window.addEventListener('popstate', function(event) {
+        if (event.state && event.state.category) {
+            filterProducts(event.state.category);
+        } else {
+            // No state, filter to "all"
+            filterProducts('all');
+        }
+    });
+
+    // Set initial state and filter on page load
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentCategory = urlParams.get('category') || 'all';
+
+    // Apply initial filter without scrolling
+    if (currentCategory && currentCategory !== 'all') {
+        filterProducts(currentCategory, false, true);
+    } else {
+        // Still set history state for "all" category
+        window.history.replaceState({ category: 'all' }, '', window.location.href);
+    }
+
+    // Handle clear filter link
+    const clearFilterLink = document.getElementById('clearFilter');
+    if (clearFilterLink) {
+        clearFilterLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            filterProducts('all');
+        });
+    }
+});
+</script>
+{% endblock %}

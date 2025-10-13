@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}NageshCare - Wholesale Trading Company | Personal Care & Wellness Products{% endblock %}
+
+{% block meta_description %}Your trusted wholesale trading partner for premium personal care products. Scented tissue papers, dhoop batti & more. Bulk pricing, white-label branding. Request quote!{% endblock %}
+
+{% block meta_keywords %}wholesale tissue paper, bulk dhoop batti, personal care wholesale, white label products, trading company, bulk wellness products{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-section text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <h1 class="hero-title text-white mb-4">Premium Bulk Trading Solutions for Your Business Growth</h1>
+                <h2 class="h4 mb-4 text-white-50">Your Trusted Partner for Quality Personal Care & Wellness Products at Wholesale Prices</h2>
+                <p class="lead mb-4">We specialize in bulk trading of premium white-label products. From scented tissue papers to authentic dhoop batti, we deliver quality at competitive prices. Build your business with our reliable supply chain.</p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="{% url 'core:request_quote' %}" class="btn btn-secondary-custom btn-lg rounded-pill px-5">Request a Quote</a>
+                    <a href="{% url 'products:list' %}" class="btn btn-outline-light btn-lg rounded-pill px-5">View Our Products</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Brief Intro Section -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <span class="section-subtitle">Wholesale Trading Made Simple</span>
+                <h2 class="section-title mt-2 mb-4">Welcome to NageshCare</h2>
+                <p class="lead">Your dedicated wholesale trading partner for premium personal care and wellness products. We bridge the gap between manufacturers and retailers by sourcing, branding, and distributing high-quality products in bulk quantities.</p>
+                <p>Whether you're a retailer, distributor, or business owner looking for reliable wholesale suppliers, we offer competitively priced products with flexible minimum order quantities. Our white-label solutions allow you to build your brand while we handle the supply chain complexities.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products Section -->
+<section class="section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="section-subtitle">Our Flagship Products</span>
+            <h2 class="section-title mt-2">Discover Quality Products Ready for Your Business</h2>
+        </div>
+
+        <div class="row g-4">
+            {% for product in featured_products %}
+            <div class="col-lg-4 col-md-6">
+                <div class="product-card">
+                    <div class="product-image">
+                        {% if product.get_primary_image %}
+                        <img src="{{ product.get_primary_image.image.url }}" alt="{{ product.name }}" loading="lazy">
+                        {% else %}
+                        <div class="bg-light d-flex align-items-center justify-content-center h-100">
+                            <span class="text-muted">No image available</span>
+                        </div>
+                        {% endif %}
+
+                        {% if product.is_featured %}
+                        <span class="badge badge-featured position-absolute top-0 end-0 m-3">Best Seller</span>
+                        {% elif product.is_coming_soon %}
+                        <span class="badge badge-coming-soon position-absolute top-0 end-0 m-3">Coming Soon</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="p-4">
+                        <h3 class="h5 mb-2">{{ product.name }}</h3>
+                        {% if product.tagline %}
+                        <p class="text-secondary-custom fw-semibold mb-2">{{ product.tagline }}</p>
+                        {% endif %}
+                        <p class="text-muted mb-3">{{ product.short_description|truncatewords:20 }}</p>
+
+                        <a href="{% url 'products:detail' product.slug %}" class="btn btn-primary-custom w-100">
+                            {% if product.is_coming_soon %}
+                            Express Interest
+                            {% else %}
+                            Get Wholesale Pricing
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No featured products available yet. Check back soon!</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="{% url 'products:list' %}" class="btn btn-outline-primary-custom btn-lg rounded-pill px-5">View All Products</a>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us Section -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="section-subtitle">More Than Just a Supplier – Your Growth Partner</span>
+            <h2 class="section-title mt-2">Why Businesses Trust NageshCare</h2>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto">
+                        <i class="bi bi-award-fill"></i>
+                    </div>
+                    <h3 class="h5 mb-3">Quality Assurance</h3>
+                    <p class="text-muted">Every product undergoes strict quality checks. We source only from certified manufacturers, ensuring you receive consistent, premium-quality products that enhance your brand reputation.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto">
+                        <i class="bi bi-cash-coin"></i>
+                    </div>
+                    <h3 class="h5 mb-3">Competitive Wholesale Pricing</h3>
+                    <p class="text-muted">Direct sourcing and efficient logistics mean better prices for you. We offer volume-based discounts and flexible payment terms to support your business cash flow.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto">
+                        <i class="bi bi-badge-tm"></i>
+                    </div>
+                    <h3 class="h5 mb-3">White-Label Branding Options</h3>
+                    <p class="text-muted">Build your brand identity with our customizable packaging solutions. We offer white-label services that let you put your brand front and center without the manufacturing hassle.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <h3 class="h5 mb-3">Reliable Supply Chain</h3>
+                    <p class="text-muted">Never run out of stock. Our robust supply chain and inventory management ensure timely deliveries and consistent product availability for your business needs.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+                    <h3 class="h5 mb-3">Flexible Minimum Orders</h3>
+                    <p class="text-muted">Whether you're a startup or an established retailer, we accommodate various order sizes. Scale your business at your own pace with our flexible MOQ policies.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto">
+                        <i class="bi bi-headset"></i>
+                    </div>
+                    <h3 class="h5 mb-3">Dedicated Support</h3>
+                    <p class="text-muted">Your success is our priority. Our responsive customer support team is always ready to assist with orders, inquiries, and business planning.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call-to-Action Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 text-center text-lg-start mb-4 mb-lg-0">
+                <h2 class="h1 text-white mb-3">Ready to Grow Your Business?</h2>
+                <p class="lead mb-0">Join hundreds of satisfied retailers and distributors who trust NageshCare for their wholesale product needs. Let's discuss how we can support your business goals.</p>
+            </div>
+            <div class="col-lg-4 text-center text-lg-end">
+                <a href="{% url 'core:request_quote' %}" class="btn btn-secondary-custom btn-lg rounded-pill px-5 mb-3 d-block d-sm-inline-block">Request Bulk Quote</a>
+                <a href="{% url 'core:contact' %}" class="btn btn-outline-light btn-lg rounded-pill px-5 d-block d-sm-inline-block">Contact Our Team</a>
+            </div>
+        </div>
+
+        <div class="row mt-5 text-white">
+            <div class="col-md-4 text-center mb-3 mb-md-0">
+                <i class="bi bi-telephone-fill fs-3 mb-2"></i>
+                <p class="mb-0"><strong>Phone:</strong><br>+91 XXXXX-XXXXX</p>
+            </div>
+            <div class="col-md-4 text-center mb-3 mb-md-0">
+                <i class="bi bi-envelope-fill fs-3 mb-2"></i>
+                <p class="mb-0"><strong>Email:</strong><br>info@nageshcare.com</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <i class="bi bi-whatsapp fs-3 mb-2"></i>
+                <p class="mb-0"><strong>WhatsApp:</strong><br>+91 XXXXX-XXXXX</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,311 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Request Wholesale Quote | Bulk Order Inquiry | NageshCare{% endblock %}
+
+{% block meta_description %}Request a customized wholesale quote for bulk orders. Get competitive pricing on personal care and wellness products. Free samples available. Quick response guaranteed!{% endblock %}
+
+{% block content %}
+
+<!-- Page Hero Section -->
+<section class="hero-section text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="hero-title text-white mb-4">Request Your Custom Wholesale Quote</h1>
+                <p class="lead">Get Competitive Pricing Tailored to Your Business Needs</p>
+                <p>Fill out our detailed inquiry form to receive a comprehensive quote for your bulk order requirements. Our team will analyze your needs and provide you with the best possible pricing, delivery timeline, and customization options.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Benefits Banner -->
+<section class="section bg-light">
+    <div class="container">
+        <h2 class="h4 text-center mb-4">Why Request a Quote From Us</h2>
+        <div class="row g-3">
+            <div class="col-lg-4 col-md-6">
+                <div class="d-flex align-items-start">
+                    <i class="bi bi-cash-coin text-secondary-custom fs-3 me-3"></i>
+                    <div>
+                        <h3 class="h6 mb-1">Competitive Pricing</h3>
+                        <p class="small text-muted mb-0">Volume-based discounts and special rates</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="d-flex align-items-start">
+                    <i class="bi bi-clock-history text-secondary-custom fs-3 me-3"></i>
+                    <div>
+                        <h3 class="h6 mb-1">24-Hour Response</h3>
+                        <p class="small text-muted mb-0">Fast turnaround on all quote requests</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="d-flex align-items-start">
+                    <i class="bi bi-shield-check text-secondary-custom fs-3 me-3"></i>
+                    <div>
+                        <h3 class="h6 mb-1">No Obligation</h3>
+                        <p class="small text-muted mb-0">Free quotes with no commitment to purchase</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="d-flex align-items-start">
+                    <i class="bi bi-gear-fill text-secondary-custom fs-3 me-3"></i>
+                    <div>
+                        <h3 class="h6 mb-1">Custom Solutions</h3>
+                        <p class="small text-muted mb-0">Tailored packages for your specific needs</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="d-flex align-items-start">
+                    <i class="bi bi-box-seam text-secondary-custom fs-3 me-3"></i>
+                    <div>
+                        <h3 class="h6 mb-1">Sample Availability</h3>
+                        <p class="small text-muted mb-0">Test before you order</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="d-flex align-items-start">
+                    <i class="bi bi-person-check-fill text-secondary-custom fs-3 me-3"></i>
+                    <div>
+                        <h3 class="h6 mb-1">Expert Guidance</h3>
+                        <p class="small text-muted mb-0">Product recommendations based on your business</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Detailed Inquiry Form -->
+<section class="section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="feature-card">
+                    <p class="text-muted mb-4">
+                        <i class="bi bi-info-circle me-2"></i>
+                        The more details you provide, the more accurate and helpful our quote will be. All information is confidential and will only be used to serve you better.
+                    </p>
+
+                    {% crispy form %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Our Quote Service -->
+<section class="section bg-light">
+    <div class="container">
+        <h2 class="section-title text-center mb-5">What Makes Our Quote Process Different</h2>
+
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <i class="bi bi-clipboard-data fs-1 text-secondary-custom mb-3"></i>
+                    <h3 class="h5 mb-3">Detailed & Transparent</h3>
+                    <p class="text-muted">We provide itemized quotes with clear breakup of product cost, branding charges (if applicable), shipping, and taxes. No hidden surprises.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <i class="bi bi-lightning-charge-fill fs-1 text-secondary-custom mb-3"></i>
+                    <h3 class="h5 mb-3">Quick Turnaround</h3>
+                    <p class="text-muted">Most quotes are prepared within 24 hours. For complex custom requirements, we'll update you on the timeline immediately.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <i class="bi bi-lightbulb-fill fs-1 text-secondary-custom mb-3"></i>
+                    <h3 class="h5 mb-3">Expert Recommendations</h3>
+                    <p class="text-muted">Not sure what's best for your business? Our team provides honest recommendations based on your budget and requirements.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <i class="bi bi-gift-fill fs-1 text-secondary-custom mb-3"></i>
+                    <h3 class="h5 mb-3">Sample Availability</h3>
+                    <p class="text-muted">We encourage sample orders before bulk commitments. We'll include sample pricing and availability in your quote.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <i class="bi bi-bar-chart-line-fill fs-1 text-secondary-custom mb-3"></i>
+                    <h3 class="h5 mb-3">Competitive Comparison</h3>
+                    <p class="text-muted">Our quotes include volume-based pricing tiers, helping you understand how ordering more can save you money.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <i class="bi bi-hand-thumbs-up-fill fs-1 text-secondary-custom mb-3"></i>
+                    <h3 class="h5 mb-3">No Pressure</h3>
+                    <p class="text-muted">A quote is just information, not a commitment. Take your time to evaluate and make the best decision for your business.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title text-center mb-5">Quote Process FAQs</h2>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="accordion" id="quoteFAQ">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq1">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                                Is requesting a quote free?
+                            </button>
+                        </h2>
+                        <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="faq1" data-bs-parent="#quoteFAQ">
+                            <div class="accordion-body">
+                                Yes, absolutely! There's no charge or obligation for requesting a quote.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq2">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                How long is the quote valid?
+                            </button>
+                        </h2>
+                        <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="faq2" data-bs-parent="#quoteFAQ">
+                            <div class="accordion-body">
+                                Our quotes are typically valid for 30 days. Product prices may change after that due to market fluctuations.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq3">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                Can I negotiate the quoted price?
+                            </button>
+                        </h2>
+                        <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="faq3" data-bs-parent="#quoteFAQ">
+                            <div class="accordion-body">
+                                For large orders or regular customers, we're open to discussions. Our goal is to build mutually beneficial partnerships.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq4">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                Will I receive a sample with the quote?
+                            </button>
+                        </h2>
+                        <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="faq4" data-bs-parent="#quoteFAQ">
+                            <div class="accordion-body">
+                                Samples are available on request. We'll include sample pricing in your quote, and they can be adjusted against bulk orders.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq5">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                                What if I need to modify my requirements after receiving the quote?
+                            </button>
+                        </h2>
+                        <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="faq5" data-bs-parent="#quoteFAQ">
+                            <div class="accordion-body">
+                                No problem! Just reply to our quote email or call us. We'll revise the quote based on your updated requirements.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Alternative Quick Quote Options -->
+<section class="section bg-light">
+    <div class="container text-center">
+        <h2 class="section-title mb-4">Prefer a Faster Method?</h2>
+
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <i class="bi bi-whatsapp fs-1 text-success mb-3"></i>
+                    <h3 class="h5 mb-3">Quick Quote via WhatsApp</h3>
+                    <p class="small text-muted mb-3">For a quick informal quote, WhatsApp us with product name, approximate quantity, and your location.</p>
+                    <a href="https://wa.me/91XXXXXXXXXX" class="btn btn-success" target="_blank">
+                        <i class="bi bi-whatsapp me-2"></i>Chat on WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <i class="bi bi-telephone-fill fs-1 text-primary-custom mb-3"></i>
+                    <h3 class="h5 mb-3">Call for Instant Quote</h3>
+                    <p class="small text-muted mb-3">Speak directly with our sales team for immediate assistance.</p>
+                    <a href="tel:+91XXXXXXXXXX" class="btn btn-primary-custom">
+                        <i class="bi bi-telephone-fill me-2"></i>Call Us Now
+                    </a>
+                    <p class="small text-muted mt-2">Monday-Saturday, 9 AM - 6 PM</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <i class="bi bi-envelope-fill fs-1 text-secondary-custom mb-3"></i>
+                    <h3 class="h5 mb-3">Email Your Requirements</h3>
+                    <p class="small text-muted mb-3">Send detailed requirements to our sales team via email.</p>
+                    <a href="mailto:sales@nageshcare.com" class="btn btn-outline-primary-custom">
+                        <i class="bi bi-envelope-fill me-2"></i>Email Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trust Signals -->
+<section class="cta-section">
+    <div class="container text-center">
+        <div class="row g-4 text-white mb-5">
+            <div class="col-md-3 col-6">
+                <i class="bi bi-lock-fill fs-1 mb-3"></i>
+                <p><strong>Secure Form</strong><br>Your information is encrypted and protected</p>
+            </div>
+            <div class="col-md-3 col-6">
+                <i class="bi bi-shield-check fs-1 mb-3"></i>
+                <p><strong>100% Confidential</strong><br>We never share your business information</p>
+            </div>
+            <div class="col-md-3 col-6">
+                <i class="bi bi-people-fill fs-1 mb-3"></i>
+                <p><strong>Trusted by Businesses</strong><br>Join our satisfied wholesale partners</p>
+            </div>
+            <div class="col-md-3 col-6">
+                <i class="bi bi-star-fill fs-1 mb-3"></i>
+                <p><strong>Quality Service</strong><br>Based on customer feedback</p>
+            </div>
+        </div>
+
+        <h2 class="h3 text-white mb-3">Still Have Questions Before Requesting a Quote?</h2>
+        <p class="lead mb-4">We understand that every business is unique. If you'd prefer to discuss your requirements before filling out the form, we're here to help.</p>
+        <p class="lead mb-0">We're not just order-takers. We're business partners who genuinely care about your success. Let's build something great together.</p>
+    </div>
+</section>
+
+{% endblock %}
