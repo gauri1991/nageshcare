@@ -56,3 +56,8 @@ htmlcov/
 # Backup files
 *.bak
 *.backup
+
+# Reference files and documentation
+referencefiles/
+webplan.md
+content.md
