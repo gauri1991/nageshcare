@@ -1,0 +1,114 @@
+{% extends 'cms/base.html' %}
+
+{% block title %}{% if is_update %}Edit{% else %}Add New{% endif %} Category - NageshCare CMS{% endblock %}
+
+{% block content %}
+<div class="cms-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1><i class="bi bi-tag me-2"></i>{% if is_update %}Edit{% else %}Add New{% endif %} Category</h1>
+        <p class="text-muted mb-0">{% if is_update %}Update category details{% else %}Create a new product category{% endif %}</p>
+    </div>
+
+    <!-- Category Form -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="cms-card">
+            <div class="cms-card-header">
+                <h2>Category Information</h2>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Category Name <span class="text-danger">*</span></label>
+                {{ form.name }}
+                <small class="text-muted">The name that will appear on your website (e.g., "Personal Care Products")</small>
+                {% if form.name.errors %}
+                    <div class="text-danger small">{{ form.name.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                {{ form.description }}
+                <small class="text-muted">Brief description of what products belong in this category</small>
+                {% if form.description.errors %}
+                    <div class="text-danger small">{{ form.description.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Category Icon</label>
+                {{ form.icon }}
+                <small class="text-muted">Upload an icon image for this category (optional, recommended size: 200x200px)</small>
+                {% if form.icon.errors %}
+                    <div class="text-danger small">{{ form.icon.errors }}</div>
+                {% endif %}
+
+                {% if is_update and object.icon %}
+                <div class="mt-2">
+                    <p class="small text-muted mb-1">Current icon:</p>
+                    <img src="{{ object.icon.url }}" alt="{{ object.name }}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 4px;">
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <div class="form-check">
+                    {{ form.is_active }}
+                    <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
+                        <strong>Active</strong> - Show this category on the website
+                    </label>
+                </div>
+                {% if form.is_active.errors %}
+                    <div class="text-danger small">{{ form.is_active.errors }}</div>
+                {% endif %}
+            </div>
+
+            {% if is_update %}
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle me-2"></i>
+                <strong>Product Count:</strong> This category currently has <strong>{{ object.products.count }}</strong> product{{ object.products.count|pluralize }}.
+                {% if object.products.count > 0 %}
+                <br><small>You cannot delete this category while it has products. Please reassign or delete the products first.</small>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Form Actions -->
+        <div class="cms-card">
+            <div class="d-flex gap-2 justify-content-end">
+                <a href="{% url 'cms:categories' %}" class="btn btn-cms-secondary">
+                    <i class="bi bi-x-lg me-1"></i>Cancel
+                </a>
+                <button type="submit" class="btn btn-cms-primary">
+                    <i class="bi bi-check-lg me-1"></i>{% if is_update %}Update{% else %}Create{% endif %} Category
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<style>
+    .cms-card-header h2 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--cms-primary);
+        margin: 0;
+    }
+
+    .form-control, .form-select {
+        border: 1px solid var(--cms-border);
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--cms-primary);
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+
+    textarea.form-control {
+        min-height: 100px;
+    }
+</style>
+{% endblock %}

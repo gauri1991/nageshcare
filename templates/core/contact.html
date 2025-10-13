@@ -1,21 +1,24 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static cms_tags %}
 {% load crispy_forms_tags %}
 
-{% block title %}Contact Us - Wholesale Trading Inquiries | NageshCare{% endblock %}
+{% block title %}Contact Us - {{ settings.business_name }}{% endblock %}
 
-{% block meta_description %}Get in touch with NageshCare for wholesale inquiries, bulk orders, and custom branding solutions. Call, email, or visit us for personal care and wellness products.{% endblock %}
+{% block meta_description %}{{ settings.default_meta_description|default:"Get in touch with NageshCare for wholesale inquiries, bulk orders, and custom branding solutions for personal care & wellness products." }}{% endblock %}
 
 {% block content %}
+{% get_hero 'contact' as hero %}
 
 <!-- Page Hero Section -->
 <section class="hero-section text-white">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-8 mx-auto text-center">
-                <h1 class="hero-title text-white mb-4">Get in Touch With Us</h1>
-                <p class="lead">We're Here to Help Your Business Grow</p>
-                <p>Have questions about our products, pricing, or bulk orders? Our team is ready to assist you. Whether you're a first-time buyer or a regular client, we're committed to providing prompt, helpful responses to all your inquiries.</p>
+                <h1 class="hero-title text-white mb-4">{{ hero.title|default:"Get in Touch With Us" }}</h1>
+                {% if hero.subtitle %}
+                <p class="lead">{{ hero.subtitle }}</p>
+                {% endif %}
+                <p>{{ hero.description|default:"Have questions about our products, pricing, or bulk orders? Our team is ready to assist you." }}</p>
             </div>
         </div>
     </div>
@@ -43,39 +46,48 @@
 
                     <div class="mb-4">
                         <h4 class="h6 text-secondary-custom mb-2"><i class="bi bi-telephone-fill me-2"></i>Office Phone</h4>
-                        <p class="mb-1"><strong>+91 XXXXX-XXXXX</strong></p>
-                        <p class="text-muted small">Monday - Saturday: 9:00 AM - 6:00 PM<br>Closed on Sundays and Public Holidays</p>
+                        <p class="mb-1"><strong>{{ settings.phone_primary }}</strong></p>
+                        <p class="text-muted small">{{ settings.business_hours|default:"Mon-Sat: 9:00 AM - 6:00 PM" }}</p>
                     </div>
 
                     <div class="mb-4">
                         <h4 class="h6 text-secondary-custom mb-2"><i class="bi bi-whatsapp me-2"></i>WhatsApp Business</h4>
-                        <p class="mb-1"><strong>+91 XXXXX-XXXXX</strong></p>
+                        <p class="mb-1"><strong>{{ settings.phone_whatsapp }}</strong></p>
                         <p class="text-muted small">Quick responses for urgent inquiries</p>
-                        <a href="https://wa.me/91XXXXXXXXXX" class="btn btn-sm btn-outline-success" target="_blank">
+                        {% if settings.whatsapp_url %}
+                        <a href="{{ settings.whatsapp_url }}" class="btn btn-sm btn-outline-success" target="_blank">
                             <i class="bi bi-whatsapp me-1"></i>Click to Chat
                         </a>
+                        {% endif %}
                     </div>
 
                     <div class="mb-4">
                         <h4 class="h6 text-secondary-custom mb-2"><i class="bi bi-envelope-fill me-2"></i>Email</h4>
-                        <p class="mb-1"><strong>General Inquiries:</strong> info@nageshcare.com</p>
-                        <p class="mb-1"><strong>Bulk Orders:</strong> sales@nageshcare.com</p>
-                        <p class="mb-1"><strong>Customer Support:</strong> support@nageshcare.com</p>
+                        <p class="mb-1"><strong>General Inquiries:</strong> {{ settings.email_primary }}</p>
+                        {% if settings.email_support %}
+                        <p class="mb-1"><strong>Customer Support:</strong> {{ settings.email_support }}</p>
+                        {% endif %}
                         <p class="text-muted small">We typically respond within 24 hours</p>
                     </div>
 
                     <div class="mb-4">
                         <h4 class="h6 text-secondary-custom mb-2"><i class="bi bi-share-fill me-2"></i>Social Media</h4>
                         <div class="d-flex gap-2">
-                            <a href="#" class="btn btn-outline-primary btn-sm" target="_blank">
+                            {% if settings.facebook_url %}
+                            <a href="{{ settings.facebook_url }}" class="btn btn-outline-primary btn-sm" target="_blank">
                                 <i class="bi bi-facebook"></i>
                             </a>
-                            <a href="#" class="btn btn-outline-primary btn-sm" target="_blank">
+                            {% endif %}
+                            {% if settings.instagram_url %}
+                            <a href="{{ settings.instagram_url }}" class="btn btn-outline-primary btn-sm" target="_blank">
                                 <i class="bi bi-instagram"></i>
                             </a>
-                            <a href="#" class="btn btn-outline-primary btn-sm" target="_blank">
+                            {% endif %}
+                            {% if settings.linkedin_url %}
+                            <a href="{{ settings.linkedin_url }}" class="btn btn-outline-primary btn-sm" target="_blank">
                                 <i class="bi bi-linkedin"></i>
                             </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -93,17 +105,16 @@
 
                 <div class="mb-4">
                     <h3 class="h5 text-primary-custom mb-3">Office Address</h3>
-                    <p class="mb-1"><strong>NageshCare</strong></p>
-                    <p class="mb-1">Your Business Address</p>
-                    <p class="mb-1">City, State - PIN Code</p>
+                    <p class="mb-1"><strong>{{ settings.business_name }}</strong></p>
+                    {% if settings.address_line1 %}<p class="mb-1">{{ settings.address_line1 }}</p>{% endif %}
+                    {% if settings.address_line2 %}<p class="mb-1">{{ settings.address_line2 }}</p>{% endif %}
+                    <p class="mb-1">{{ settings.city }}, {{ settings.state }} - {{ settings.pincode }}</p>
                     <p class="mb-3">India</p>
                 </div>
 
                 <div class="mb-4">
                     <h3 class="h5 text-primary-custom mb-3">Business Hours</h3>
-                    <p class="mb-1">Monday - Friday: 9:00 AM - 6:00 PM</p>
-                    <p class="mb-1">Saturday: 10:00 AM - 4:00 PM</p>
-                    <p class="mb-3">Sunday: Closed</p>
+                    <p class="mb-3">{{ settings.business_hours|linebreaks }}</p>
                 </div>
 
                 <p class="alert alert-info">
@@ -139,58 +150,13 @@
     </div>
 </section>
 
-<!-- Alternative Contact Methods -->
-<section class="section">
-    <div class="container">
-        <h2 class="section-title text-center mb-5">Other Ways to Connect</h2>
-
-        <div class="row g-4">
-            <div class="col-lg-3 col-md-6">
-                <div class="feature-card text-center">
-                    <i class="bi bi-briefcase-fill fs-1 text-secondary-custom mb-3"></i>
-                    <h3 class="h6 mb-2">Distributorship Inquiries</h3>
-                    <p class="small text-muted">Interested in becoming a distributor or exploring partnership opportunities?</p>
-                    <a href="mailto:partnerships@nageshcare.com" class="small">partnerships@nageshcare.com</a>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-                <div class="feature-card text-center">
-                    <i class="bi bi-newspaper fs-1 text-secondary-custom mb-3"></i>
-                    <h3 class="h6 mb-2">Media & Press</h3>
-                    <p class="small text-muted">For media inquiries, press releases, or interviews</p>
-                    <a href="mailto:media@nageshcare.com" class="small">media@nageshcare.com</a>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-                <div class="feature-card text-center">
-                    <i class="bi bi-person-badge-fill fs-1 text-secondary-custom mb-3"></i>
-                    <h3 class="h6 mb-2">Careers</h3>
-                    <p class="small text-muted">Interested in joining our team?</p>
-                    <a href="mailto:careers@nageshcare.com" class="small">careers@nageshcare.com</a>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-                <div class="feature-card text-center">
-                    <i class="bi bi-chat-square-text-fill fs-1 text-secondary-custom mb-3"></i>
-                    <h3 class="h6 mb-2">Feedback & Complaints</h3>
-                    <p class="small text-muted">We value your feedback. Share your experience</p>
-                    <a href="mailto:feedback@nageshcare.com" class="small">feedback@nageshcare.com</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- Customer Support Promise -->
 <section class="cta-section">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10 text-center">
                 <h2 class="h1 text-white mb-4">Our Commitment to You</h2>
-                <p class="lead mb-4">At NageshCare, we believe in building relationships, not just completing transactions. When you contact us:</p>
+                <p class="lead mb-4">At {{ settings.business_name }}, we believe in building relationships, not just completing transactions. When you contact us:</p>
 
                 <div class="row g-3 text-white mb-4">
                     <div class="col-md-6">
@@ -215,7 +181,7 @@
 
                 <div class="mt-4">
                     <a href="{% url 'core:request_quote' %}" class="btn btn-secondary-custom btn-lg rounded-pill px-5 me-2 mb-2">Request Bulk Quote</a>
-                    <a href="tel:+91XXXXXXXXXX" class="btn btn-outline-light btn-lg rounded-pill px-5 mb-2">Call Us Now</a>
+                    <a href="tel:{{ settings.phone_primary }}" class="btn btn-outline-light btn-lg rounded-pill px-5 mb-2">Call Us Now</a>
                 </div>
             </div>
         </div>

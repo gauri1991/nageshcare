@@ -1,0 +1,45 @@
+<!-- Testimonials Component -->
+{% if testimonials %}
+<section class="testimonials-section">
+    <div class="container">
+        <h2>What Our Clients Say</h2>
+
+        {% if stats %}
+        <div class="company-stats">
+            {% for stat in stats %}
+                <div class="stat-item">
+                    {% if stat.icon_class %}<i class="{{ stat.icon_class }}"></i>{% endif %}
+                    <strong>{{ stat.value }}</strong>
+                    <span>{{ stat.label }}</span>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="testimonials-grid">
+            {% for testimonial in testimonials %}
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="avatar">{{ testimonial.avatar_initials|default:testimonial.customer_name|slice:":2"|upper }}</div>
+                        <div class="customer-info">
+                            <strong>{{ testimonial.customer_name }}</strong>
+                            {% if testimonial.customer_role %}<span>{{ testimonial.customer_role }}</span>{% endif %}
+                            <small>{{ testimonial.customer_location }}</small>
+                        </div>
+                    </div>
+                    <div class="rating">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= testimonial.rating %}
+                                <i class="bi bi-star-fill"></i>
+                            {% else %}
+                                <i class="bi bi-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <p>{{ testimonial.testimonial_text }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}

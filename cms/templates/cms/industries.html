@@ -1,0 +1,138 @@
+{% extends 'cms/base.html' %}
+
+{% block title %}Manage Industries - NageshCare CMS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .industry-card {
+        border: 1px solid var(--cms-border);
+        border-radius: 8px;
+        padding: 1rem;
+        background: white;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .industry-card:hover {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .industry-icon {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--cms-bg-light);
+        border-radius: 8px;
+        font-size: 2rem;
+        color: var(--cms-primary);
+    }
+
+    .industry-content {
+        flex: 1;
+    }
+
+    .industry-actions {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .status-badge {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="cms-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1><i class="bi bi-building me-2"></i>Manage Industries</h1>
+                <p class="text-muted mb-0">Industries that trust your products and services</p>
+            </div>
+            <a href="{% url 'cms:industry_add' %}" class="btn btn-cms-primary">
+                <i class="bi bi-plus-lg me-1"></i>Add New Industry
+            </a>
+        </div>
+    </div>
+
+    <!-- Industries List -->
+    <div class="cms-card">
+        {% if industries %}
+            <div class="mb-3 text-muted">
+                <strong>{{ industries|length }}</strong> industr{{ industries|length|pluralize:"y,ies" }} found
+            </div>
+
+            <div class="row g-3">
+                {% for industry in industries %}
+                    <div class="col-md-6">
+                        <div class="industry-card">
+                            <div class="industry-icon">
+                                <i class="{{ industry.icon_class }}"></i>
+                            </div>
+
+                            <div class="industry-content">
+                                <h6 class="mb-1">{{ industry.industry_name }}</h6>
+                                {% if industry.description %}
+                                    <p class="mb-1 small text-muted">{{ industry.description|truncatewords:15 }}</p>
+                                {% endif %}
+                                <div class="d-flex gap-2 align-items-center">
+                                    {% if industry.is_active %}
+                                        <span class="badge bg-success status-badge">Active</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary status-badge">Inactive</span>
+                                    {% endif %}
+                                    <span class="badge bg-light text-dark status-badge">Order: {{ industry.order }}</span>
+                                </div>
+                            </div>
+
+                            <div class="industry-actions">
+                                <a href="{% url 'cms:industry_edit' industry.pk %}" class="btn btn-sm btn-cms-secondary" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a href="{% url 'cms:industry_delete' industry.pk %}" class="btn btn-sm btn-outline-danger" title="Delete" onclick="return confirm('Are you sure you want to delete this industry?')">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        {% else %}
+            <div class="text-center py-5">
+                <i class="bi bi-building display-1 text-muted"></i>
+                <h4 class="mt-3">No Industries Yet</h4>
+                <p class="text-muted">Add industries to showcase the sectors you serve</p>
+                <a href="{% url 'cms:industry_add' %}" class="btn btn-cms-primary mt-2">
+                    <i class="bi bi-plus-lg me-1"></i>Add First Industry
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Quick Links -->
+    <div class="cms-card">
+        <div class="cms-card-header">
+            <h2><i class="bi bi-link-45deg me-2"></i>Quick Actions</h2>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+            <a href="{% url 'cms:page_home' %}" class="btn btn-cms-secondary btn-sm">
+                <i class="bi bi-house-door me-1"></i>Edit Home Page
+            </a>
+            <a href="/" target="_blank" class="btn btn-cms-secondary btn-sm">
+                <i class="bi bi-eye me-1"></i>Preview Website
+            </a>
+            <a href="{% url 'cms:dashboard' %}" class="btn btn-cms-secondary btn-sm">
+                <i class="bi bi-speedometer2 me-1"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

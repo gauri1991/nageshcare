@@ -1,0 +1,287 @@
+{% extends 'cms/base.html' %}
+
+{% block title %}Site Settings - NageshCare CMS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .nav-tabs .nav-link {
+        color: var(--cms-text-muted);
+        border: 1px solid transparent;
+        border-bottom: none;
+    }
+
+    .nav-tabs .nav-link:hover {
+        color: var(--cms-primary);
+        background: var(--cms-bg-light);
+    }
+
+    .nav-tabs .nav-link.active {
+        color: var(--cms-primary);
+        border-color: var(--cms-border) var(--cms-border) white;
+        font-weight: 500;
+    }
+
+    .tab-content {
+        border: 1px solid var(--cms-border);
+        border-top: none;
+        padding: 1.5rem;
+        background: white;
+        border-radius: 0 0 8px 8px;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--cms-border);
+    }
+
+    .form-section-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--cms-primary);
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--cms-border);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="cms-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1><i class="bi bi-gear me-2"></i>Site Settings</h1>
+        <p class="text-muted mb-0">Manage your website's global settings and information</p>
+    </div>
+
+    <!-- Settings Form -->
+    <div class="cms-card">
+        <form method="post" action="{% url 'cms:settings' %}">
+            {% csrf_token %}
+
+            <!-- Tabs Navigation -->
+            <ul class="nav nav-tabs" id="settingsTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="business-tab" data-bs-toggle="tab" data-bs-target="#business" type="button" role="tab">
+                        <i class="bi bi-building me-1"></i>Business Info
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab">
+                        <i class="bi bi-telephone me-1"></i>Contact
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#address" type="button" role="tab">
+                        <i class="bi bi-geo-alt me-1"></i>Address
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button" role="tab">
+                        <i class="bi bi-share me-1"></i>Social Media
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="business-details-tab" data-bs-toggle="tab" data-bs-target="#business-details" type="button" role="tab">
+                        <i class="bi bi-briefcase me-1"></i>Business Details
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="seo-tab" data-bs-toggle="tab" data-bs-target="#seo" type="button" role="tab">
+                        <i class="bi bi-search me-1"></i>SEO
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="settingsTabContent">
+
+                <!-- Business Information Tab -->
+                <div class="tab-pane fade show active" id="business" role="tabpanel">
+                    <div class="form-section-title">Business Information</div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Business Name <span class="text-danger">*</span></label>
+                        <input type="text" name="business_name" class="form-control" value="{{ settings.business_name }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Tagline</label>
+                        <input type="text" name="tagline" class="form-control" value="{{ settings.tagline|default:'' }}" placeholder="Your trusted partner in quality products">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Business Description</label>
+                        <textarea name="business_description" class="form-control" rows="4">{{ settings.business_description|default:'' }}</textarea>
+                        <small class="text-muted">Brief description of your business</small>
+                    </div>
+                </div>
+
+                <!-- Contact Information Tab -->
+                <div class="tab-pane fade" id="contact" role="tabpanel">
+                    <div class="form-section-title">Contact Information</div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Primary Phone <span class="text-danger">*</span></label>
+                            <input type="tel" name="phone_primary" class="form-control" value="{{ settings.phone_primary }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">WhatsApp Number</label>
+                            <input type="tel" name="phone_whatsapp" class="form-control" value="{{ settings.phone_whatsapp|default:'' }}">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Primary Email <span class="text-danger">*</span></label>
+                            <input type="email" name="email_primary" class="form-control" value="{{ settings.email_primary }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Support Email</label>
+                            <input type="email" name="email_support" class="form-control" value="{{ settings.email_support|default:'' }}">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Sales Email</label>
+                        <input type="email" name="email_sales" class="form-control" value="{{ settings.email_sales|default:'' }}">
+                    </div>
+
+                    <div class="form-section-title mt-4">Business Hours</div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Business Hours</label>
+                        <input type="text" name="business_hours" class="form-control" value="{{ settings.business_hours|default:'' }}" placeholder="Mon-Sat: 9:00 AM - 6:00 PM">
+                        <small class="text-muted">Displayed in the top header bar</small>
+                    </div>
+                </div>
+
+                <!-- Address Tab -->
+                <div class="tab-pane fade" id="address" role="tabpanel">
+                    <div class="form-section-title">Business Address</div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Address Line 1</label>
+                        <input type="text" name="address_line1" class="form-control" value="{{ settings.address_line1|default:'' }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Address Line 2</label>
+                        <input type="text" name="address_line2" class="form-control" value="{{ settings.address_line2|default:'' }}">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">City</label>
+                            <input type="text" name="city" class="form-control" value="{{ settings.city|default:'' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">State/Province</label>
+                            <input type="text" name="state" class="form-control" value="{{ settings.state|default:'' }}">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Postal Code / Pincode</label>
+                        <input type="text" name="pincode" class="form-control" value="{{ settings.pincode|default:'' }}" placeholder="e.g., 400001">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Google Maps Embed URL</label>
+                        <input type="url" name="map_embed_url" class="form-control" value="{{ settings.map_embed_url|default:'' }}">
+                        <small class="text-muted">Full iframe embed URL from Google Maps</small>
+                    </div>
+                </div>
+
+                <!-- Social Media Tab -->
+                <div class="tab-pane fade" id="social" role="tabpanel">
+                    <div class="form-section-title">Social Media Links</div>
+                    <p class="text-muted small mb-4">Enter full URLs for your social media profiles. These will appear in the footer.</p>
+
+                    <div class="mb-3">
+                        <label class="form-label"><i class="bi bi-facebook text-primary me-2"></i>Facebook</label>
+                        <input type="url" name="facebook_url" class="form-control" value="{{ settings.facebook_url|default:'' }}" placeholder="https://facebook.com/yourpage">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><i class="bi bi-instagram text-danger me-2"></i>Instagram</label>
+                        <input type="url" name="instagram_url" class="form-control" value="{{ settings.instagram_url|default:'' }}" placeholder="https://instagram.com/yourhandle">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><i class="bi bi-linkedin text-primary me-2"></i>LinkedIn</label>
+                        <input type="url" name="linkedin_url" class="form-control" value="{{ settings.linkedin_url|default:'' }}" placeholder="https://linkedin.com/company/yourcompany">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><i class="bi bi-whatsapp text-success me-2"></i>WhatsApp</label>
+                        <input type="url" name="whatsapp_url" class="form-control" value="{{ settings.whatsapp_url|default:'' }}" placeholder="https://wa.me/919876543210">
+                        <small class="text-muted">Format: https://wa.me/[country code][phone number]</small>
+                    </div>
+                </div>
+
+                <!-- Business Details Tab -->
+                <div class="tab-pane fade" id="business-details" role="tabpanel">
+                    <div class="form-section-title">Business Details</div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">GST Number</label>
+                            <input type="text" name="gst_number" class="form-control" value="{{ settings.gst_number|default:'' }}" placeholder="e.g., 27XXXXX0000X1Z5">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">CIN Number</label>
+                            <input type="text" name="cin_number" class="form-control" value="{{ settings.cin_number|default:'' }}" placeholder="e.g., U12345AB1234PLC123456">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">MSME Registration Number</label>
+                            <input type="text" name="msme_number" class="form-control" value="{{ settings.msme_number|default:'' }}" placeholder="MSME Registration Number">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Year Established</label>
+                            <input type="text" name="established_year" class="form-control" value="{{ settings.established_year|default:'' }}" placeholder="2010" maxlength="4">
+                            <small class="text-muted">4-digit year</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEO Tab -->
+                <div class="tab-pane fade" id="seo" role="tabpanel">
+                    <div class="form-section-title">Default SEO Settings</div>
+                    <p class="text-muted small mb-4">These defaults will be used on pages that don't have specific SEO meta tags set.</p>
+
+                    <div class="mb-3">
+                        <label class="form-label">Default Meta Description</label>
+                        <textarea name="default_meta_description" class="form-control" rows="3">{{ settings.default_meta_description|default:'' }}</textarea>
+                        <small class="text-muted">Used when page doesn't have a specific meta description (recommended: 120-160 characters)</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Default Meta Keywords</label>
+                        <input type="text" name="default_meta_keywords" class="form-control" value="{{ settings.default_meta_keywords|default:'' }}">
+                        <small class="text-muted">Comma-separated keywords (e.g., wholesale, trading, personal care)</small>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Save Button -->
+            <div class="form-actions">
+                <a href="{% url 'cms:dashboard' %}" class="btn btn-cms-secondary">
+                    <i class="bi bi-x-lg me-1"></i>Cancel
+                </a>
+                <button type="submit" class="btn btn-cms-primary">
+                    <i class="bi bi-check-lg me-1"></i>Save All Settings
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

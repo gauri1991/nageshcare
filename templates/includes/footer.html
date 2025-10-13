@@ -1,28 +1,36 @@
-{% load static %}
+{% load static cms_tags %}
+{% get_site_settings as settings %}
 <!-- Footer -->
 <footer id="footer" class="bg-dark text-white pt-5 pb-3">
     <div class="container">
         <div class="row g-4">
             <!-- Company Info -->
             <div class="col-lg-4 col-md-6">
-                <h4 class="mb-3 text-secondary-custom">NageshCare</h4>
+                <h4 class="mb-3 text-secondary-custom">{{ settings.business_name|default:"NageshCare" }}</h4>
                 <p class="text-white-50">
-                    Your trusted wholesale trading partner for premium personal care and wellness products.
-                    Quality bulk supplies with custom white-label branding solutions.
+                    {{ settings.tagline|default:"Your trusted wholesale trading partner for premium personal care and wellness products. Quality bulk supplies with custom white-label branding solutions." }}
                 </p>
                 <div class="d-flex gap-2 mt-3">
-                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+                    {% if settings.facebook_url %}
+                    <a href="{{ settings.facebook_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
                         <i class="bi bi-facebook"></i>
                     </a>
-                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+                    {% endif %}
+                    {% if settings.instagram_url %}
+                    <a href="{{ settings.instagram_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
                         <i class="bi bi-instagram"></i>
                     </a>
-                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+                    {% endif %}
+                    {% if settings.linkedin_url %}
+                    <a href="{{ settings.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
                         <i class="bi bi-linkedin"></i>
                     </a>
-                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+                    {% endif %}
+                    {% if settings.whatsapp_url %}
+                    <a href="{{ settings.whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
                         <i class="bi bi-whatsapp"></i>
                     </a>
+                    {% endif %}
                 </div>
             </div>
 
@@ -52,23 +60,78 @@
             <div class="col-lg-3 col-md-6">
                 <h5 class="mb-3 text-secondary-custom">Contact Us</h5>
                 <ul class="list-unstyled">
+                    {% if settings.address_line1 %}
                     <li class="mb-2">
                         <i class="bi bi-geo-alt text-secondary-custom me-2"></i>
-                        <span class="text-white-50">Your Business Address<br>City, State - PIN</span>
+                        <span class="text-white-50">
+                            {{ settings.address_line1 }}
+                            {% if settings.address_line2 %}<br>{{ settings.address_line2 }}{% endif %}
+                            <br>{{ settings.city }}, {{ settings.state }} - {{ settings.pincode }}
+                        </span>
                     </li>
+                    {% endif %}
+                    {% if settings.phone_primary %}
                     <li class="mb-2">
                         <i class="bi bi-telephone text-secondary-custom me-2"></i>
-                        <a href="tel:+91XXXXXXXXXX" class="text-white-50 text-decoration-none">+91 XXXXX-XXXXX</a>
+                        <a href="tel:{{ settings.phone_primary }}" class="text-white-50 text-decoration-none">{{ settings.phone_primary }}</a>
                     </li>
+                    {% endif %}
+                    {% if settings.email_primary %}
                     <li class="mb-2">
                         <i class="bi bi-envelope text-secondary-custom me-2"></i>
-                        <a href="mailto:info@nageshcare.com" class="text-white-50 text-decoration-none">info@nageshcare.com</a>
+                        <a href="mailto:{{ settings.email_primary }}" class="text-white-50 text-decoration-none">{{ settings.email_primary }}</a>
                     </li>
+                    {% endif %}
+                    {% if settings.phone_whatsapp %}
                     <li class="mb-2">
                         <i class="bi bi-whatsapp text-secondary-custom me-2"></i>
-                        <a href="https://wa.me/91XXXXXXXXXX" class="text-white-50 text-decoration-none">WhatsApp Us</a>
+                        <a href="{{ settings.whatsapp_url|default:'https://wa.me/' }}{{ settings.phone_whatsapp }}" target="_blank" rel="noopener noreferrer" class="text-white-50 text-decoration-none">WhatsApp Us</a>
                     </li>
+                    {% endif %}
                 </ul>
+            </div>
+        </div>
+
+        <!-- Trust Signals & Certifications -->
+        <div class="row mt-4 pt-4 border-top border-secondary">
+            <div class="col-lg-12 text-center">
+                <h5 class="mb-3 text-secondary-custom">Trusted & Certified</h5>
+                <div class="row g-3 align-items-center justify-content-center">
+                    {% if settings.gst_number %}
+                    <div class="col-md-3 col-6">
+                        <div class="trust-badge p-3 bg-dark rounded">
+                            <i class="bi bi-shield-check text-secondary-custom fs-3 mb-2"></i>
+                            <p class="small text-white-50 mb-1"><strong>GST Registered</strong></p>
+                            <p class="small text-white-50 mb-0">GST: {{ settings.gst_number }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if settings.msme_number %}
+                    <div class="col-md-3 col-6">
+                        <div class="trust-badge p-3 bg-dark rounded">
+                            <i class="bi bi-award text-secondary-custom fs-3 mb-2"></i>
+                            <p class="small text-white-50 mb-1"><strong>MSME Registered</strong></p>
+                            <p class="small text-white-50 mb-0">Quality Assured</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="col-md-3 col-6">
+                        <div class="trust-badge p-3 bg-dark rounded">
+                            <i class="bi bi-lock-fill text-secondary-custom fs-3 mb-2"></i>
+                            <p class="small text-white-50 mb-1"><strong>Secure Business</strong></p>
+                            <p class="small text-white-50 mb-0">SSL Protected</p>
+                        </div>
+                    </div>
+                    {% if settings.established_year %}
+                    <div class="col-md-3 col-6">
+                        <div class="trust-badge p-3 bg-dark rounded">
+                            <i class="bi bi-clock-history text-secondary-custom fs-3 mb-2"></i>
+                            <p class="small text-white-50 mb-1"><strong>Established</strong></p>
+                            <p class="small text-white-50 mb-0">Since {{ settings.established_year }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
 
@@ -76,12 +139,17 @@
         <hr class="my-4 border-secondary">
         <div class="row">
             <div class="col-md-6 text-center text-md-start">
-                <p class="mb-0 text-white-50">&copy; {% now "Y" %} NageshCare. All Rights Reserved.</p>
+                <p class="mb-0 text-white-50">&copy; {% now "Y" %} {{ settings.business_name|default:"NageshCare" }}. All Rights Reserved.</p>
+                <p class="mb-0 text-white-50 small mt-1">
+                    {% if settings.cin_number %}<span class="me-2">CIN: {{ settings.cin_number }}</span>{% endif %}
+                    {% if settings.msme_number %}<span>MSME Registered</span>{% endif %}
+                </p>
             </div>
             <div class="col-md-6 text-center text-md-end">
                 <p class="mb-0 text-white-50">
                     <a href="#" class="text-white-50 text-decoration-none me-3">Privacy Policy</a>
-                    <a href="#" class="text-white-50 text-decoration-none">Terms & Conditions</a>
+                    <a href="#" class="text-white-50 text-decoration-none me-3">Terms & Conditions</a>
+                    <a href="#" class="text-white-50 text-decoration-none">Refund Policy</a>
                 </p>
             </div>
         </div>

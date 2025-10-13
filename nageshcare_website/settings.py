@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'core',
     'products',
     'inquiries',
+    'cms',  # Custom CMS system
 ]
 
 MIDDLEWARE = [
@@ -126,6 +127,16 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Media files (User uploaded content)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# File Upload Settings
+# Maximum size of a single uploaded file (10 MB)
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10 MB
+
+# Maximum size of entire request body (25 MB to allow multiple file uploads)
+DATA_UPLOAD_MAX_MEMORY_SIZE = 25 * 1024 * 1024  # 25 MB
+
+# Allowed image file extensions
+ALLOWED_IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'webp']
 
 
 # Default primary key field type

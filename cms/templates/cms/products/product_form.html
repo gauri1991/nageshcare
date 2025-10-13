@@ -1,0 +1,298 @@
+{% extends 'cms/base.html' %}
+
+{% block title %}{% if is_update %}Edit{% else %}Add New{% endif %} Product - NageshCare CMS{% endblock %}
+
+{% block content %}
+<div class="cms-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1><i class="bi bi-box-seam me-2"></i>{% if is_update %}Edit{% else %}Add New{% endif %} Product</h1>
+        <p class="text-muted mb-0">Fill in the product details below</p>
+    </div>
+
+    <!-- Product Form -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="cms-card">
+            <div class="cms-card-header">
+                <h2>Basic Information</h2>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 mb-3">
+                    <label class="form-label">Product Name <span class="text-danger">*</span></label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <div class="text-danger small">{{ form.name.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Category <span class="text-danger">*</span></label>
+                    {{ form.category }}
+                    {% if form.category.errors %}
+                        <div class="text-danger small">{{ form.category.errors }}</div>
+                    {% endif %}
+                    <small class="text-muted">Don't see your category? <a href="{% url 'cms:category_create' %}" target="_blank">Create one</a></small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Tagline</label>
+                {{ form.tagline }}
+                <small class="text-muted">Short catchy tagline (e.g., "Premium Quality Tissue Papers")</small>
+                {% if form.tagline.errors %}
+                    <div class="text-danger small">{{ form.tagline.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Short Description <span class="text-danger">*</span></label>
+                {{ form.short_description }}
+                <small class="text-muted">Brief description for catalog/listing page (2-3 sentences)</small>
+                {% if form.short_description.errors %}
+                    <div class="text-danger small">{{ form.short_description.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Full Description <span class="text-danger">*</span></label>
+                {{ form.full_description }}
+                <small class="text-muted">Detailed description for product detail page</small>
+                {% if form.full_description.errors %}
+                    <div class="text-danger small">{{ form.full_description.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Features</label>
+                {{ form.features }}
+                <small class="text-muted">List product features, one per line</small>
+                {% if form.features.errors %}
+                    <div class="text-danger small">{{ form.features.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Brand Name</label>
+                    {{ form.brand_name }}
+                    {% if form.brand_name.errors %}
+                        <div class="text-danger small">{{ form.brand_name.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Minimum Order Quantity</label>
+                    {{ form.minimum_order_quantity }}
+                    <small class="text-muted">e.g., "500 packs" or "1,000 sticks"</small>
+                    {% if form.minimum_order_quantity.errors %}
+                        <div class="text-danger small">{{ form.minimum_order_quantity.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Settings -->
+        <div class="cms-card">
+            <div class="cms-card-header">
+                <h2>Status & Visibility</h2>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div class="form-check">
+                        {{ form.is_active }}
+                        <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
+                            <strong>Active</strong> - Show on website
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="form-check">
+                        {{ form.is_featured }}
+                        <label class="form-check-label" for="{{ form.is_featured.id_for_label }}">
+                            <strong>Featured</strong> - Show on homepage
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="form-check">
+                        {{ form.is_coming_soon }}
+                        <label class="form-check-label" for="{{ form.is_coming_soon.id_for_label }}">
+                            <strong>Coming Soon</strong> - Mark as upcoming
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEO Settings -->
+        <div class="cms-card">
+            <div class="cms-card-header">
+                <h2>SEO Settings (Optional)</h2>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Meta Title</label>
+                {{ form.meta_title }}
+                <small class="text-muted">Leave blank to use product name</small>
+                {% if form.meta_title.errors %}
+                    <div class="text-danger small">{{ form.meta_title.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Meta Description</label>
+                {{ form.meta_description }}
+                <small class="text-muted">SEO description (max 160 characters)</small>
+                {% if form.meta_description.errors %}
+                    <div class="text-danger small">{{ form.meta_description.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Meta Keywords</label>
+                {{ form.meta_keywords }}
+                <small class="text-muted">Comma-separated keywords</small>
+                {% if form.meta_keywords.errors %}
+                    <div class="text-danger small">{{ form.meta_keywords.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+    </form>
+
+    <!-- Product Images Display (only show on edit) -->
+    {% if is_update %}
+    <div class="cms-card" style="background-color: #f8f9fa; border: 2px solid #3498db;">
+        <div class="cms-card-header" style="background-color: #e3f2fd;">
+            <h2><i class="bi bi-images me-2"></i>Product Images</h2>
+        </div>
+
+        <!-- Existing Images Display -->
+        {% if object.images.all %}
+        <div class="row g-3 mb-3">
+            {% for image in object.images.all %}
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="{{ image.image.url }}" class="card-img-top" alt="{{ object.name }}" style="height: 200px; object-fit: cover;">
+                    <div class="card-body p-2">
+                        {% if image.is_primary %}
+                            <span class="badge bg-primary w-100 mb-2">Primary Image</span>
+                        {% else %}
+                            <form method="post" action="{% url 'cms:product_image_set_primary' image.pk %}" class="mb-2">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-primary btn-sm w-100">
+                                    <i class="bi bi-star"></i> Set as Primary
+                                </button>
+                            </form>
+                        {% endif %}
+                        <form method="post" action="{% url 'cms:product_image_delete' image.pk %}" onsubmit="return confirm('Delete this image?');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm w-100">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-info mb-3">
+            <i class="bi bi-info-circle me-2"></i>
+            No images uploaded yet. Use the upload form below.
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Upload New Images Form (Separate Form) -->
+    <div class="cms-card" style="background-color: #e8f5e9; border: 2px solid #2ecc71;">
+        <div class="cms-card-header" style="background-color: #c8e6c9;">
+            <h2><i class="bi bi-cloud-upload me-2"></i>Upload New Product Images</h2>
+        </div>
+
+        <form method="post" action="{% url 'cms:product_image_add' object.pk %}" enctype="multipart/form-data" style="padding: 15px;">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-8 mb-3">
+                    <label class="form-label"><strong>Select Images</strong></label>
+                    <input type="file" name="images" class="form-control" accept="image/*" multiple required>
+                    <small class="text-muted">
+                        <strong>Formats:</strong> JPG, PNG, GIF, WebP<br>
+                        <strong>Max size:</strong> 10 MB per image<br>
+                        <strong>Recommended:</strong> 800x800px or larger for best quality
+                    </small>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label"><strong>Alt Text (Optional)</strong></label>
+                    <input type="text" name="alt_text" class="form-control" placeholder="Image description">
+                    <small class="text-muted">Applied to all uploaded images.</small>
+                </div>
+            </div>
+            <div class="form-check mb-3">
+                <input type="checkbox" name="set_as_primary" class="form-check-input" id="setPrimary">
+                <label class="form-check-label" for="setPrimary">
+                    Set first image as primary (if no primary image exists)
+                </label>
+            </div>
+            <button type="submit" class="btn btn-success btn-lg">
+                <i class="bi bi-upload me-2"></i>Upload Images
+            </button>
+        </form>
+    </div>
+
+    <!-- Update Product Section -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="{{ form.name.name }}" value="{{ object.name }}">
+        <input type="hidden" name="{{ form.category.name }}" value="{{ object.category.id }}">
+        <input type="hidden" name="{{ form.tagline.name }}" value="{{ object.tagline }}">
+        <input type="hidden" name="{{ form.short_description.name }}" value="{{ object.short_description }}">
+        <input type="hidden" name="{{ form.full_description.name }}" value="{{ object.full_description }}">
+        <input type="hidden" name="{{ form.features.name }}" value="{{ object.features }}">
+        <input type="hidden" name="{{ form.brand_name.name }}" value="{{ object.brand_name }}">
+        <input type="hidden" name="{{ form.minimum_order_quantity.name }}" value="{{ object.minimum_order_quantity }}">
+        <input type="hidden" name="{{ form.is_active.name }}" value="{{ object.is_active }}">
+        <input type="hidden" name="{{ form.is_featured.name }}" value="{{ object.is_featured }}">
+        <input type="hidden" name="{{ form.is_coming_soon.name }}" value="{{ object.is_coming_soon }}">
+        <input type="hidden" name="{{ form.meta_title.name }}" value="{{ object.meta_title }}">
+        <input type="hidden" name="{{ form.meta_description.name }}" value="{{ object.meta_description }}">
+        <input type="hidden" name="{{ form.meta_keywords.name }}" value="{{ object.meta_keywords }}">
+
+        <div class="cms-card">
+            <div class="d-flex gap-2 justify-content-end">
+                <a href="{% url 'cms:products' %}" class="btn btn-cms-secondary">
+                    <i class="bi bi-x-lg me-1"></i>Cancel
+                </a>
+                <button type="submit" class="btn btn-cms-primary btn-lg">
+                    <i class="bi bi-check-lg me-1"></i>Update Product
+                </button>
+            </div>
+        </div>
+    </form>
+    {% endif %}
+</div>
+
+<style>
+    .cms-card-header h2 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--cms-primary);
+        margin: 0;
+    }
+
+    .form-control, .form-select {
+        border: 1px solid var(--cms-border);
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--cms-primary);
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+
+    textarea.form-control {
+        min-height: 100px;
+    }
+</style>
+{% endblock %}

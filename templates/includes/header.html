@@ -1,18 +1,19 @@
-{% load static %}
+{% load static cms_tags %}
+{% get_site_settings as settings %}
 <!-- Top Bar -->
 <div id="top-bar" class="bg-color text-white py-2">
     <div class="container">
         <div class="row justify-content-between align-items-center">
             <div class="col-md-6">
                 <small>
-                    <i class="bi bi-envelope me-2"></i> info@nageshcare.com
+                    <i class="bi bi-envelope me-2"></i> {{ settings.email_primary|default:"info@nageshcare.com" }}
                     <span class="mx-2">|</span>
-                    <i class="bi bi-telephone me-2"></i> +91 XXXXX-XXXXX
+                    <i class="bi bi-telephone me-2"></i> {{ settings.phone_primary|default:"+91 XXXXX-XXXXX" }}
                 </small>
             </div>
             <div class="col-md-6 text-md-end">
                 <small>
-                    <i class="bi bi-clock me-2"></i> Mon-Sat: 9:00 AM - 6:00 PM
+                    <i class="bi bi-clock me-2"></i> {{ settings.business_hours|default:"Mon-Sat: 9:00 AM - 6:00 PM" }}
                 </small>
             </div>
         </div>
@@ -26,7 +27,7 @@
             <!-- Logo -->
             <a class="navbar-brand" href="{% url 'core:home' %}">
                 <h3 class="mb-0 fw-bold text-primary-custom">
-                    NageshCare<span class="text-secondary-custom">.</span>
+                    {{ settings.business_name|default:"NageshCare" }}<span class="text-secondary-custom">.</span>
                 </h3>
             </a>
 

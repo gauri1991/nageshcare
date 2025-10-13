@@ -1,0 +1,155 @@
+{% extends 'cms/base.html' %}
+
+{% block title %}{% if object %}Edit{% else %}Add{% endif %} Industry - NageshCare CMS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-section {
+        margin-bottom: 2rem;
+    }
+
+    .form-section-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--cms-primary);
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--cms-border);
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--cms-border);
+    }
+
+    .help-text {
+        font-size: 0.875rem;
+        color: var(--cms-text-muted);
+        margin-top: 0.25rem;
+    }
+
+    .icon-preview {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--cms-bg-light);
+        border: 1px solid var(--cms-border);
+        border-radius: 8px;
+        font-size: 3rem;
+        color: var(--cms-primary);
+        margin-top: 0.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="cms-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>
+            <i class="bi bi-building me-2"></i>
+            {% if object %}Edit Industry{% else %}Add New Industry{% endif %}
+        </h1>
+        <p class="text-muted mb-0">
+            {% if object %}
+                Update {{ object.industry_name }} industry
+            {% else %}
+                Add a new industry to showcase the sectors you serve
+            {% endif %}
+        </p>
+    </div>
+
+    <!-- Industry Form -->
+    <div class="cms-card">
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Industry Details -->
+            <div class="form-section">
+                <div class="form-section-title">Industry Details</div>
+
+                <div class="mb-3">
+                    <label for="id_industry_name" class="form-label">Industry Name <span class="text-danger">*</span></label>
+                    <input type="text" name="industry_name" class="form-control" id="id_industry_name"
+                           value="{{ form.industry_name.value|default:'' }}" placeholder="e.g., Healthcare, Manufacturing" required>
+                    <div class="help-text">Name of the industry sector</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_icon_class" class="form-label">Icon Class <span class="text-danger">*</span></label>
+                    <input type="text" name="icon_class" class="form-control" id="id_icon_class"
+                           value="{{ form.icon_class.value|default:'' }}" placeholder="e.g., bi bi-hospital" required
+                           onkeyup="updateIconPreview(this.value)">
+                    <div class="help-text">
+                        Bootstrap Icons class name.
+                        <a href="https://icons.getbootstrap.com/" target="_blank">Browse icons</a>
+                    </div>
+                    <div class="icon-preview" id="iconPreview">
+                        {% if form.icon_class.value %}
+                            <i class="{{ form.icon_class.value }}"></i>
+                        {% else %}
+                            <i class="bi bi-building"></i>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_description" class="form-label">Description</label>
+                    <textarea name="description" class="form-control" id="id_description"
+                              rows="3">{{ form.description.value|default:'' }}</textarea>
+                    <div class="help-text">Brief description of how you serve this industry (optional)</div>
+                </div>
+            </div>
+
+            <!-- Display Settings -->
+            <div class="form-section">
+                <div class="form-section-title">Display Settings</div>
+
+                <div class="mb-3">
+                    <label for="id_order" class="form-label">Display Order</label>
+                    <input type="number" name="order" class="form-control" id="id_order"
+                           value="{{ form.order.value|default:'0' }}" min="0">
+                    <div class="help-text">Lower numbers appear first (0 = default ordering)</div>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input type="checkbox" name="is_active" class="form-check-input" id="id_is_active"
+                           {% if form.is_active.value or not object %}checked{% endif %}>
+                    <label class="form-check-label" for="id_is_active">
+                        <strong>Active</strong>
+                    </label>
+                    <div class="help-text">Only active industries are displayed on the website</div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <a href="{% url 'cms:industries' %}" class="btn btn-cms-secondary">
+                    <i class="bi bi-x-lg me-1"></i>Cancel
+                </a>
+                <button type="submit" class="btn btn-cms-primary">
+                    <i class="bi bi-check-lg me-1"></i>
+                    {% if object %}Update Industry{% else %}Add Industry{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function updateIconPreview(iconClass) {
+    const preview = document.getElementById('iconPreview');
+    if (iconClass.trim()) {
+        preview.innerHTML = '<i class="' + iconClass + '"></i>';
+    } else {
+        preview.innerHTML = '<i class="bi bi-building"></i>';
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,401 @@
+{% extends 'cms/base.html' %}
+
+{% block title %}Edit Home Page - NageshCare CMS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .section-header {
+        background: var(--cms-bg-light);
+        border-left: 3px solid var(--cms-primary);
+        padding: 0.75rem 1rem;
+        margin: 0 -1.5rem 1rem -1.5rem;
+        font-weight: 600;
+        color: var(--cms-primary);
+    }
+
+    .edit-section {
+        margin-bottom: 2rem;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--cms-border);
+    }
+
+    .preview-badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        background: var(--cms-bg-light);
+        border: 1px solid var(--cms-border);
+        border-radius: 4px;
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+    }
+
+    .accordion-button:not(.collapsed) {
+        background-color: var(--cms-bg-light);
+        color: var(--cms-primary);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="cms-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1><i class="bi bi-house-door me-2"></i>Edit Home Page</h1>
+        <p class="text-muted mb-0">Customize your home page content and sections</p>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="cms-card">
+        <div class="accordion" id="homePageAccordion">
+
+            <!-- Hero Section -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#heroSection">
+                        <i class="bi bi-image me-2"></i>Hero Section
+                    </button>
+                </h2>
+                <div id="heroSection" class="accordion-collapse collapse show" data-bs-parent="#homePageAccordion">
+                    <div class="accordion-body">
+                        <form method="post" action="{% url 'cms:page_home' %}" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="hidden" name="section" value="hero">
+
+                            <div class="mb-3">
+                                <label class="form-label">Main Title</label>
+                                <input type="text" name="title" class="form-control" value="{{ hero.title|default:'' }}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Subtitle</label>
+                                <input type="text" name="subtitle" class="form-control" value="{{ hero.subtitle|default:'' }}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea name="description" class="form-control" rows="3">{{ hero.description|default:'' }}</textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Content Alignment</label>
+                                <select name="content_alignment" class="form-select">
+                                    <option value="left" {% if hero.content_alignment == 'left' %}selected{% endif %}>Left Aligned</option>
+                                    <option value="center" {% if hero.content_alignment == 'center' %}selected{% endif %}>Center Aligned</option>
+                                    <option value="right" {% if hero.content_alignment == 'right' %}selected{% endif %}>Right Aligned</option>
+                                </select>
+                                <small class="text-muted">Choose how the hero content should be aligned</small>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Button 1 Text</label>
+                                    <input type="text" name="button1_text" class="form-control" value="{{ hero.button1_text|default:'' }}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Button 1 URL</label>
+                                    <input type="text" name="button1_url" class="form-control" value="{{ hero.button1_url|default:'' }}">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Button 2 Text</label>
+                                    <input type="text" name="button2_text" class="form-control" value="{{ hero.button2_text|default:'' }}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Button 2 URL</label>
+                                    <input type="text" name="button2_url" class="form-control" value="{{ hero.button2_url|default:'' }}">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Background Image</label>
+                                <input type="file" name="background_image" class="form-control" accept="image/*">
+                                {% if hero.background_image %}
+                                    <small class="text-muted">Current: {{ hero.background_image.name }}</small>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-cms-primary">
+                                    <i class="bi bi-check-lg me-1"></i>Save Hero Section
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trust Indicators -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#trustIndicators">
+                        <i class="bi bi-shield-check me-2"></i>Trust Indicators
+                        <span class="badge bg-secondary ms-2">{{ trust_indicators.count }}</span>
+                    </button>
+                </h2>
+                <div id="trustIndicators" class="accordion-collapse collapse" data-bs-parent="#homePageAccordion">
+                    <div class="accordion-body">
+                        <p class="text-muted">Manage trust badges displayed in the hero section</p>
+                        <a href="{% url 'cms:trust_badges' %}" class="btn btn-cms-secondary">
+                            <i class="bi bi-gear me-1"></i>Manage Trust Indicators
+                        </a>
+
+                        {% if trust_indicators %}
+                            <div class="mt-3">
+                                <h6>Currently Active:</h6>
+                                {% for indicator in trust_indicators %}
+                                    <div class="preview-badge">
+                                        <i class="{{ indicator.icon_class }} me-1"></i>
+                                        {{ indicator.title }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Intro Text -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#introText">
+                        <i class="bi bi-text-paragraph me-2"></i>Introduction Text
+                    </button>
+                </h2>
+                <div id="introText" class="accordion-collapse collapse" data-bs-parent="#homePageAccordion">
+                    <div class="accordion-body">
+                        <form method="post" action="{% url 'cms:page_home' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="section" value="intro_text">
+
+                            <div class="mb-3">
+                                <label class="form-label">Title</label>
+                                <input type="text" name="title" class="form-control" value="{{ intro_text.title|default:'' }}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Content</label>
+                                <textarea name="content" class="form-control" rows="5">{{ intro_text.content|default:'' }}</textarea>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-cms-primary">
+                                    <i class="bi bi-check-lg me-1"></i>Save Intro Text
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why Choose Us Features -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#whyChooseUs">
+                        <i class="bi bi-star me-2"></i>Why Choose Us
+                        <span class="badge bg-secondary ms-2">{{ features.count }}</span>
+                    </button>
+                </h2>
+                <div id="whyChooseUs" class="accordion-collapse collapse" data-bs-parent="#homePageAccordion">
+                    <div class="accordion-body">
+                        <p class="text-muted">Feature cards highlighting your unique value propositions</p>
+                        <div class="mb-3">
+                            <a href="{% url 'cms:feature_cards' %}?section=why-choose-us" class="btn btn-cms-primary">
+                                <i class="bi bi-grid-3x3-gap me-1"></i>Manage Features
+                            </a>
+                            <a href="{% url 'cms:feature_card_create' %}" class="btn btn-cms-secondary">
+                                <i class="bi bi-plus-lg me-1"></i>Add New
+                            </a>
+                        </div>
+
+                        {% if features %}
+                            <div class="mt-3">
+                                <h6>Currently Active Features:</h6>
+                                {% for feature in features %}
+                                    <div class="mb-2 p-2 border rounded">
+                                        <strong><i class="{{ feature.icon_class }} me-1"></i>{{ feature.title }}</strong>
+                                        <p class="mb-0 small text-muted">{{ feature.description|truncatewords:20 }}</p>
+                                        <div class="mt-2">
+                                            <a href="{% url 'cms:feature_card_edit' feature.pk %}" class="btn btn-sm btn-outline-primary">
+                                                <i class="bi bi-pencil"></i> Edit
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Testimonials -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#testimonials">
+                        <i class="bi bi-chat-quote me-2"></i>Featured Testimonials
+                        <span class="badge bg-secondary ms-2">{{ testimonials.count }}</span>
+                    </button>
+                </h2>
+                <div id="testimonials" class="accordion-collapse collapse" data-bs-parent="#homePageAccordion">
+                    <div class="accordion-body">
+                        <p class="text-muted">Customer testimonials marked as "featured" will appear on the home page</p>
+                        <a href="{% url 'cms:testimonials' %}" class="btn btn-cms-secondary">
+                            <i class="bi bi-gear me-1"></i>Manage Testimonials
+                        </a>
+
+                        {% if testimonials %}
+                            <div class="mt-3">
+                                <h6>Currently Featured:</h6>
+                                {% for testimonial in testimonials %}
+                                    <div class="mb-2 p-2 border rounded">
+                                        <strong>{{ testimonial.customer_name }}</strong> - {{ testimonial.rating }} stars
+                                        <p class="mb-0 small text-muted">{{ testimonial.testimonial_text|truncatewords:15 }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Client Industries -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#industries">
+                        <i class="bi bi-building me-2"></i>Trusted By Industries
+                        <span class="badge bg-secondary ms-2">{{ industries.count }}</span>
+                    </button>
+                </h2>
+                <div id="industries" class="accordion-collapse collapse" data-bs-parent="#homePageAccordion">
+                    <div class="accordion-body">
+                        <p class="text-muted">Industries that trust your products</p>
+                        <a href="{% url 'cms:industries' %}" class="btn btn-cms-secondary">
+                            <i class="bi bi-gear me-1"></i>Manage Industries
+                        </a>
+
+                        {% if industries %}
+                            <div class="mt-3">
+                                <h6>Currently Active:</h6>
+                                {% for industry in industries %}
+                                    <div class="preview-badge">
+                                        <i class="{{ industry.icon_class }} me-1"></i>
+                                        {{ industry.industry_name }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Company Stats -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#companyStats">
+                        <i class="bi bi-graph-up me-2"></i>Company Statistics
+                        <span class="badge bg-secondary ms-2">{{ stats.count }}</span>
+                    </button>
+                </h2>
+                <div id="companyStats" class="accordion-collapse collapse" data-bs-parent="#homePageAccordion">
+                    <div class="accordion-body">
+                        <p class="text-muted">Display impressive numbers about your business (e.g., 500+ Happy Clients, 15+ Years Experience)</p>
+                        <div class="mb-3">
+                            <a href="{% url 'cms:company_stats' %}?section=home-testimonials" class="btn btn-cms-primary">
+                                <i class="bi bi-graph-up me-1"></i>Manage Statistics
+                            </a>
+                            <a href="{% url 'cms:company_stat_create' %}" class="btn btn-cms-secondary">
+                                <i class="bi bi-plus-lg me-1"></i>Add New
+                            </a>
+                        </div>
+
+                        {% if stats %}
+                            <div class="mt-3">
+                                <h6>Currently Active:</h6>
+                                {% for stat in stats %}
+                                    <div class="mb-2 p-2 border rounded">
+                                        <strong class="text-primary-custom fs-5">{{ stat.value }}</strong>
+                                        <p class="mb-0 small text-muted">{{ stat.label }}</p>
+                                        <div class="mt-2">
+                                            <a href="{% url 'cms:company_stat_edit' stat.pk %}" class="btn btn-sm btn-outline-primary">
+                                                <i class="bi bi-pencil"></i> Edit
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ctaSection">
+                        <i class="bi bi-megaphone me-2"></i>Call to Action
+                    </button>
+                </h2>
+                <div id="ctaSection" class="accordion-collapse collapse" data-bs-parent="#homePageAccordion">
+                    <div class="accordion-body">
+                        <form method="post" action="{% url 'cms:page_home' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="section" value="cta">
+
+                            <div class="mb-3">
+                                <label class="form-label">Title</label>
+                                <input type="text" name="title" class="form-control" value="{{ cta.title|default:'' }}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea name="description" class="form-control" rows="3">{{ cta.description|default:'' }}</textarea>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Primary Button Text</label>
+                                    <input type="text" name="primary_button_text" class="form-control" value="{{ cta.primary_button_text|default:'' }}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Primary Button URL</label>
+                                    <input type="text" name="primary_button_url" class="form-control" value="{{ cta.primary_button_url|default:'' }}">
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-cms-primary">
+                                    <i class="bi bi-check-lg me-1"></i>Save Call to Action
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="cms-card">
+        <div class="cms-card-header">
+            <h2><i class="bi bi-link-45deg me-2"></i>Quick Links</h2>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+            <a href="/" target="_blank" class="btn btn-cms-secondary btn-sm">
+                <i class="bi bi-eye me-1"></i>Preview Home Page
+            </a>
+            <a href="{% url 'cms:dashboard' %}" class="btn btn-cms-secondary btn-sm">
+                <i class="bi bi-speedometer2 me-1"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

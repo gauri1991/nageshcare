@@ -1,0 +1,130 @@
+{% extends 'cms/base.html' %}
+
+{% block title %}{% if object %}Edit{% else %}Add{% endif %} Company Statistic - NageshCare CMS{% endblock %}
+
+{% block content %}
+<div class="cms-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1><i class="bi bi-graph-up me-2"></i>{% if object %}Edit{% else %}Add New{% endif %} Company Statistic</h1>
+        <p class="text-muted mb-0">Showcase impressive numbers about your business</p>
+    </div>
+
+    <!-- Form -->
+    <div class="cms-card">
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Value <span class="text-danger">*</span></label>
+                    {{ form.value }}
+                    {% if form.value.errors %}
+                        <div class="text-danger small">{{ form.value.errors }}</div>
+                    {% endif %}
+                    <small class="text-muted">The number or metric (e.g., 500+, 4.9/5, 15+)</small>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Label <span class="text-danger">*</span></label>
+                    {{ form.label }}
+                    {% if form.label.errors %}
+                        <div class="text-danger small">{{ form.label.errors }}</div>
+                    {% endif %}
+                    <small class="text-muted">Description (e.g., Happy Clients, Years Experience)</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Icon Class (Optional)</label>
+                {{ form.icon_class }}
+                {% if form.icon_class.errors %}
+                    <div class="text-danger small">{{ form.icon_class.errors }}</div>
+                {% endif %}
+                <small class="text-muted">Bootstrap icon class (e.g., <code>bi bi-people-fill</code>). Browse icons at <a href="https://icons.getbootstrap.com/" target="_blank">Bootstrap Icons</a></small>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Section <span class="text-danger">*</span></label>
+                    {{ form.section }}
+                    {% if form.section.errors %}
+                        <div class="text-danger small">{{ form.section.errors }}</div>
+                    {% endif %}
+                    <small class="text-muted">Where this statistic will be displayed</small>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Display Order</label>
+                    {{ form.order }}
+                    {% if form.order.errors %}
+                        <div class="text-danger small">{{ form.order.errors }}</div>
+                    {% endif %}
+                    <small class="text-muted">Lower numbers appear first</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <div class="form-check form-switch">
+                    {{ form.is_active }}
+                    <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
+                        Active (visible on website)
+                    </label>
+                </div>
+                {% if form.is_active.errors %}
+                    <div class="text-danger small">{{ form.is_active.errors }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Form Actions -->
+            <div class="d-flex gap-2 justify-content-end pt-3 border-top">
+                <a href="{% url 'cms:company_stats' %}" class="btn btn-cms-secondary">
+                    <i class="bi bi-x-lg me-1"></i>Cancel
+                </a>
+                <button type="submit" class="btn btn-cms-primary">
+                    <i class="bi bi-check-lg me-1"></i>{% if object %}Update{% else %}Create{% endif %} Statistic
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Help Section -->
+    <div class="cms-card">
+        <div class="cms-card-header">
+            <h2><i class="bi bi-info-circle me-2"></i>Usage Guide</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h6>Examples:</h6>
+                <ul class="small">
+                    <li><strong>Value:</strong> 500+ | <strong>Label:</strong> Happy Clients</li>
+                    <li><strong>Value:</strong> 15+ | <strong>Label:</strong> Years Experience</li>
+                    <li><strong>Value:</strong> 5000+ | <strong>Label:</strong> Products Delivered</li>
+                    <li><strong>Value:</strong> 50+ | <strong>Label:</strong> Cities Served</li>
+                    <li><strong>Value:</strong> 4.9/5 | <strong>Label:</strong> Customer Rating</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h6>Sections:</h6>
+                <ul class="small">
+                    <li><strong>Home - Testimonials Section:</strong> Appears below testimonials on homepage</li>
+                    <li><strong>Footer:</strong> Displays in website footer</li>
+                    <li><strong>About Page:</strong> Shows on the about page</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control, .form-select {
+        border: 1px solid var(--cms-border);
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--cms-primary);
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,253 @@
+{% extends 'cms/base.html' %}
+
+{% block title %}Edit Products Page - NageshCare CMS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .section-header {
+        background: var(--cms-bg-light);
+        border-left: 3px solid var(--cms-primary);
+        padding: 0.75rem 1rem;
+        margin: 0 -1.5rem 1rem -1.5rem;
+        font-weight: 600;
+        color: var(--cms-primary);
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--cms-border);
+    }
+
+    .accordion-button:not(.collapsed) {
+        background-color: var(--cms-bg-light);
+        color: var(--cms-primary);
+    }
+
+    .preview-badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        background: var(--cms-bg-light);
+        border: 1px solid var(--cms-border);
+        border-radius: 4px;
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="cms-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1><i class="bi bi-box-seam me-2"></i>Edit Products Page</h1>
+        <p class="text-muted mb-0">Manage your products page content and benefits</p>
+    </div>
+
+    <!-- Products Page Sections -->
+    <div class="cms-card">
+        <div class="accordion" id="productsPageAccordion">
+
+            <!-- Hero Section -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#heroSection">
+                        <i class="bi bi-image me-2"></i>Hero Section
+                    </button>
+                </h2>
+                <div id="heroSection" class="accordion-collapse collapse show" data-bs-parent="#productsPageAccordion">
+                    <div class="accordion-body">
+                        <form method="post" action="{% url 'cms:page_products' %}" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="hidden" name="section" value="hero">
+
+                            <div class="mb-3">
+                                <label class="form-label">Main Title</label>
+                                <input type="text" name="title" class="form-control" value="{{ hero.title|default:'' }}" placeholder="Our Products">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Subtitle</label>
+                                <input type="text" name="subtitle" class="form-control" value="{{ hero.subtitle|default:'' }}" placeholder="Quality products for your needs">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea name="description" class="form-control" rows="3" placeholder="Discover our wide range of products...">{{ hero.description|default:'' }}</textarea>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Button 1 Text</label>
+                                    <input type="text" name="button1_text" class="form-control" value="{{ hero.button1_text|default:'' }}" placeholder="Browse Products">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Button 1 URL</label>
+                                    <input type="text" name="button1_url" class="form-control" value="{{ hero.button1_url|default:'' }}" placeholder="#products">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Button 2 Text</label>
+                                    <input type="text" name="button2_text" class="form-control" value="{{ hero.button2_text|default:'' }}" placeholder="Request Quote">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Button 2 URL</label>
+                                    <input type="text" name="button2_url" class="form-control" value="{{ hero.button2_url|default:'' }}" placeholder="/contact">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Background Image</label>
+                                <input type="file" name="background_image" class="form-control" accept="image/*">
+                                {% if hero.background_image %}
+                                    <small class="text-muted">Current: {{ hero.background_image.name }}</small>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-cms-primary">
+                                    <i class="bi bi-check-lg me-1"></i>Save Hero Section
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Benefits -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#productBenefits">
+                        <i class="bi bi-star me-2"></i>Product Benefits
+                        <span class="badge bg-secondary ms-2">{{ product_benefits.count }}</span>
+                    </button>
+                </h2>
+                <div id="productBenefits" class="accordion-collapse collapse" data-bs-parent="#productsPageAccordion">
+                    <div class="accordion-body">
+                        <p class="text-muted">Highlight the benefits and advantages of your products</p>
+                        <div class="mb-3">
+                            <a href="{% url 'cms:feature_cards' %}?section=product-benefits" class="btn btn-cms-primary">
+                                <i class="bi bi-grid-3x3-gap me-1"></i>Manage Product Benefits
+                            </a>
+                            <a href="{% url 'cms:feature_card_create' %}" class="btn btn-cms-secondary">
+                                <i class="bi bi-plus-lg me-1"></i>Add New
+                            </a>
+                        </div>
+
+                        {% if product_benefits %}
+                            <div class="mt-3">
+                                <h6>Currently Active Benefits:</h6>
+                                {% for benefit in product_benefits %}
+                                    <div class="mb-2 p-2 border rounded">
+                                        <strong><i class="{{ benefit.icon_class }} me-1"></i>{{ benefit.title }}</strong>
+                                        <p class="mb-0 small text-muted">{{ benefit.description|truncatewords:20 }}</p>
+                                        <div class="mt-2">
+                                            <a href="{% url 'cms:feature_card_edit' benefit.pk %}" class="btn btn-sm btn-outline-primary">
+                                                <i class="bi bi-pencil"></i> Edit
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Management -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#productsManagement">
+                        <i class="bi bi-box me-2"></i>Products Management
+                    </button>
+                </h2>
+                <div id="productsManagement" class="accordion-collapse collapse" data-bs-parent="#productsPageAccordion">
+                    <div class="accordion-body">
+                        <p class="text-muted mb-3">Manage your product catalog through the CMS. You can add, edit, or remove products, manage categories, and update product details.</p>
+
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'cms:products' %}" class="btn btn-cms-secondary">
+                                <i class="bi bi-box-seam me-1"></i>Manage Products
+                            </a>
+                            <a href="{% url 'cms:categories' %}" class="btn btn-cms-secondary">
+                                <i class="bi bi-tags me-1"></i>Manage Categories
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ctaSection">
+                        <i class="bi bi-megaphone me-2"></i>Call to Action
+                    </button>
+                </h2>
+                <div id="ctaSection" class="accordion-collapse collapse" data-bs-parent="#productsPageAccordion">
+                    <div class="accordion-body">
+                        <form method="post" action="{% url 'cms:page_products' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="section" value="cta">
+
+                            <div class="mb-3">
+                                <label class="form-label">Title</label>
+                                <input type="text" name="title" class="form-control" value="{{ cta.title|default:'' }}" placeholder="Ready to Order?">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea name="description" class="form-control" rows="3" placeholder="Get in touch with us today">{{ cta.description|default:'' }}</textarea>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Primary Button Text</label>
+                                    <input type="text" name="primary_button_text" class="form-control" value="{{ cta.primary_button_text|default:'' }}" placeholder="Request a Quote">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Primary Button URL</label>
+                                    <input type="text" name="primary_button_url" class="form-control" value="{{ cta.primary_button_url|default:'' }}" placeholder="/contact">
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-cms-primary">
+                                    <i class="bi bi-check-lg me-1"></i>Save Call to Action
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="cms-card">
+        <div class="cms-card-header">
+            <h2><i class="bi bi-link-45deg me-2"></i>Quick Links</h2>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+            <a href="/products" target="_blank" class="btn btn-cms-secondary btn-sm">
+                <i class="bi bi-eye me-1"></i>Preview Products Page
+            </a>
+            <a href="{% url 'cms:products' %}" class="btn btn-cms-secondary btn-sm">
+                <i class="bi bi-box-seam me-1"></i>Manage Products
+            </a>
+            <a href="{% url 'cms:categories' %}" class="btn btn-cms-secondary btn-sm">
+                <i class="bi bi-tags me-1"></i>Manage Categories
+            </a>
+            <a href="{% url 'cms:dashboard' %}" class="btn btn-cms-secondary btn-sm">
+                <i class="bi bi-speedometer2 me-1"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

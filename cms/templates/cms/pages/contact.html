@@ -1,0 +1,188 @@
+{% extends 'cms/base.html' %}
+
+{% block title %}Edit Contact Page - NageshCare CMS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .section-header {
+        background: var(--cms-bg-light);
+        border-left: 3px solid var(--cms-primary);
+        padding: 0.75rem 1rem;
+        margin: 0 -1.5rem 1rem -1.5rem;
+        font-weight: 600;
+        color: var(--cms-primary);
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--cms-border);
+    }
+
+    .accordion-button:not(.collapsed) {
+        background-color: var(--cms-bg-light);
+        color: var(--cms-primary);
+    }
+
+    .info-card {
+        background: var(--cms-bg-light);
+        border: 1px solid var(--cms-border);
+        border-radius: 4px;
+        padding: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="cms-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1><i class="bi bi-envelope me-2"></i>Edit Contact Page</h1>
+        <p class="text-muted mb-0">Manage your contact page content and settings</p>
+    </div>
+
+    <!-- Contact Page Sections -->
+    <div class="cms-card">
+        <div class="accordion" id="contactPageAccordion">
+
+            <!-- Hero Section -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#heroSection">
+                        <i class="bi bi-image me-2"></i>Hero Section
+                    </button>
+                </h2>
+                <div id="heroSection" class="accordion-collapse collapse show" data-bs-parent="#contactPageAccordion">
+                    <div class="accordion-body">
+                        <form method="post" action="{% url 'cms:page_contact' %}" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="hidden" name="section" value="hero">
+
+                            <div class="mb-3">
+                                <label class="form-label">Main Title</label>
+                                <input type="text" name="title" class="form-control" value="{{ hero.title|default:'' }}" placeholder="Get In Touch">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Subtitle</label>
+                                <input type="text" name="subtitle" class="form-control" value="{{ hero.subtitle|default:'' }}" placeholder="We're here to help">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea name="description" class="form-control" rows="3" placeholder="Feel free to reach out to us...">{{ hero.description|default:'' }}</textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Background Image</label>
+                                <input type="file" name="background_image" class="form-control" accept="image/*">
+                                {% if hero.background_image %}
+                                    <small class="text-muted">Current: {{ hero.background_image.name }}</small>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-cms-primary">
+                                    <i class="bi bi-check-lg me-1"></i>Save Hero Section
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contactInfo">
+                        <i class="bi bi-telephone me-2"></i>Contact Information
+                    </button>
+                </h2>
+                <div id="contactInfo" class="accordion-collapse collapse" data-bs-parent="#contactPageAccordion">
+                    <div class="accordion-body">
+                        <div class="info-card mb-3">
+                            <h6 class="mb-3">Current Contact Details</h6>
+
+                            <div class="mb-2">
+                                <strong><i class="bi bi-telephone me-2 text-primary"></i>Primary Phone:</strong>
+                                {{ settings.phone_primary|default:"Not set" }}
+                            </div>
+
+                            <div class="mb-2">
+                                <strong><i class="bi bi-whatsapp me-2 text-success"></i>WhatsApp:</strong>
+                                {{ settings.phone_whatsapp|default:"Not set" }}
+                            </div>
+
+                            <div class="mb-2">
+                                <strong><i class="bi bi-envelope me-2 text-warning"></i>Primary Email:</strong>
+                                {{ settings.email_primary|default:"Not set" }}
+                            </div>
+
+                            <div class="mb-2">
+                                <strong><i class="bi bi-geo-alt me-2 text-danger"></i>Address:</strong>
+                                {{ settings.address_line1|default:"Not set" }}
+                                {% if settings.address_city %}, {{ settings.address_city }}{% endif %}
+                            </div>
+                        </div>
+
+                        <p class="text-muted">To update contact information, use the <strong>Settings</strong> page.</p>
+                        <a href="{% url 'cms:settings' %}" class="btn btn-cms-secondary">
+                            <i class="bi bi-gear me-1"></i>Go to Settings
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form Settings -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#formSettings">
+                        <i class="bi bi-input-cursor-text me-2"></i>Contact Form
+                    </button>
+                </h2>
+                <div id="formSettings" class="accordion-collapse collapse" data-bs-parent="#contactPageAccordion">
+                    <div class="accordion-body">
+                        <div class="info-card mb-3">
+                            <h6 class="mb-2">Contact Form Status</h6>
+                            <p class="mb-0 text-success"><i class="bi bi-check-circle me-1"></i>Contact form is active and functional</p>
+                        </div>
+
+                        <p class="text-muted mb-3">View and manage contact form submissions from the dashboard or Django admin.</p>
+
+                        <div class="d-flex gap-2">
+                            <a href="/admin/inquiries/contactmessage/" target="_blank" class="btn btn-cms-secondary btn-sm">
+                                <i class="bi bi-envelope-open me-1"></i>View Messages
+                            </a>
+                            <a href="{% url 'cms:dashboard' %}" class="btn btn-cms-secondary btn-sm">
+                                <i class="bi bi-speedometer2 me-1"></i>Dashboard
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="cms-card">
+        <div class="cms-card-header">
+            <h2><i class="bi bi-link-45deg me-2"></i>Quick Links</h2>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+            <a href="/contact" target="_blank" class="btn btn-cms-secondary btn-sm">
+                <i class="bi bi-eye me-1"></i>Preview Contact Page
+            </a>
+            <a href="{% url 'cms:settings' %}" class="btn btn-cms-secondary btn-sm">
+                <i class="bi bi-gear me-1"></i>Edit Contact Info in Settings
+            </a>
+            <a href="{% url 'cms:dashboard' %}" class="btn btn-cms-secondary btn-sm">
+                <i class="bi bi-speedometer2 me-1"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

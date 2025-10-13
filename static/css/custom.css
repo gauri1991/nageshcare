@@ -281,6 +281,75 @@ h1, h2, h3, h4, h5, h6 {
     animation: fadeInUp 0.6s ease-out;
 }
 
+/* Client Logo Cards */
+.client-logo-card {
+    min-height: 140px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.client-logo-card:hover {
+    background-color: #fff !important;
+    border-color: var(--secondary-color);
+    box-shadow: 0 5px 15px rgba(38, 70, 83, 0.1);
+    transform: translateY(-3px);
+}
+
+.client-logo-card i {
+    transition: all 0.3s ease;
+}
+
+.client-logo-card:hover i {
+    transform: scale(1.15);
+    color: var(--accent-color);
+}
+
+/* Badge Enhancements */
+.bg-primary-custom {
+    background-color: var(--primary-color) !important;
+}
+
+/* Mobile Sticky CTA Bar */
+.mobile-cta-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    padding: 8px 0;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+}
+
+.mobile-cta-bar .btn {
+    border-radius: 8px;
+    font-size: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.mobile-cta-bar .btn:active {
+    transform: scale(0.95);
+}
+
+.mobile-cta-bar .btn-outline-light {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
+.mobile-cta-bar .btn-outline-light:hover,
+.mobile-cta-bar .btn-outline-light:active {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Adjust body padding to prevent content overlap on mobile */
+@media (max-width: 767.98px) {
+    body {
+        padding-bottom: 70px;
+    }
+}
+
 /* Print Styles */
 @media print {
     #header, #footer, .btn {

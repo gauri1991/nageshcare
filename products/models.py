@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
+import os
+from datetime import datetime
 
 
 class Category(models.Model):
@@ -92,10 +94,34 @@ class Product(models.Model):
         return self.images.first()
 
 
+def product_image_upload_path(instance, filename):
+    """
+    Generate a custom filename for product images
+    Format: products/{product-slug}/{product-slug}-{timestamp}-{random}.{ext}
+    Example: products/premium-tissue-papers/premium-tissue-papers-20250114-abc123.jpg
+    """
+    # Get file extension
+    ext = filename.split('.')[-1].lower()
+
+    # Generate timestamp
+    timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
+
+    # Get product slug (or use ID if slug not available yet)
+    product_slug = instance.product.slug if instance.product.slug else f'product-{instance.product.pk}'
+
+    # Generate unique filename
+    import uuid
+    unique_id = uuid.uuid4().hex[:8]
+    new_filename = f'{product_slug}-{timestamp}-{unique_id}.{ext}'
+
+    # Return full path: products/{product-slug}/{filename}
+    return os.path.join('products', product_slug, new_filename)
+
+
 class ProductImage(models.Model):
     """Multiple images for each product"""
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to='products/')
+    image = models.ImageField(upload_to=product_image_upload_path)
     is_primary = models.BooleanField(default=False, help_text="Main product image")
     alt_text = models.CharField(max_length=200, blank=True)
     order = models.IntegerField(default=0, help_text="Display order")

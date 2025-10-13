@@ -1,26 +1,52 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load cms_tags %}
 
-{% block title %}NageshCare - Wholesale Trading Company | Personal Care & Wellness Products{% endblock %}
+{% block title %}Home - {{ settings.business_name }}{% endblock %}
 
-{% block meta_description %}Your trusted wholesale trading partner for premium personal care products. Scented tissue papers, dhoop batti & more. Bulk pricing, white-label branding. Request quote!{% endblock %}
+{% block meta_description %}{{ settings.default_meta_description|default:"Your trusted wholesale trading partner for premium personal care and wellness products. Quality bulk supplies with custom branding solutions." }}{% endblock %}
 
-{% block meta_keywords %}wholesale tissue paper, bulk dhoop batti, personal care wholesale, white label products, trading company, bulk wellness products{% endblock %}
+{% block meta_keywords %}{{ settings.default_meta_keywords|default:"wholesale tissue paper, bulk dhoop batti, personal care wholesale, white label products, trading company" }}{% endblock %}
 
 {% block content %}
+{% get_hero 'home' as hero %}
+{% get_text_content 'home-intro' as intro %}
 
 <!-- Hero Section -->
 <section class="hero-section text-white">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-7">
-                <h1 class="hero-title text-white mb-4">Premium Bulk Trading Solutions for Your Business Growth</h1>
-                <h2 class="h4 mb-4 text-white-50">Your Trusted Partner for Quality Personal Care & Wellness Products at Wholesale Prices</h2>
-                <p class="lead mb-4">We specialize in bulk trading of premium white-label products. From scented tissue papers to authentic dhoop batti, we deliver quality at competitive prices. Build your business with our reliable supply chain.</p>
-                <div class="d-flex gap-3 flex-wrap">
-                    <a href="{% url 'core:request_quote' %}" class="btn btn-secondary-custom btn-lg rounded-pill px-5">Request a Quote</a>
-                    <a href="{% url 'products:list' %}" class="btn btn-outline-light btn-lg rounded-pill px-5">View Our Products</a>
+        <div class="row align-items-center {% if hero.content_alignment == 'center' %}justify-content-center{% endif %}">
+            <div class="{% if hero.content_alignment == 'center' %}col-lg-10 text-center{% else %}col-lg-7 text-{{ hero.content_alignment|default:'start' }}{% endif %}">
+                <h1 class="hero-title text-white mb-4">{{ hero.title|default:"Premium Bulk Trading Solutions for Your Business Growth" }}</h1>
+                <h2 class="h4 mb-4 text-white-50">{{ hero.subtitle|default:"Your Trusted Partner for Quality Personal Care & Wellness Products" }}</h2>
+                <p class="lead mb-4">{{ hero.description|default:"We specialize in bulk trading of premium white-label products. From scented tissue papers to authentic dhoop batti, we deliver quality at competitive prices." }}</p>
+                <div class="d-flex gap-3 flex-wrap mb-4 {% if hero.content_alignment == 'center' %}justify-content-center{% endif %}">
+                    {% if hero.button1_text %}
+                    <a href="{{ hero.button1_url }}" class="btn btn-secondary-custom btn-lg rounded-pill px-5">{{ hero.button1_text }}</a>
+                    {% endif %}
+                    {% if hero.button2_text %}
+                    <a href="{{ hero.button2_url }}" class="btn btn-outline-light btn-lg rounded-pill px-5">{{ hero.button2_text }}</a>
+                    {% endif %}
                 </div>
+
+                <!-- Trust Indicators -->
+                {% get_trust_indicators 'hero' as trust_indicators %}
+                {% if trust_indicators %}
+                <div class="row g-3 mt-4">
+                    {% for indicator in trust_indicators %}
+                    <div class="col-md-3 col-6">
+                        <div class="d-flex align-items-center text-white">
+                            <div class="bg-white bg-opacity-25 rounded-circle p-2 me-2" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                                <i class="{{ indicator.icon_class }} fs-5"></i>
+                            </div>
+                            <div>
+                                <small class="d-block fw-semibold">{{ indicator.title }}</small>
+                                <small class="d-block text-white-50">{{ indicator.subtitle }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -31,10 +57,9 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10 text-center">
-                <span class="section-subtitle">Wholesale Trading Made Simple</span>
-                <h2 class="section-title mt-2 mb-4">Welcome to NageshCare</h2>
-                <p class="lead">Your dedicated wholesale trading partner for premium personal care and wellness products. We bridge the gap between manufacturers and retailers by sourcing, branding, and distributing high-quality products in bulk quantities.</p>
-                <p>Whether you're a retailer, distributor, or business owner looking for reliable wholesale suppliers, we offer competitively priced products with flexible minimum order quantities. Our white-label solutions allow you to build your brand while we handle the supply chain complexities.</p>
+                <span class="section-subtitle">{{ settings.tagline|default:"Wholesale Trading Made Simple" }}</span>
+                <h2 class="section-title mt-2 mb-4">{{ intro.title|default:"Welcome to NageshCare" }}</h2>
+                <p class="lead">{{ intro.content|default:"Your dedicated wholesale trading partner for premium personal care and wellness products. We bridge the gap between manufacturers and retailers by sourcing, branding, and distributing high-quality products in bulk quantities." }}</p>
             </div>
         </div>
     </div>
@@ -44,7 +69,7 @@
 <section class="section">
     <div class="container">
         <div class="text-center mb-5">
-            <span class="section-subtitle">Our Flagship Products</span>
+            <span class="section-subtitle">Our Product Range</span>
             <h2 class="section-title mt-2">Discover Quality Products Ready for Your Business</h2>
         </div>
 
@@ -99,106 +124,289 @@
 </section>
 
 <!-- Why Choose Us Section -->
+{% get_feature_cards 'why-choose-us' as features %}
+{% if features %}
 <section class="section bg-light">
     <div class="container">
         <div class="text-center mb-5">
             <span class="section-subtitle">More Than Just a Supplier – Your Growth Partner</span>
-            <h2 class="section-title mt-2">Why Businesses Trust NageshCare</h2>
+            <h2 class="section-title mt-2">Why Businesses Trust {{ settings.business_name }}</h2>
         </div>
 
         <div class="row g-4">
+            {% for feature in features %}
             <div class="col-lg-4 col-md-6">
                 <div class="feature-card text-center">
                     <div class="feature-icon mx-auto">
-                        <i class="bi bi-award-fill"></i>
+                        <i class="{{ feature.icon_class }}"></i>
                     </div>
-                    <h3 class="h5 mb-3">Quality Assurance</h3>
-                    <p class="text-muted">Every product undergoes strict quality checks. We source only from certified manufacturers, ensuring you receive consistent, premium-quality products that enhance your brand reputation.</p>
+                    <h3 class="h5 mb-3">{{ feature.title }}</h3>
+                    <p class="text-muted">{{ feature.description }}</p>
                 </div>
             </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="feature-card text-center">
-                    <div class="feature-icon mx-auto">
-                        <i class="bi bi-cash-coin"></i>
-                    </div>
-                    <h3 class="h5 mb-3">Competitive Wholesale Pricing</h3>
-                    <p class="text-muted">Direct sourcing and efficient logistics mean better prices for you. We offer volume-based discounts and flexible payment terms to support your business cash flow.</p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="feature-card text-center">
-                    <div class="feature-icon mx-auto">
-                        <i class="bi bi-badge-tm"></i>
-                    </div>
-                    <h3 class="h5 mb-3">White-Label Branding Options</h3>
-                    <p class="text-muted">Build your brand identity with our customizable packaging solutions. We offer white-label services that let you put your brand front and center without the manufacturing hassle.</p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="feature-card text-center">
-                    <div class="feature-icon mx-auto">
-                        <i class="bi bi-truck"></i>
-                    </div>
-                    <h3 class="h5 mb-3">Reliable Supply Chain</h3>
-                    <p class="text-muted">Never run out of stock. Our robust supply chain and inventory management ensure timely deliveries and consistent product availability for your business needs.</p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="feature-card text-center">
-                    <div class="feature-icon mx-auto">
-                        <i class="bi bi-box-seam"></i>
-                    </div>
-                    <h3 class="h5 mb-3">Flexible Minimum Orders</h3>
-                    <p class="text-muted">Whether you're a startup or an established retailer, we accommodate various order sizes. Scale your business at your own pace with our flexible MOQ policies.</p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="feature-card text-center">
-                    <div class="feature-icon mx-auto">
-                        <i class="bi bi-headset"></i>
-                    </div>
-                    <h3 class="h5 mb-3">Dedicated Support</h3>
-                    <p class="text-muted">Your success is our priority. Our responsive customer support team is always ready to assist with orders, inquiries, and business planning.</p>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
+{% endif %}
+
+<!-- Trusted By Section -->
+{% get_client_industries as industries %}
+{% if industries %}
+<section class="section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="section-subtitle">Building Partnerships Across India</span>
+            <h2 class="section-title mt-2">Trusted by Businesses Nationwide</h2>
+            <p class="lead text-muted">From retail stores to hotels, businesses across industries rely on our quality products and dependable service</p>
+        </div>
+
+        <!-- Industries Grid -->
+        <div class="row g-4 mb-5">
+            {% for industry in industries %}
+            <div class="col-lg-3 col-md-4 col-6">
+                <div class="client-logo-card bg-light p-4 rounded text-center h-100 d-flex align-items-center justify-content-center">
+                    <div>
+                        <i class="{{ industry.icon_class }} fs-1 text-primary-custom mb-2"></i>
+                        <p class="small text-muted mb-0 fw-semibold">{{ industry.industry_name }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Customer Testimonials Section -->
+{% get_testimonials featured_only=True as testimonials %}
+{% get_company_stats 'home-testimonials' as stats %}
+{% if testimonials %}
+<section class="section bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="section-subtitle">What Our Clients Say</span>
+            <h2 class="section-title mt-2">Trusted by Business Owners Like You</h2>
+        </div>
+
+        <!-- Continuous Scrolling Testimonials -->
+        <div class="testimonials-scroll-wrapper">
+            <div class="testimonials-scroll-track">
+                <!-- First set of testimonials -->
+                {% for testimonial in testimonials %}
+                <div class="testimonial-card">
+                    <div class="feature-card h-100">
+                        <div class="mb-3">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= testimonial.rating %}
+                                    <i class="bi bi-star-fill text-secondary-custom"></i>
+                                {% else %}
+                                    <i class="bi bi-star text-secondary-custom"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <p class="text-muted mb-4">"{{ testimonial.testimonial_text }}"</p>
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-secondary-custom text-primary-custom d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; font-weight: bold; font-size: 1.2rem;">
+                                {{ testimonial.avatar_initials|default:testimonial.customer_name|slice:":2"|upper }}
+                            </div>
+                            <div>
+                                <p class="mb-0 fw-bold">{{ testimonial.customer_name }}</p>
+                                <p class="small text-muted mb-0">{{ testimonial.customer_role }}, {{ testimonial.customer_location }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <!-- Duplicate set for seamless loop -->
+                {% for testimonial in testimonials %}
+                <div class="testimonial-card">
+                    <div class="feature-card h-100">
+                        <div class="mb-3">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= testimonial.rating %}
+                                    <i class="bi bi-star-fill text-secondary-custom"></i>
+                                {% else %}
+                                    <i class="bi bi-star text-secondary-custom"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <p class="text-muted mb-4">"{{ testimonial.testimonial_text }}"</p>
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-secondary-custom text-primary-custom d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; font-weight: bold; font-size: 1.2rem;">
+                                {{ testimonial.avatar_initials|default:testimonial.customer_name|slice:":2"|upper }}
+                            </div>
+                            <div>
+                                <p class="mb-0 fw-bold">{{ testimonial.customer_name }}</p>
+                                <p class="small text-muted mb-0">{{ testimonial.customer_role }}, {{ testimonial.customer_location }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% if stats %}
+        <div class="text-center mt-5">
+            <p class="text-muted mb-3"><i class="bi bi-shield-check text-secondary-custom me-2"></i>All reviews are from verified clients</p>
+            <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap">
+                {% for stat in stats %}
+                <div>
+                    <h3 class="h2 mb-0 text-primary-custom">{{ stat.value }}</h3>
+                    <p class="small text-muted mb-0">{{ stat.label }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+/* Continuous Scrolling Testimonials */
+.testimonials-scroll-wrapper {
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+.testimonials-scroll-track {
+    display: flex;
+    gap: 1.5rem;
+    animation: scroll 30s linear infinite;
+    width: fit-content;
+}
+
+.testimonials-scroll-track:hover {
+    animation-play-state: paused;
+}
+
+.testimonial-card {
+    flex: 0 0 400px;
+    max-width: 400px;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .testimonial-card {
+        flex: 0 0 350px;
+        max-width: 350px;
+    }
+}
+
+@media (max-width: 768px) {
+    .testimonial-card {
+        flex: 0 0 300px;
+        max-width: 300px;
+    }
+
+    .testimonials-scroll-track {
+        animation-duration: 25s;
+    }
+}
+</style>
+{% endif %}
 
 <!-- Call-to-Action Section -->
+{% get_cta 'home' as cta %}
 <section class="cta-section">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-8 text-center text-lg-start mb-4 mb-lg-0">
-                <h2 class="h1 text-white mb-3">Ready to Grow Your Business?</h2>
-                <p class="lead mb-0">Join hundreds of satisfied retailers and distributors who trust NageshCare for their wholesale product needs. Let's discuss how we can support your business goals.</p>
+                <h2 class="h1 text-white mb-3">{{ cta.title|default:"Ready to Grow Your Business?" }}</h2>
+                <p class="lead mb-0">{{ cta.description|default:"Join satisfied retailers and distributors who trust NageshCare for their wholesale product needs." }}</p>
             </div>
             <div class="col-lg-4 text-center text-lg-end">
-                <a href="{% url 'core:request_quote' %}" class="btn btn-secondary-custom btn-lg rounded-pill px-5 mb-3 d-block d-sm-inline-block">Request Bulk Quote</a>
-                <a href="{% url 'core:contact' %}" class="btn btn-outline-light btn-lg rounded-pill px-5 d-block d-sm-inline-block">Contact Our Team</a>
+                {% if cta.primary_button_text %}
+                <a href="{{ cta.primary_button_url }}" class="btn btn-secondary-custom btn-lg rounded-pill px-5 mb-3 d-block d-sm-inline-block">{{ cta.primary_button_text }}</a>
+                {% endif %}
+                {% if cta.secondary_button_text %}
+                <a href="{{ cta.secondary_button_url }}" class="btn btn-outline-light btn-lg rounded-pill px-5 d-block d-sm-inline-block">{{ cta.secondary_button_text }}</a>
+                {% endif %}
             </div>
         </div>
 
         <div class="row mt-5 text-white">
             <div class="col-md-4 text-center mb-3 mb-md-0">
                 <i class="bi bi-telephone-fill fs-3 mb-2"></i>
-                <p class="mb-0"><strong>Phone:</strong><br>+91 XXXXX-XXXXX</p>
+                <p class="mb-0"><strong>Phone:</strong><br>{{ settings.phone_primary }}</p>
             </div>
             <div class="col-md-4 text-center mb-3 mb-md-0">
                 <i class="bi bi-envelope-fill fs-3 mb-2"></i>
-                <p class="mb-0"><strong>Email:</strong><br>info@nageshcare.com</p>
+                <p class="mb-0"><strong>Email:</strong><br>{{ settings.email_primary }}</p>
             </div>
             <div class="col-md-4 text-center">
                 <i class="bi bi-whatsapp fs-3 mb-2"></i>
-                <p class="mb-0"><strong>WhatsApp:</strong><br>+91 XXXXX-XXXXX</p>
+                <p class="mb-0"><strong>WhatsApp:</strong><br>{{ settings.phone_whatsapp }}</p>
             </div>
         </div>
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+<!-- Schema.org Structured Data - LocalBusiness -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WholesaleStore",
+  "name": "{{ settings.business_name }}",
+  "description": "{{ settings.default_meta_description }}",
+  "url": "{{ request.build_absolute_uri }}",
+  "telephone": "{{ settings.phone_primary }}",
+  "email": "{{ settings.email_primary }}",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "{{ settings.address_line1 }} {{ settings.address_line2 }}",
+    "addressLocality": "{{ settings.city }}",
+    "addressRegion": "{{ settings.state }}",
+    "postalCode": "{{ settings.pincode }}",
+    "addressCountry": "IN"
+  },
+  "priceRange": "Wholesale Pricing - Contact for Bulk Quotes",
+  "currenciesAccepted": "INR",
+  "paymentAccepted": "Bank Transfer, UPI, Cash",
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    "opens": "09:00",
+    "closes": "18:00"
+  },
+  "sameAs": [
+    "{{ settings.facebook_url }}",
+    "{{ settings.instagram_url }}",
+    "{{ settings.linkedin_url }}"
+  ]
+}
+</script>
+
+<!-- Organization Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "{{ settings.business_name }}",
+  "url": "{{ request.build_absolute_uri }}",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "{{ settings.phone_primary }}",
+    "contactType": "Sales",
+    "areaServed": "IN",
+    "availableLanguage": ["English", "Hindi"]
+  }
+}
+</script>
 {% endblock %}

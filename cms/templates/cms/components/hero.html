@@ -1,0 +1,31 @@
+<!-- Hero Component -->
+{% if hero %}
+<section class="hero-section">
+    <div class="container">
+        <h1>{{ hero.title }}</h1>
+        {% if hero.subtitle %}<h2>{{ hero.subtitle }}</h2>{% endif %}
+        {% if hero.description %}<p>{{ hero.description }}</p>{% endif %}
+
+        <div class="hero-buttons">
+            {% if hero.button1_text %}
+                <a href="{{ hero.button1_url }}" class="btn btn-primary">{{ hero.button1_text }}</a>
+            {% endif %}
+            {% if hero.button2_text %}
+                <a href="{{ hero.button2_url }}" class="btn btn-secondary">{{ hero.button2_text }}</a>
+            {% endif %}
+        </div>
+
+        {% if trust_indicators %}
+        <div class="trust-indicators">
+            {% for indicator in trust_indicators %}
+                <div class="trust-indicator">
+                    <i class="{{ indicator.icon_class }}"></i>
+                    <strong>{{ indicator.title }}</strong>
+                    {% if indicator.subtitle %}<span>{{ indicator.subtitle }}</span>{% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endif %}

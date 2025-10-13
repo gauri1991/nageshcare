@@ -1,0 +1,15 @@
+<!-- Call to Action Component -->
+{% if cta %}
+<section class="cta-section">
+    <div class="container">
+        <h2>{{ cta.title }}</h2>
+        <p>{{ cta.description }}</p>
+        <div class="cta-buttons">
+            <a href="{{ cta.primary_button_url }}" class="btn btn-primary">{{ cta.primary_button_text }}</a>
+            {% if cta.secondary_button_text %}
+                <a href="{{ cta.secondary_button_url }}" class="btn btn-secondary">{{ cta.secondary_button_text }}</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}

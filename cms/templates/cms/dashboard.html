@@ -1,0 +1,155 @@
+{% extends 'cms/base.html' %}
+
+{% block title %}Dashboard - NageshCare CMS{% endblock %}
+
+{% block content %}
+<div class="cms-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1><i class="bi bi-speedometer2 me-2"></i>Dashboard</h1>
+        <p class="text-muted mb-0">Welcome back, {{ user.username }}! Manage your website content from here.</p>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="cms-card text-center">
+                <div class="display-4 text-primary mb-2">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+                <h3 class="h2 mb-0">{{ stats.products }}</h3>
+                <p class="text-muted mb-0">Active Products</p>
+                <a href="{% url 'cms:products' %}" class="btn btn-sm btn-cms-secondary mt-2">Manage</a>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="cms-card text-center">
+                <div class="display-4 text-success mb-2">
+                    <i class="bi bi-chat-quote"></i>
+                </div>
+                <h3 class="h2 mb-0">{{ stats.testimonials }}</h3>
+                <p class="text-muted mb-0">Testimonials</p>
+                <a href="{% url 'cms:testimonials' %}" class="btn btn-sm btn-cms-secondary mt-2">Manage</a>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="cms-card text-center">
+                <div class="display-4 text-warning mb-2">
+                    <i class="bi bi-envelope"></i>
+                </div>
+                <h3 class="h2 mb-0">{{ stats.contact_messages }}</h3>
+                <p class="text-muted mb-0">Unread Messages</p>
+                <a href="/admin/inquiries/contactmessage/" class="btn btn-sm btn-cms-secondary mt-2">View</a>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="cms-card text-center">
+                <div class="display-4 text-info mb-2">
+                    <i class="bi bi-file-earmark-text"></i>
+                </div>
+                <h3 class="h2 mb-0">{{ stats.quote_requests }}</h3>
+                <p class="text-muted mb-0">Pending Quotes</p>
+                <a href="/admin/inquiries/quoterequest/" class="btn btn-sm btn-cms-secondary mt-2">View</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Recent Activity -->
+        <div class="col-md-6">
+            <div class="cms-card">
+                <div class="cms-card-header">
+                    <h2><i class="bi bi-clock-history me-2"></i>Recent Testimonials</h2>
+                    <a href="{% url 'cms:testimonials' %}" class="btn btn-sm btn-cms-secondary">View All</a>
+                </div>
+                {% if recent_testimonials %}
+                    <div class="list-group list-group-flush">
+                        {% for testimonial in recent_testimonials %}
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="mb-1">{{ testimonial.customer_name }}</h6>
+                                        <small class="text-muted">{{ testimonial.customer_location }}</small>
+                                    </div>
+                                    <span class="badge bg-success">
+                                        {{ testimonial.rating }} <i class="bi bi-star-fill"></i>
+                                    </span>
+                                </div>
+                                <p class="mb-1 small">{{ testimonial.testimonial_text|truncatewords:15 }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted text-center py-4">No testimonials yet. <a href="{% url 'cms:testimonial_add' %}">Add one</a>?</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="col-md-6">
+            <div class="cms-card">
+                <div class="cms-card-header">
+                    <h2><i class="bi bi-lightning-fill me-2"></i>Quick Actions</h2>
+                </div>
+
+                <div class="list-group list-group-flush">
+                    <a href="{% url 'cms:page_home' %}" class="list-group-item list-group-item-action">
+                        <i class="bi bi-house-door me-2 text-primary"></i>
+                        <strong>Edit Home Page</strong>
+                        <p class="mb-0 small text-muted">Update hero section, features, and testimonials</p>
+                    </a>
+                    <a href="{% url 'cms:settings' %}" class="list-group-item list-group-item-action">
+                        <i class="bi bi-gear me-2 text-primary"></i>
+                        <strong>Site Settings</strong>
+                        <p class="mb-0 small text-muted">Update contact info, social links, and business details</p>
+                    </a>
+                    <a href="{% url 'cms:testimonial_add' %}" class="list-group-item list-group-item-action">
+                        <i class="bi bi-plus-circle me-2 text-success"></i>
+                        <strong>Add Testimonial</strong>
+                        <p class="mb-0 small text-muted">Add a new customer testimonial</p>
+                    </a>
+                    <a href="{% url 'cms:industries' %}" class="list-group-item list-group-item-action">
+                        <i class="bi bi-building me-2 text-info"></i>
+                        <strong>Manage Industries</strong>
+                        <p class="mb-0 small text-muted">Edit the "Trusted By" industries section</p>
+                    </a>
+                    <a href="{% url 'cms:products' %}" class="list-group-item list-group-item-action">
+                        <i class="bi bi-box-seam me-2 text-warning"></i>
+                        <strong>Manage Products</strong>
+                        <p class="mb-0 small text-muted">Add, edit, or remove products from your catalog</p>
+                    </a>
+                    <a href="{% url 'cms:categories' %}" class="list-group-item list-group-item-action">
+                        <i class="bi bi-tags me-2 text-danger"></i>
+                        <strong>Manage Categories</strong>
+                        <p class="mb-0 small text-muted">Organize products into categories</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Section -->
+    <div class="cms-card mt-4">
+        <div class="cms-card-header">
+            <h2><i class="bi bi-question-circle me-2"></i>Need Help?</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <h6>Getting Started</h6>
+                <p class="text-muted small">Use the navigation bar above to edit different pages. Each page has sections you can customize.</p>
+            </div>
+            <div class="col-md-4">
+                <h6>Managing Content</h6>
+                <p class="text-muted small">Add testimonials, industries, and trust badges from the Content dropdown menu.</p>
+            </div>
+            <div class="col-md-4">
+                <h6>Site Settings</h6>
+                <p class="text-muted small">Update contact information, social media links, and business details in Settings.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

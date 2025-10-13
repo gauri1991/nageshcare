@@ -1,4 +1,5 @@
-{% load static %}
+{% load static cms_tags %}
+{% get_site_settings as settings %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,10 +8,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <!-- SEO Meta Tags -->
-    <title>{% block title %}NageshCare - Wholesale Trading Company | Personal Care & Wellness Products{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}Your trusted wholesale trading partner for premium personal care products. Scented tissue papers, dhoop batti & more. Bulk pricing, white-label branding. Request quote!{% endblock %}">
-    <meta name="keywords" content="{% block meta_keywords %}wholesale tissue paper, bulk dhoop batti, personal care wholesale, white label products, trading company, bulk wellness products{% endblock %}">
-    <meta name="author" content="NageshCare">
+    <title>{% block title %}{{ settings.business_name }} - Wholesale Trading Company | Medical & Healthcare Products{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ settings.default_meta_description|default:'Your trusted wholesale trading partner for premium medical and healthcare products.' }}{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}{{ settings.default_meta_keywords|default:'wholesale medical supplies, bulk healthcare products, hospital supplies' }}{% endblock %}">
+    <meta name="author" content="{{ settings.business_name }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -84,5 +85,101 @@
             }
         });
     </script>
+
+    <!-- Mobile Sticky CTA Bar -->
+    <div class="mobile-cta-bar d-md-none">
+        <div class="container-fluid">
+            <div class="row g-2">
+                <div class="col-4">
+                    <a href="tel:{{ settings.phone_primary }}" class="btn btn-outline-light btn-sm w-100 d-flex flex-column align-items-center py-2">
+                        <i class="bi bi-telephone-fill fs-5 mb-1"></i>
+                        <small class="fw-semibold">Call</small>
+                    </a>
+                </div>
+                <div class="col-4">
+                    <a href="{{ settings.whatsapp_url|default:'#' }}?text=Hi%2C%20I'm%20interested%20in%20your%20wholesale%20products." class="btn btn-success btn-sm w-100 d-flex flex-column align-items-center py-2" target="_blank">
+                        <i class="bi bi-whatsapp fs-5 mb-1"></i>
+                        <small class="fw-semibold">WhatsApp</small>
+                    </a>
+                </div>
+                <div class="col-4">
+                    <a href="{% url 'core:request_quote' %}" class="btn btn-warning btn-sm w-100 d-flex flex-column align-items-center py-2">
+                        <i class="bi bi-chat-dots-fill fs-5 mb-1"></i>
+                        <small class="fw-semibold">Quote</small>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="{{ settings.whatsapp_url|default:'#' }}?text=Hi%2C%20I'm%20interested%20in%20your%20wholesale%20products.%20Please%20share%20more%20details."
+       class="whatsapp-float d-none d-md-flex"
+       target="_blank"
+       rel="noopener noreferrer"
+       aria-label="Chat on WhatsApp">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+
+    <style>
+    .whatsapp-float {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        bottom: 100px;
+        right: 20px;
+        background-color: #25D366;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        font-size: 32px;
+        box-shadow: 2px 2px 12px rgba(0,0,0,0.3);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .whatsapp-float:hover {
+        background-color: #128C7E;
+        transform: scale(1.1);
+        box-shadow: 2px 2px 20px rgba(37, 211, 102, 0.5);
+        color: #FFF;
+    }
+
+    .whatsapp-float:focus {
+        color: #FFF;
+    }
+
+    /* Pulse animation */
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+        }
+        70% {
+            box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+        }
+    }
+
+    .whatsapp-float {
+        animation: pulse 2s infinite;
+    }
+
+    /* Mobile optimization */
+    @media (max-width: 768px) {
+        .whatsapp-float {
+            width: 56px;
+            height: 56px;
+            bottom: 80px;
+            right: 15px;
+            font-size: 28px;
+        }
+    }
+    </style>
 </body>
 </html>

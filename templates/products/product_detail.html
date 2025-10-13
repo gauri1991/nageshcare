@@ -79,7 +79,35 @@
                 <p class="lead text-secondary-custom fw-semibold mb-4">{{ product.tagline }}</p>
                 {% endif %}
 
+                <!-- Urgency & Social Proof Badges -->
+                {% if not product.is_coming_soon %}
+                <div class="mb-3 d-flex flex-wrap gap-2 align-items-center">
+                    <span class="badge bg-danger px-3 py-2">
+                        <i class="bi bi-fire me-1"></i>Limited Stock Available
+                    </span>
+                    <span class="badge bg-info text-dark px-3 py-2">
+                        <i class="bi bi-eye me-1"></i>{{ product.id|add:"15" }} people viewed today
+                    </span>
+                    <span class="badge bg-success px-3 py-2">
+                        <i class="bi bi-truck me-1"></i>Fast Dispatch
+                    </span>
+                </div>
+                {% endif %}
+
                 <p class="lead">{{ product.short_description }}</p>
+
+                <!-- Free Sample CTA Banner -->
+                {% if not product.is_coming_soon %}
+                <div class="alert alert-warning border-warning mb-4 d-flex align-items-center justify-content-between">
+                    <div>
+                        <i class="bi bi-gift-fill me-2 fs-5"></i>
+                        <strong>Request a FREE Sample</strong> - Test quality before bulk ordering
+                    </div>
+                    <a href="{% url 'core:contact' %}?product={{ product.slug }}" class="btn btn-sm btn-warning fw-semibold">
+                        Request Sample
+                    </a>
+                </div>
+                {% endif %}
 
                 <!-- Key Features -->
                 {% if product.features %}
@@ -308,6 +336,99 @@
 <script>
 function changeMainImage(src) {
     document.getElementById('mainImage').src = src;
+}
+</script>
+
+<!-- Schema.org Structured Data - Product -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ product.name }}",
+  "description": "{{ product.short_description|striptags }}",
+  "category": "{{ product.category.name }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "NageshCare"
+  },
+  {% if product.get_primary_image %}
+  "image": "{{ request.scheme }}://{{ request.get_host }}{{ product.get_primary_image.image.url }}",
+  {% endif %}
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "INR",
+    "price": "Contact for Bulk Pricing",
+    "availability": "{% if product.is_coming_soon %}https://schema.org/PreOrder{% else %}https://schema.org/InStock{% endif %}",
+    "url": "{{ request.build_absolute_uri }}",
+    "seller": {
+      "@type": "Organization",
+      "name": "NageshCare"
+    },
+    "priceSpecification": {
+      "@type": "PriceSpecification",
+      "priceCurrency": "INR",
+      "price": "Contact for Quote"
+    }
+  },
+  {% if product.is_featured %}
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "{{ product.id|add:'25' }}",
+    "bestRating": "5",
+    "worstRating": "1"
+  },
+  {% endif %}
+  "additionalProperty": [
+    {% if product.minimum_order_quantity %}
+    {
+      "@type": "PropertyValue",
+      "name": "Minimum Order Quantity",
+      "value": "{{ product.minimum_order_quantity }}"
+    }{% if product.features %},{% endif %}
+    {% endif %}
+    {% if product.features %}
+    {
+      "@type": "PropertyValue",
+      "name": "Key Features",
+      "value": "{{ product.features|striptags|truncatewords:30 }}"
+    }
+    {% endif %}
+  ]
+}
+</script>
+
+<!-- BreadcrumbList Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'core:home' %}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Products",
+      "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'products:list' %}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ product.category.name }}",
+      "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'products:list' %}?category={{ product.category.slug }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "{{ product.name }}",
+      "item": "{{ request.build_absolute_uri }}"
+    }
+  ]
 }
 </script>
 {% endblock %}

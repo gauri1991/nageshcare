@@ -1,0 +1,191 @@
+{% extends 'cms/base.html' %}
+
+{% block title %}{% if object %}Edit{% else %}Add{% endif %} Testimonial - NageshCare CMS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-section {
+        margin-bottom: 2rem;
+    }
+
+    .form-section-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--cms-primary);
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--cms-border);
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--cms-border);
+    }
+
+    .help-text {
+        font-size: 0.875rem;
+        color: var(--cms-text-muted);
+        margin-top: 0.25rem;
+    }
+
+    .rating-preview {
+        font-size: 1.5rem;
+        color: #ffc107;
+        margin-top: 0.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="cms-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>
+            <i class="bi bi-chat-quote me-2"></i>
+            {% if object %}Edit Testimonial{% else %}Add New Testimonial{% endif %}
+        </h1>
+        <p class="text-muted mb-0">
+            {% if object %}
+                Update the testimonial from {{ object.customer_name }}
+            {% else %}
+                Add a new customer testimonial to your website
+            {% endif %}
+        </p>
+    </div>
+
+    <!-- Testimonial Form -->
+    <div class="cms-card">
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Customer Information -->
+            <div class="form-section">
+                <div class="form-section-title">Customer Information</div>
+
+                <div class="mb-3">
+                    <label for="id_customer_name" class="form-label">Customer Name <span class="text-danger">*</span></label>
+                    <input type="text" name="customer_name" class="form-control" id="id_customer_name"
+                           value="{{ form.customer_name.value|default:'' }}" required>
+                    <div class="help-text">Full name of the customer providing the testimonial</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_customer_role" class="form-label">Role/Position</label>
+                    <input type="text" name="customer_role" class="form-control" id="id_customer_role"
+                           value="{{ form.customer_role.value|default:'' }}" placeholder="e.g., CEO, Procurement Manager">
+                    <div class="help-text">Customer's job title or role (optional)</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_customer_location" class="form-label">Location <span class="text-danger">*</span></label>
+                    <input type="text" name="customer_location" class="form-control" id="id_customer_location"
+                           value="{{ form.customer_location.value|default:'' }}" placeholder="e.g., Mumbai, Maharashtra" required>
+                    <div class="help-text">City and state/country</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_avatar_initials" class="form-label">Avatar Initials</label>
+                    <input type="text" name="avatar_initials" class="form-control" id="id_avatar_initials"
+                           value="{{ form.avatar_initials.value|default:'' }}" maxlength="2" placeholder="e.g., RK">
+                    <div class="help-text">2 letters for avatar (optional, defaults to first 2 letters of name)</div>
+                </div>
+            </div>
+
+            <!-- Testimonial Content -->
+            <div class="form-section">
+                <div class="form-section-title">Testimonial Content</div>
+
+                <div class="mb-3">
+                    <label for="id_rating" class="form-label">Rating <span class="text-danger">*</span></label>
+                    <select name="rating" class="form-select" id="id_rating" required onchange="updateRatingPreview(this.value)">
+                        <option value="">Select rating...</option>
+                        {% for i in "12345" %}
+                            <option value="{{ forloop.counter }}" {% if form.rating.value == forloop.counter %}selected{% endif %}>
+                                {{ forloop.counter }} Star{{ forloop.counter|pluralize }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <div class="rating-preview" id="ratingPreview">
+                        {% if form.rating.value %}
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= form.rating.value %}
+                                    <i class="bi bi-star-fill"></i>
+                                {% else %}
+                                    <i class="bi bi-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_testimonial_text" class="form-label">Testimonial Text <span class="text-danger">*</span></label>
+                    <textarea name="testimonial_text" class="form-control" id="id_testimonial_text"
+                              rows="6" required>{{ form.testimonial_text.value|default:'' }}</textarea>
+                    <div class="help-text">The actual testimonial content from the customer</div>
+                </div>
+            </div>
+
+            <!-- Display Settings -->
+            <div class="form-section">
+                <div class="form-section-title">Display Settings</div>
+
+                <div class="mb-3">
+                    <label for="id_order" class="form-label">Display Order</label>
+                    <input type="number" name="order" class="form-control" id="id_order"
+                           value="{{ form.order.value|default:'0' }}" min="0">
+                    <div class="help-text">Lower numbers appear first (0 = default ordering)</div>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input type="checkbox" name="is_featured" class="form-check-input" id="id_is_featured"
+                           {% if form.is_featured.value %}checked{% endif %}>
+                    <label class="form-check-label" for="id_is_featured">
+                        <strong>Featured Testimonial</strong>
+                    </label>
+                    <div class="help-text">Featured testimonials appear on the home page</div>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input type="checkbox" name="is_active" class="form-check-input" id="id_is_active"
+                           {% if form.is_active.value or not object %}checked{% endif %}>
+                    <label class="form-check-label" for="id_is_active">
+                        <strong>Active</strong>
+                    </label>
+                    <div class="help-text">Only active testimonials are displayed on the website</div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <a href="{% url 'cms:testimonials' %}" class="btn btn-cms-secondary">
+                    <i class="bi bi-x-lg me-1"></i>Cancel
+                </a>
+                <button type="submit" class="btn btn-cms-primary">
+                    <i class="bi bi-check-lg me-1"></i>
+                    {% if object %}Update Testimonial{% else %}Add Testimonial{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function updateRatingPreview(rating) {
+    const preview = document.getElementById('ratingPreview');
+    let stars = '';
+    for (let i = 1; i <= 5; i++) {
+        if (i <= rating) {
+            stars += '<i class="bi bi-star-fill"></i>';
+        } else {
+            stars += '<i class="bi bi-star"></i>';
+        }
+    }
+    preview.innerHTML = stars;
+}
+</script>
+{% endblock %}

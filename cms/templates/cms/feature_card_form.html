@@ -1,0 +1,164 @@
+{% extends 'cms/base.html' %}
+
+{% block title %}{% if object %}Edit{% else %}Add{% endif %} Feature Card - NageshCare CMS{% endblock %}
+
+{% block content %}
+<div class="cms-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1><i class="bi bi-grid-3x3-gap me-2"></i>{% if object %}Edit{% else %}Add New{% endif %} Feature Card</h1>
+        <p class="text-muted mb-0">Feature cards are reusable components for various sections</p>
+    </div>
+
+    <!-- Form -->
+    <div class="cms-card">
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Section <span class="text-danger">*</span></label>
+                {{ form.section_identifier }}
+                {% if form.section_identifier.errors %}
+                    <div class="text-danger small">{{ form.section_identifier.errors }}</div>
+                {% endif %}
+                <small class="text-muted">Choose where this card will be displayed</small>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Title <span class="text-danger">*</span></label>
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <div class="text-danger small">{{ form.title.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description <span class="text-danger">*</span></label>
+                {{ form.description }}
+                {% if form.description.errors %}
+                    <div class="text-danger small">{{ form.description.errors }}</div>
+                {% endif %}
+                <small class="text-muted">Detailed description of this feature or value</small>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Icon Class <span class="text-danger">*</span></label>
+                <div class="input-group">
+                    {{ form.icon_class }}
+                    <span class="input-group-text" id="icon-preview" style="min-width: 60px;">
+                        <i class="{{ form.icon_class.value|default:'bi bi-question-circle' }}" style="font-size: 1.5rem;"></i>
+                    </span>
+                </div>
+                {% if form.icon_class.errors %}
+                    <div class="text-danger small">{{ form.icon_class.errors }}</div>
+                {% endif %}
+                <small class="text-muted">Bootstrap icon class (e.g., <code>bi bi-award-fill</code>). Browse icons at <a href="https://icons.getbootstrap.com/" target="_blank">Bootstrap Icons</a></small>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Display Order</label>
+                    {{ form.order }}
+                    {% if form.order.errors %}
+                        <div class="text-danger small">{{ form.order.errors }}</div>
+                    {% endif %}
+                    <small class="text-muted">Lower numbers appear first</small>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Status</label>
+                    <div class="form-check form-switch">
+                        {{ form.is_active }}
+                        <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
+                            Active (visible on website)
+                        </label>
+                    </div>
+                    {% if form.is_active.errors %}
+                        <div class="text-danger small">{{ form.is_active.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="d-flex gap-2 justify-content-end pt-3 border-top">
+                <a href="{% url 'cms:feature_cards' %}" class="btn btn-cms-secondary">
+                    <i class="bi bi-x-lg me-1"></i>Cancel
+                </a>
+                <button type="submit" class="btn btn-cms-primary">
+                    <i class="bi bi-check-lg me-1"></i>{% if object %}Update{% else %}Create{% endif %} Feature Card
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Help Section -->
+    <div class="cms-card">
+        <div class="cms-card-header">
+            <h2><i class="bi bi-info-circle me-2"></i>Usage Guide</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h6>Section Types:</h6>
+                <ul class="small">
+                    <li><strong>Why Choose Us:</strong> Homepage benefits section</li>
+                    <li><strong>Core Values:</strong> About page company values</li>
+                    <li><strong>Vision & Mission:</strong> About page vision/mission statements</li>
+                    <li><strong>How We Work:</strong> About page work process steps</li>
+                    <li><strong>Product Benefits:</strong> Products page benefit highlights</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h6>Icon Examples:</h6>
+                <ul class="small">
+                    <li><code>bi bi-award-fill</code> - Award/quality</li>
+                    <li><code>bi bi-shield-check</code> - Security/trust</li>
+                    <li><code>bi bi-lightning-fill</code> - Speed/efficiency</li>
+                    <li><code>bi bi-heart-fill</code> - Care/values</li>
+                    <li><code>bi bi-gear-fill</code> - Process/mechanics</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control, .form-select {
+        border: 1px solid var(--cms-border);
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--cms-primary);
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+
+    textarea.form-control {
+        min-height: 100px;
+    }
+
+    #icon-preview {
+        background-color: var(--cms-bg-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const iconClassInput = document.getElementById('{{ form.icon_class.id_for_label }}');
+    const iconPreview = document.querySelector('#icon-preview i');
+
+    if (iconClassInput && iconPreview) {
+        // Update icon preview on input
+        iconClassInput.addEventListener('input', function() {
+            const iconClasses = this.value.trim();
+            if (iconClasses) {
+                iconPreview.className = iconClasses;
+            } else {
+                iconPreview.className = 'bi bi-question-circle';
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

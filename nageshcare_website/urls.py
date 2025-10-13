@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('cms/', include('cms.urls')),  # Custom CMS
     path('', include('core.urls')),
     path('products/', include('products.urls')),
     path('inquiries/', include('inquiries.urls')),
