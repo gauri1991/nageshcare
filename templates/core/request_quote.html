@@ -1,85 +1,118 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load cms_tags %}
 
 {% block title %}Request Wholesale Quote | Bulk Order Inquiry | NageshCare{% endblock %}
 
 {% block meta_description %}Request a customized wholesale quote for bulk orders. Get competitive pricing on personal care and wellness products. Free samples available. Quick response guaranteed!{% endblock %}
 
 {% block content %}
+{% get_hero 'request-quote' as hero %}
 
 <!-- Page Hero Section -->
 <section class="hero-section text-white">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-8 mx-auto text-center">
-                <h1 class="hero-title text-white mb-4">Request Your Custom Wholesale Quote</h1>
-                <p class="lead">Get Competitive Pricing Tailored to Your Business Needs</p>
-                <p>Fill out our detailed inquiry form to receive a comprehensive quote for your bulk order requirements. Our team will analyze your needs and provide you with the best possible pricing, delivery timeline, and customization options.</p>
+            <div class="col-lg-10 mx-auto text-center">
+                <h1 class="hero-title text-white mb-4">{{ hero.title|default:"Request Bulk Quote" }}</h1>
+                <p class="lead mb-4">{{ hero.description|default:"Receive detailed pricing, delivery estimates, and volume discounts within 24 hours" }}</p>
+
+                <!-- Key Process Metrics -->
+                <div class="row g-3 mt-4">
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <i class="{{ hero.button2_text|default:'bi bi-clock' }} fs-3 me-2 text-white"></i>
+                            <div class="text-start">
+                                <h3 class="h4 mb-0">{{ hero.button1_text|default:"24hrs" }}</h3>
+                                <small>{{ hero.button1_url|default:"Response Time" }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <i class="{{ hero.content_alignment|default:'bi bi-file-earmark-text' }} fs-3 me-2 text-white"></i>
+                            <div class="text-start">
+                                <h3 class="h4 mb-0">{{ hero.subtitle|default:"Detailed" }}</h3>
+                                <small>{{ hero.button2_url|default:"Cost Breakdown" }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <i class="{{ hero.metric3_icon|default:'bi bi-shield-check' }} fs-3 me-2 text-white"></i>
+                            <div class="text-start">
+                                <h3 class="h4 mb-0">{{ hero.metric3_value|default:"Zero" }}</h3>
+                                <small>{{ hero.metric3_label|default:"Obligation" }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Benefits Banner -->
+<!-- Quote Inclusions -->
+{% get_feature_cards 'quote-inclusions' as quote_inclusions %}
 <section class="section bg-light">
     <div class="container">
-        <h2 class="h4 text-center mb-4">Why Request a Quote From Us</h2>
-        <div class="row g-3">
-            <div class="col-lg-4 col-md-6">
-                <div class="d-flex align-items-start">
-                    <i class="bi bi-cash-coin text-secondary-custom fs-3 me-3"></i>
-                    <div>
-                        <h3 class="h6 mb-1">Competitive Pricing</h3>
-                        <p class="small text-muted mb-0">Volume-based discounts and special rates</p>
+        <div class="text-center mb-4">
+            <span class="section-subtitle">What You'll Receive</span>
+            <h2 class="section-title mt-2">Quote Inclusions</h2>
+        </div>
+        <div class="row g-4">
+            {% if quote_inclusions %}
+                {% for inclusion in quote_inclusions %}
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon mx-auto mb-3">
+                            <i class="{{ inclusion.icon_class }}"></i>
+                        </div>
+                        <h3 class="h5 mb-2">{{ inclusion.title }}</h3>
+                        <p class="text-muted small mb-0">{{ inclusion.description }}</p>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="d-flex align-items-start">
-                    <i class="bi bi-clock-history text-secondary-custom fs-3 me-3"></i>
-                    <div>
-                        <h3 class="h6 mb-1">24-Hour Response</h3>
-                        <p class="small text-muted mb-0">Fast turnaround on all quote requests</p>
+                {% endfor %}
+            {% else %}
+                <!-- Default content if no CMS content exists -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon mx-auto mb-3">
+                            <i class="bi bi-calculator"></i>
+                        </div>
+                        <h3 class="h5 mb-2">Transparent Pricing</h3>
+                        <p class="text-muted small mb-0">Itemized costs: product, branding, shipping, taxes</p>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="d-flex align-items-start">
-                    <i class="bi bi-shield-check text-secondary-custom fs-3 me-3"></i>
-                    <div>
-                        <h3 class="h6 mb-1">No Obligation</h3>
-                        <p class="small text-muted mb-0">Free quotes with no commitment to purchase</p>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon mx-auto mb-3">
+                            <i class="bi bi-bar-chart-line"></i>
+                        </div>
+                        <h3 class="h5 mb-2">Volume Tiers</h3>
+                        <p class="text-muted small mb-0">Pricing for multiple order quantities</p>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="d-flex align-items-start">
-                    <i class="bi bi-gear-fill text-secondary-custom fs-3 me-3"></i>
-                    <div>
-                        <h3 class="h6 mb-1">Custom Solutions</h3>
-                        <p class="small text-muted mb-0">Tailored packages for your specific needs</p>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon mx-auto mb-3">
+                            <i class="bi bi-truck"></i>
+                        </div>
+                        <h3 class="h5 mb-2">Delivery Timeline</h3>
+                        <p class="text-muted small mb-0">Production and shipping estimates</p>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="d-flex align-items-start">
-                    <i class="bi bi-box-seam text-secondary-custom fs-3 me-3"></i>
-                    <div>
-                        <h3 class="h6 mb-1">Sample Availability</h3>
-                        <p class="small text-muted mb-0">Test before you order</p>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon mx-auto mb-3">
+                            <i class="bi bi-palette"></i>
+                        </div>
+                        <h3 class="h5 mb-2">Customization Options</h3>
+                        <p class="text-muted small mb-0">White-label and branding costs</p>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="d-flex align-items-start">
-                    <i class="bi bi-person-check-fill text-secondary-custom fs-3 me-3"></i>
-                    <div>
-                        <h3 class="h6 mb-1">Expert Guidance</h3>
-                        <p class="small text-muted mb-0">Product recommendations based on your business</p>
-                    </div>
-                </div>
-            </div>
+            {% endif %}
         </div>
     </div>
 </section>
@@ -89,70 +122,12 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10">
+                <div class="text-center mb-4">
+                    <h2 class="section-title">Submit Your Requirements</h2>
+                    <p class="text-muted">Complete the form below for a detailed quote. All information is confidential.</p>
+                </div>
                 <div class="feature-card">
-                    <p class="text-muted mb-4">
-                        <i class="bi bi-info-circle me-2"></i>
-                        The more details you provide, the more accurate and helpful our quote will be. All information is confidential and will only be used to serve you better.
-                    </p>
-
                     {% crispy form %}
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Why Choose Our Quote Service -->
-<section class="section bg-light">
-    <div class="container">
-        <h2 class="section-title text-center mb-5">What Makes Our Quote Process Different</h2>
-
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-6">
-                <div class="feature-card text-center">
-                    <i class="bi bi-clipboard-data fs-1 text-secondary-custom mb-3"></i>
-                    <h3 class="h5 mb-3">Detailed & Transparent</h3>
-                    <p class="text-muted">We provide itemized quotes with clear breakup of product cost, branding charges (if applicable), shipping, and taxes. No hidden surprises.</p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="feature-card text-center">
-                    <i class="bi bi-lightning-charge-fill fs-1 text-secondary-custom mb-3"></i>
-                    <h3 class="h5 mb-3">Quick Turnaround</h3>
-                    <p class="text-muted">Most quotes are prepared within 24 hours. For complex custom requirements, we'll update you on the timeline immediately.</p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="feature-card text-center">
-                    <i class="bi bi-lightbulb-fill fs-1 text-secondary-custom mb-3"></i>
-                    <h3 class="h5 mb-3">Expert Recommendations</h3>
-                    <p class="text-muted">Not sure what's best for your business? Our team provides honest recommendations based on your budget and requirements.</p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="feature-card text-center">
-                    <i class="bi bi-gift-fill fs-1 text-secondary-custom mb-3"></i>
-                    <h3 class="h5 mb-3">Sample Availability</h3>
-                    <p class="text-muted">We encourage sample orders before bulk commitments. We'll include sample pricing and availability in your quote.</p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="feature-card text-center">
-                    <i class="bi bi-bar-chart-line-fill fs-1 text-secondary-custom mb-3"></i>
-                    <h3 class="h5 mb-3">Competitive Comparison</h3>
-                    <p class="text-muted">Our quotes include volume-based pricing tiers, helping you understand how ordering more can save you money.</p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="feature-card text-center">
-                    <i class="bi bi-hand-thumbs-up-fill fs-1 text-secondary-custom mb-3"></i>
-                    <h3 class="h5 mb-3">No Pressure</h3>
-                    <p class="text-muted">A quote is just information, not a commitment. Take your time to evaluate and make the best decision for your business.</p>
                 </div>
             </div>
         </div>
@@ -237,42 +212,52 @@
     </div>
 </section>
 
-<!-- Alternative Quick Quote Options -->
+<!-- Alternative Contact Methods -->
+{% get_text_content 'request-quote-contact-methods' as contact_methods %}
 <section class="section bg-light">
     <div class="container text-center">
-        <h2 class="section-title mb-4">Prefer a Faster Method?</h2>
+        <div class="text-center mb-5">
+            <span class="section-subtitle">{{ contact_methods.title|default:"Need Immediate Assistance?" }}</span>
+            <h2 class="section-title mt-2">{{ contact_methods.content|default:"Alternative Contact Methods" }}</h2>
+        </div>
 
         <div class="row g-4 justify-content-center">
             <div class="col-lg-4 col-md-6">
                 <div class="feature-card">
-                    <i class="bi bi-whatsapp fs-1 text-success mb-3"></i>
-                    <h3 class="h5 mb-3">Quick Quote via WhatsApp</h3>
-                    <p class="small text-muted mb-3">For a quick informal quote, WhatsApp us with product name, approximate quantity, and your location.</p>
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="bi bi-whatsapp"></i>
+                    </div>
+                    <h3 class="h5 mb-3">WhatsApp</h3>
+                    <p class="small text-muted mb-3">Quick informal quotes via WhatsApp</p>
                     <a href="https://wa.me/91XXXXXXXXXX" class="btn btn-success" target="_blank">
-                        <i class="bi bi-whatsapp me-2"></i>Chat on WhatsApp
+                        <i class="bi bi-whatsapp me-2"></i>Message Us
                     </a>
                 </div>
             </div>
 
             <div class="col-lg-4 col-md-6">
                 <div class="feature-card">
-                    <i class="bi bi-telephone-fill fs-1 text-primary-custom mb-3"></i>
-                    <h3 class="h5 mb-3">Call for Instant Quote</h3>
-                    <p class="small text-muted mb-3">Speak directly with our sales team for immediate assistance.</p>
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="bi bi-telephone"></i>
+                    </div>
+                    <h3 class="h5 mb-3">Phone</h3>
+                    <p class="small text-muted mb-3">Speak with sales team directly</p>
                     <a href="tel:+91XXXXXXXXXX" class="btn btn-primary-custom">
-                        <i class="bi bi-telephone-fill me-2"></i>Call Us Now
+                        <i class="bi bi-telephone me-2"></i>Call Now
                     </a>
-                    <p class="small text-muted mt-2">Monday-Saturday, 9 AM - 6 PM</p>
+                    <p class="small text-muted mt-2">Mon-Sat: 9 AM - 6 PM</p>
                 </div>
             </div>
 
             <div class="col-lg-4 col-md-6">
                 <div class="feature-card">
-                    <i class="bi bi-envelope-fill fs-1 text-secondary-custom mb-3"></i>
-                    <h3 class="h5 mb-3">Email Your Requirements</h3>
-                    <p class="small text-muted mb-3">Send detailed requirements to our sales team via email.</p>
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="bi bi-envelope"></i>
+                    </div>
+                    <h3 class="h5 mb-3">Email</h3>
+                    <p class="small text-muted mb-3">Send detailed requirements</p>
                     <a href="mailto:sales@nageshcare.com" class="btn btn-outline-primary-custom">
-                        <i class="bi bi-envelope-fill me-2"></i>Email Us
+                        <i class="bi bi-envelope me-2"></i>Email Us
                     </a>
                 </div>
             </div>
@@ -280,31 +265,20 @@
     </div>
 </section>
 
-<!-- Trust Signals -->
+<!-- Final CTA -->
+{% get_cta 'request-quote' as cta %}
 <section class="cta-section">
     <div class="container text-center">
-        <div class="row g-4 text-white mb-5">
-            <div class="col-md-3 col-6">
-                <i class="bi bi-lock-fill fs-1 mb-3"></i>
-                <p><strong>Secure Form</strong><br>Your information is encrypted and protected</p>
-            </div>
-            <div class="col-md-3 col-6">
-                <i class="bi bi-shield-check fs-1 mb-3"></i>
-                <p><strong>100% Confidential</strong><br>We never share your business information</p>
-            </div>
-            <div class="col-md-3 col-6">
-                <i class="bi bi-people-fill fs-1 mb-3"></i>
-                <p><strong>Trusted by Businesses</strong><br>Join our satisfied wholesale partners</p>
-            </div>
-            <div class="col-md-3 col-6">
-                <i class="bi bi-star-fill fs-1 mb-3"></i>
-                <p><strong>Quality Service</strong><br>Based on customer feedback</p>
-            </div>
+        <h2 class="h2 text-white mb-4">{{ cta.title|default:"Questions About the Quoting Process?" }}</h2>
+        <p class="lead text-white mb-4">{{ cta.description|default:"Our sales team can clarify quote requirements, delivery timelines, or payment terms before you submit." }}</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="tel:{{ settings.phone_primary }}" class="btn btn-secondary-custom btn-lg px-5">
+                <i class="bi bi-telephone me-2"></i>Call Sales Team
+            </a>
+            <a href="{% url 'core:contact' %}" class="btn btn-outline-light btn-lg px-5">
+                <i class="bi bi-envelope me-2"></i>Send Message
+            </a>
         </div>
-
-        <h2 class="h3 text-white mb-3">Still Have Questions Before Requesting a Quote?</h2>
-        <p class="lead mb-4">We understand that every business is unique. If you'd prefer to discuss your requirements before filling out the form, we're here to help.</p>
-        <p class="lead mb-0">We're not just order-takers. We're business partners who genuinely care about your success. Let's build something great together.</p>
     </div>
 </section>
 

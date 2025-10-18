@@ -10,25 +10,25 @@
                 <p class="text-white-50">
                     {{ settings.tagline|default:"Your trusted wholesale trading partner for premium personal care and wellness products. Quality bulk supplies with custom white-label branding solutions." }}
                 </p>
-                <div class="d-flex gap-2 mt-3">
+                <div class="d-flex gap-3 mt-3 social-icons-footer">
                     {% if settings.facebook_url %}
-                    <a href="{{ settings.facebook_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
-                        <i class="bi bi-facebook"></i>
+                    <a href="{{ settings.facebook_url }}" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Facebook">
+                        <i class="bi bi-facebook fs-4"></i>
                     </a>
                     {% endif %}
                     {% if settings.instagram_url %}
-                    <a href="{{ settings.instagram_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
-                        <i class="bi bi-instagram"></i>
+                    <a href="{{ settings.instagram_url }}" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Instagram">
+                        <i class="bi bi-instagram fs-4"></i>
                     </a>
                     {% endif %}
                     {% if settings.linkedin_url %}
-                    <a href="{{ settings.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
-                        <i class="bi bi-linkedin"></i>
+                    <a href="{{ settings.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="LinkedIn">
+                        <i class="bi bi-linkedin fs-4"></i>
                     </a>
                     {% endif %}
                     {% if settings.whatsapp_url %}
-                    <a href="{{ settings.whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
-                        <i class="bi bi-whatsapp"></i>
+                    <a href="{{ settings.whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="WhatsApp">
+                        <i class="bi bi-whatsapp fs-4"></i>
                     </a>
                     {% endif %}
                 </div>
@@ -49,10 +49,10 @@
             <div class="col-lg-3 col-md-6">
                 <h5 class="mb-3 text-secondary-custom">Our Products</h5>
                 <ul class="list-unstyled">
-                    <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Premium Tissue Papers</a></li>
-                    <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Dhoop Batti</a></li>
+                    <li class="mb-2"><a href="{% url 'products:list' %}" class="text-white-50 text-decoration-none">Premium Tissue Papers</a></li>
+                    <li class="mb-2"><a href="{% url 'products:list' %}" class="text-white-50 text-decoration-none">Dhoop Batti</a></li>
                     <li class="mb-2"><a href="{% url 'core:request_quote' %}" class="text-white-50 text-decoration-none">Request Quote</a></li>
-                    <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">White-Label Services</a></li>
+                    <li class="mb-2"><a href="{% url 'core:about' %}" class="text-white-50 text-decoration-none">White-Label Services</a></li>
                 </ul>
             </div>
 
@@ -85,7 +85,7 @@
                     {% if settings.phone_whatsapp %}
                     <li class="mb-2">
                         <i class="bi bi-whatsapp text-secondary-custom me-2"></i>
-                        <a href="{{ settings.whatsapp_url|default:'https://wa.me/' }}{{ settings.phone_whatsapp }}" target="_blank" rel="noopener noreferrer" class="text-white-50 text-decoration-none">WhatsApp Us</a>
+                        <a href="https://wa.me/{{ settings.phone_whatsapp|cut:' '|cut:'+'|cut:'-' }}" target="_blank" rel="noopener noreferrer" class="text-white-50 text-decoration-none">WhatsApp Us</a>
                     </li>
                     {% endif %}
                 </ul>
@@ -147,9 +147,9 @@
             </div>
             <div class="col-md-6 text-center text-md-end">
                 <p class="mb-0 text-white-50">
-                    <a href="#" class="text-white-50 text-decoration-none me-3">Privacy Policy</a>
-                    <a href="#" class="text-white-50 text-decoration-none me-3">Terms & Conditions</a>
-                    <a href="#" class="text-white-50 text-decoration-none">Refund Policy</a>
+                    <a href="{% url 'core:privacy_policy' %}" class="text-white-50 text-decoration-none me-3">Privacy Policy</a>
+                    <a href="{% url 'core:terms_conditions' %}" class="text-white-50 text-decoration-none me-3">Terms & Conditions</a>
+                    <a href="{% url 'core:refund_policy' %}" class="text-white-50 text-decoration-none">Refund Policy</a>
                 </p>
             </div>
         </div>

@@ -1,6 +1,7 @@
 from django import forms
 from products.models import Product, Category
 from .models import FeatureCard, CompanyStat
+from inquiries.models import ContactMessage, QuoteRequest, InquiryReply
 
 
 class ProductForm(forms.ModelForm):
@@ -160,5 +161,110 @@ class CompanyStatForm(forms.ModelForm):
             }),
             'is_active': forms.CheckboxInput(attrs={
                 'class': 'form-check-input'
+            }),
+        }
+
+
+# ========================================
+# Inquiry Management Forms
+# ========================================
+
+class ContactMessageReplyForm(forms.Form):
+    """Form for replying to contact messages"""
+    reply_subject = forms.CharField(
+        max_length=300,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Re: Your inquiry about...'
+        }),
+        label='Subject'
+    )
+    reply_message = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'class': 'form-control',
+            'rows': 8,
+            'placeholder': 'Type your reply message here...'
+        }),
+        label='Message'
+    )
+
+    def __init__(self, *args, **kwargs):
+        contact_message = kwargs.pop('contact_message', None)
+        super().__init__(*args, **kwargs)
+
+        # Pre-populate subject if contact_message is provided
+        if contact_message and not self.is_bound:
+            self.fields['reply_subject'].initial = f"Re: {contact_message.get_subject_display()}"
+
+
+class QuoteRequestReplyForm(forms.Form):
+    """Form for replying to quote requests with optional attachment"""
+    reply_subject = forms.CharField(
+        max_length=300,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Quote for your inquiry - Reference: QR12345678'
+        }),
+        label='Subject'
+    )
+    reply_message = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'class': 'form-control',
+            'rows': 10,
+            'placeholder': 'Type your quote details here...'
+        }),
+        label='Message'
+    )
+    attachment = forms.FileField(
+        required=False,
+        widget=forms.FileInput(attrs={
+            'class': 'form-control',
+            'accept': '.pdf,.doc,.docx,.xls,.xlsx'
+        }),
+        label='Attachment (Optional)',
+        help_text='Attach quote PDF or document (max 10MB)'
+    )
+
+    def __init__(self, *args, **kwargs):
+        quote_request = kwargs.pop('quote_request', None)
+        super().__init__(*args, **kwargs)
+
+        # Pre-populate subject if quote_request is provided
+        if quote_request and not self.is_bound:
+            self.fields['reply_subject'].initial = f"Quote for {quote_request.business_name} - Ref: {quote_request.reference_id}"
+
+
+class ContactMessageStatusForm(forms.ModelForm):
+    """Form for updating contact message status and admin notes"""
+
+    class Meta:
+        model = ContactMessage
+        fields = ['status', 'admin_notes']
+        widgets = {
+            'status': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'admin_notes': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': 'Internal notes for team reference (not visible to customer)'
+            }),
+        }
+
+
+class QuoteRequestStatusForm(forms.ModelForm):
+    """Form for updating quote request status and admin notes"""
+
+    class Meta:
+        model = QuoteRequest
+        fields = ['status', 'admin_notes']
+        widgets = {
+            'status': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'admin_notes': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': 'Internal notes for team reference (not visible to customer)'
             }),
         }

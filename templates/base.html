@@ -28,6 +28,9 @@
     <link rel="stylesheet" href="{% static 'css/finance.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom.css' %}?v=2">
 
+    <!-- Dynamic Theme CSS -->
+    <link rel="stylesheet" href="{% url 'cms:theme_css' %}">
+
     {% block extra_css %}{% endblock %}
 
     <!-- Favicon -->
@@ -97,10 +100,17 @@
                     </a>
                 </div>
                 <div class="col-4">
-                    <a href="{{ settings.whatsapp_url|default:'#' }}?text=Hi%2C%20I'm%20interested%20in%20your%20wholesale%20products." class="btn btn-success btn-sm w-100 d-flex flex-column align-items-center py-2" target="_blank">
+                    {% if settings.phone_whatsapp %}
+                    <a href="https://wa.me/{{ settings.phone_whatsapp|cut:' '|cut:'+'|cut:'-' }}?text={{ settings.whatsapp_float_message|default:'Hi, I am interested in your wholesale products.'|urlencode }}" class="btn btn-success btn-sm w-100 d-flex flex-column align-items-center py-2" target="_blank" rel="noopener noreferrer">
                         <i class="bi bi-whatsapp fs-5 mb-1"></i>
                         <small class="fw-semibold">WhatsApp</small>
                     </a>
+                    {% else %}
+                    <a href="#" class="btn btn-success btn-sm w-100 d-flex flex-column align-items-center py-2 disabled" aria-disabled="true">
+                        <i class="bi bi-whatsapp fs-5 mb-1"></i>
+                        <small class="fw-semibold">WhatsApp</small>
+                    </a>
+                    {% endif %}
                 </div>
                 <div class="col-4">
                     <a href="{% url 'core:request_quote' %}" class="btn btn-warning btn-sm w-100 d-flex flex-column align-items-center py-2">
@@ -113,8 +123,9 @@
     </div>
 
     <!-- WhatsApp Floating Button -->
-    <a href="{{ settings.whatsapp_url|default:'#' }}?text=Hi%2C%20I'm%20interested%20in%20your%20wholesale%20products.%20Please%20share%20more%20details."
-       class="whatsapp-float d-none d-md-flex"
+    {% if settings.whatsapp_float_enabled and settings.phone_whatsapp %}
+    <a href="https://wa.me/{{ settings.phone_whatsapp|cut:' '|cut:'+'|cut:'-' }}?text={{ settings.whatsapp_float_message|urlencode }}"
+       class="whatsapp-float {% if not settings.whatsapp_float_show_on_mobile %}d-none d-md-flex{% endif %}{% if not settings.whatsapp_float_show_on_desktop %} d-md-none{% endif %}"
        target="_blank"
        rel="noopener noreferrer"
        aria-label="Chat on WhatsApp">
@@ -126,8 +137,8 @@
         position: fixed;
         width: 60px;
         height: 60px;
-        bottom: 100px;
-        right: 20px;
+        bottom: {{ settings.whatsapp_float_position_bottom|default:100 }}px;
+        right: {{ settings.whatsapp_float_position_right|default:20 }}px;
         background-color: #25D366;
         color: #FFF;
         border-radius: 50px;
@@ -175,11 +186,10 @@
         .whatsapp-float {
             width: 56px;
             height: 56px;
-            bottom: 80px;
-            right: 15px;
             font-size: 28px;
         }
     }
     </style>
+    {% endif %}
 </body>
 </html>

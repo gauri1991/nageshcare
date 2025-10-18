@@ -197,6 +197,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'page_request_quote' %}active{% endif %}"
+                           href="{% url 'cms:page_request_quote' %}">
+                            <i class="bi bi-file-earmark-text me-1"></i>Request Quote
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.url_name == 'settings' %}active{% endif %}"
                            href="{% url 'cms:settings' %}">
                             <i class="bi bi-gear me-1"></i>Settings
@@ -205,7 +211,7 @@
 
                     <!-- Content Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle {% if 'testimonial' in request.resolver_match.url_name or 'industry' in request.resolver_match.url_name or 'trust' in request.resolver_match.url_name %}active{% endif %}"
+                        <a class="nav-link dropdown-toggle {% if 'testimonial' in request.resolver_match.url_name or 'industry' in request.resolver_match.url_name or 'trust' in request.resolver_match.url_name or 'policy' in request.resolver_match.url_name %}active{% endif %}"
                            href="#" id="contentDropdown" role="button" data-bs-toggle="dropdown">
                             <i class="bi bi-collection me-1"></i>Content
                         </a>
@@ -218,6 +224,33 @@
                             </a></li>
                             <li><a class="dropdown-item" href="{% url 'cms:trust_badges' %}">
                                 <i class="bi bi-shield-check me-2"></i>Trust Badges
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><h6 class="dropdown-header">Policy Documents</h6></li>
+                            <li><a class="dropdown-item" href="{% url 'cms:privacy_policy' %}">
+                                <i class="bi bi-shield-lock me-2"></i>Privacy Policy
+                            </a></li>
+                            <li><a class="dropdown-item" href="{% url 'cms:terms_conditions' %}">
+                                <i class="bi bi-file-text me-2"></i>Terms & Conditions
+                            </a></li>
+                            <li><a class="dropdown-item" href="{% url 'cms:refund_policy' %}">
+                                <i class="bi bi-arrow-counterclockwise me-2"></i>Refund Policy
+                            </a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Inquiries Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {% if 'contact_message' in request.resolver_match.url_name or 'quote_request' in request.resolver_match.url_name %}active{% endif %}"
+                           href="#" id="inquiriesDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-mailbox me-1"></i>Inquiries
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'cms:contact_messages' %}">
+                                <i class="bi bi-envelope me-2"></i>Contact Messages
+                            </a></li>
+                            <li><a class="dropdown-item" href="{% url 'cms:quote_requests' %}">
+                                <i class="bi bi-file-text me-2"></i>Quote Requests
                             </a></li>
                         </ul>
                     </li>

@@ -197,23 +197,29 @@
 
                             <div class="mb-3">
                                 <label class="form-label">Title</label>
-                                <input type="text" name="title" class="form-control" value="{{ cta.title|default:'' }}" placeholder="Ready to Order?">
+                                <input type="text" name="title" class="form-control" value="{{ cta.title|default:'' }}" placeholder="Don't See What You Need?">
+                                <small class="text-muted">Default: "Don't See What You Need?"</small>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Description</label>
-                                <textarea name="description" class="form-control" rows="3" placeholder="Get in touch with us today">{{ cta.description|default:'' }}</textarea>
+                                <textarea name="description" class="form-control" rows="3" placeholder="We provide custom sourcing...">{{ cta.description|default:'' }}</textarea>
+                                <small class="text-muted">Default: "We provide custom sourcing and product development services for specific requirements..."</small>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Primary Button Text</label>
-                                    <input type="text" name="primary_button_text" class="form-control" value="{{ cta.primary_button_text|default:'' }}" placeholder="Request a Quote">
+                                    <input type="text" name="primary_button_text" class="form-control" value="{{ cta.primary_button_text|default:'' }}" placeholder="Request Quote">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Primary Button URL</label>
-                                    <input type="text" name="primary_button_url" class="form-control" value="{{ cta.primary_button_url|default:'' }}" placeholder="/contact">
+                                    <input type="text" name="primary_button_url" class="form-control" value="{{ cta.primary_button_url|default:'' }}" placeholder="/request-quote">
                                 </div>
+                            </div>
+
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-2"></i><strong>Note:</strong> The CTA section includes two buttons: Primary (editable above) and "Speak With Team" (links to contact page).
                             </div>
 
                             <div class="form-actions">
@@ -222,6 +228,77 @@
                                 </button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page Structure Info -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pageStructure">
+                        <i class="bi bi-info-circle me-2"></i>Products Page Structure
+                    </button>
+                </h2>
+                <div id="pageStructure" class="accordion-collapse collapse" data-bs-parent="#productsPageAccordion">
+                    <div class="accordion-body">
+                        <div class="alert alert-primary mb-3">
+                            <h6 class="mb-2"><i class="bi bi-lightbulb me-2"></i>Current Page Layout</h6>
+                            <p class="mb-0 small">The Products page has been optimized from a CXO perspective with data-driven metrics and business-focused language.</p>
+                        </div>
+
+                        <h6 class="mb-3">Page Sections (in order):</h6>
+                        <ol class="mb-4">
+                            <li><strong>Hero Section</strong> - Title: "Wholesale Product Catalog"
+                                <ul class="mt-2">
+                                    <li>3 Key Metrics displayed: 50+ Product SKUs, 30-50% Volume Discounts, 100% White-Label Ready</li>
+                                    <li>Data-driven approach replaces generic marketing copy</li>
+                                </ul>
+                            </li>
+                            <li><strong>Category Filter Section</strong> - Search bar and category filters
+                                <ul class="mt-2">
+                                    <li>Dynamic client-side filtering without page reload</li>
+                                    <li>Clean "Shop by Category" interface</li>
+                                </ul>
+                            </li>
+                            <li><strong>Product Grid</strong> - Product cards with:
+                                <ul class="mt-2">
+                                    <li>Product images with badges (Best Seller, Coming Soon)</li>
+                                    <li>MOQ (Minimum Order Quantity) displayed prominently</li>
+                                    <li>Top 3 features per product</li>
+                                    <li>Two CTAs: "View Details" and "Get Bulk Quote"</li>
+                                    <li><strong>Removed:</strong> Gimmicky urgency indicators ("Limited Stock", "Fast Dispatch")</li>
+                                </ul>
+                            </li>
+                            <li><strong>Wholesale Advantage Section</strong> - 4 key differentiators
+                                <ul class="mt-2">
+                                    <li><strong>Volume Pricing:</strong> 30-50% bulk discounts with transparent tier pricing</li>
+                                    <li><strong>White-Label Ready:</strong> Custom packaging and branding services</li>
+                                    <li><strong>Quality Assured:</strong> Product testing and compliance certification</li>
+                                    <li><strong>Reliable Logistics:</strong> Pan-India delivery with tracking</li>
+                                    <li><em>Subtitle: "Why Choose Us"</em></li>
+                                    <li><em>Consolidated from 6 generic benefits to 4 specific advantages</em></li>
+                                </ul>
+                            </li>
+                            <li><strong>Call to Action</strong> - Custom sourcing offer
+                                <ul class="mt-2">
+                                    <li>Title: "Don't See What You Need?"</li>
+                                    <li>Two buttons: "Request Quote" and "Speak With Team"</li>
+                                    <li>Focuses on custom sourcing and product development services</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <div class="alert alert-success mb-0">
+                            <h6 class="mb-2"><i class="bi bi-check-circle me-2"></i>CXO Improvements Applied</h6>
+                            <ul class="mb-0 small">
+                                <li><strong>Data-driven hero:</strong> 3 concrete metrics instead of generic marketing text</li>
+                                <li><strong>MOQ transparency:</strong> Minimum order quantities displayed on product cards</li>
+                                <li><strong>Removed urgency tactics:</strong> Eliminated "Limited Stock" and "Fast Dispatch" badges for B2B professionalism</li>
+                                <li><strong>Consolidated benefits:</strong> Focused 4 differentiators with specific value propositions</li>
+                                <li><strong>Professional language:</strong> "Wholesale Advantage" vs. "Bulk Ordering Made Easy"</li>
+                                <li><strong>Specific metrics:</strong> "30-50% discounts", "Pan-India delivery", "100% White-Label Ready"</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

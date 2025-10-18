@@ -241,3 +241,58 @@ class QuoteRequest(models.Model):
             import string
             self.reference_id = 'QR' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
         super().save(*args, **kwargs)
+
+
+class InquiryReply(models.Model):
+    """Track email replies sent to contact messages and quote requests"""
+    from django.contrib.auth.models import User
+
+    INQUIRY_TYPE_CHOICES = [
+        ('contact', 'Contact Message'),
+        ('quote', 'Quote Request'),
+    ]
+
+    # Link to inquiry
+    inquiry_type = models.CharField(max_length=20, choices=INQUIRY_TYPE_CHOICES)
+    contact_message = models.ForeignKey(
+        ContactMessage,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='replies'
+    )
+    quote_request = models.ForeignKey(
+        QuoteRequest,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='replies'
+    )
+
+    # Reply details
+    reply_from = models.EmailField(help_text='From email address')
+    reply_to = models.EmailField(help_text='Recipient email address')
+    reply_subject = models.CharField(max_length=300)
+    reply_message = models.TextField()
+
+    # Tracking
+    replied_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    replied_at = models.DateTimeField(auto_now_add=True)
+    email_sent_successfully = models.BooleanField(default=False)
+    error_message = models.TextField(blank=True, help_text='Error message if email failed to send')
+
+    # Optional attachment
+    attachment = models.FileField(upload_to='inquiry_replies/', blank=True, null=True, help_text='Optional file attachment (e.g., quote PDF)')
+
+    class Meta:
+        verbose_name = 'Inquiry Reply'
+        verbose_name_plural = 'Inquiry Replies'
+        ordering = ['-replied_at']
+
+    def __str__(self):
+        inquiry_ref = ''
+        if self.contact_message:
+            inquiry_ref = f"Contact from {self.contact_message.name}"
+        elif self.quote_request:
+            inquiry_ref = f"Quote {self.quote_request.reference_id}"
+        return f"Reply to {inquiry_ref} ({self.replied_at.strftime('%Y-%m-%d %H:%M')})"

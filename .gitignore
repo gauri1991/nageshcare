@@ -62,3 +62,13 @@ referencefiles/
 webplan.md
 content.md
 claude.md
+cmsplan.md
+colorplan.md
+cxoplan.md
+CXO_IMPROVEMENT_RECOMMENDATIONS.md
+PLACEHOLDER_CHECKLIST.md
+PROJECT_SUMMARY.md
+
+# Test files
+test_*.py
+check_images.py

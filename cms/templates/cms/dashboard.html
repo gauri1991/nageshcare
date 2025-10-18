@@ -40,8 +40,8 @@
                     <i class="bi bi-envelope"></i>
                 </div>
                 <h3 class="h2 mb-0">{{ stats.contact_messages }}</h3>
-                <p class="text-muted mb-0">Unread Messages</p>
-                <a href="/admin/inquiries/contactmessage/" class="btn btn-sm btn-cms-secondary mt-2">View</a>
+                <p class="text-muted mb-0">New Messages</p>
+                <a href="{% url 'cms:contact_messages' %}" class="btn btn-sm btn-cms-primary mt-2">Manage</a>
             </div>
         </div>
 
@@ -51,8 +51,8 @@
                     <i class="bi bi-file-earmark-text"></i>
                 </div>
                 <h3 class="h2 mb-0">{{ stats.quote_requests }}</h3>
-                <p class="text-muted mb-0">Pending Quotes</p>
-                <a href="/admin/inquiries/quoterequest/" class="btn btn-sm btn-cms-secondary mt-2">View</a>
+                <p class="text-muted mb-0">New Quotes</p>
+                <a href="{% url 'cms:quote_requests' %}" class="btn btn-sm btn-cms-primary mt-2">Manage</a>
             </div>
         </div>
     </div>
@@ -110,6 +110,11 @@
                         <i class="bi bi-plus-circle me-2 text-success"></i>
                         <strong>Add Testimonial</strong>
                         <p class="mb-0 small text-muted">Add a new customer testimonial</p>
+                    </a>
+                    <a href="{% url 'cms:page_request_quote' %}" class="list-group-item list-group-item-action">
+                        <i class="bi bi-file-earmark-text me-2 text-primary"></i>
+                        <strong>Edit Request Quote Page</strong>
+                        <p class="mb-0 small text-muted">Update quote page hero, inclusions, and CTA sections</p>
                     </a>
                     <a href="{% url 'cms:industries' %}" class="list-group-item list-group-item-action">
                         <i class="bi bi-building me-2 text-info"></i>

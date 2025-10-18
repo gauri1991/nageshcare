@@ -98,7 +98,25 @@
                                 <label class="form-label">Background Image</label>
                                 <input type="file" name="background_image" class="form-control" accept="image/*">
                                 {% if hero.background_image %}
-                                    <small class="text-muted">Current: {{ hero.background_image.name }}</small>
+                                    <div class="mt-2 p-3 border rounded">
+                                        <div class="d-flex align-items-center justify-content-between mb-2">
+                                            <strong class="text-success"><i class="bi bi-check-circle me-1"></i>Custom Background Active</strong>
+                                            <form method="post" action="{% url 'cms:page_about' %}" style="display:inline;">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="section" value="clear_hero_image">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Remove background image and use theme gradient?')">
+                                                    <i class="bi bi-x-circle me-1"></i>Clear Image
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <img src="{{ hero.background_image.url }}" alt="Hero Background" class="img-thumbnail" style="max-height: 150px; max-width: 100%;">
+                                        <small class="text-muted d-block mt-1">{{ hero.background_image.name }}</small>
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-info mt-2">
+                                        <i class="bi bi-info-circle me-1"></i>
+                                        <strong>Using Theme Gradient:</strong> No custom image uploaded. The hero section uses your theme's default gradient background.
+                                    </div>
                                 {% endif %}
                             </div>
 
@@ -282,22 +300,28 @@
                             <div class="mb-3">
                                 <label class="form-label">Title</label>
                                 <input type="text" name="title" class="form-control" value="{{ cta.title|default:'' }}">
+                                <small class="text-muted">Default: "Ready to Grow Your Business?"</small>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Description</label>
                                 <textarea name="description" class="form-control" rows="3">{{ cta.description|default:'' }}</textarea>
+                                <small class="text-muted">Default: "Partner with a wholesale supplier that understands your challenges and delivers solutions that work."</small>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Primary Button Text</label>
-                                    <input type="text" name="primary_button_text" class="form-control" value="{{ cta.primary_button_text|default:'' }}">
+                                    <input type="text" name="primary_button_text" class="form-control" value="{{ cta.primary_button_text|default:'' }}" placeholder="Request Quote">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Primary Button URL</label>
-                                    <input type="text" name="primary_button_url" class="form-control" value="{{ cta.primary_button_url|default:'' }}">
+                                    <input type="text" name="primary_button_url" class="form-control" value="{{ cta.primary_button_url|default:'' }}" placeholder="/request-quote">
                                 </div>
+                            </div>
+
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-2"></i><strong>Note:</strong> The CTA section now includes two buttons: Primary (editable above) and "View Products" (links to product catalog).
                             </div>
 
                             <div class="form-actions">
@@ -306,6 +330,78 @@
                                 </button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page Structure Info -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pageStructure">
+                        <i class="bi bi-info-circle me-2"></i>About Page Structure
+                    </button>
+                </h2>
+                <div id="pageStructure" class="accordion-collapse collapse" data-bs-parent="#aboutPageAccordion">
+                    <div class="accordion-body">
+                        <div class="alert alert-primary mb-3">
+                            <h6 class="mb-2"><i class="bi bi-lightbulb me-2"></i>Current Page Layout</h6>
+                            <p class="mb-0 small">The About page has been optimized from a CXO perspective with data-driven content and clear value propositions.</p>
+                        </div>
+
+                        <h6 class="mb-3">Page Sections (in order):</h6>
+                        <ol class="mb-4">
+                            <li><strong>Hero Banner</strong> - Opening message (editable above)</li>
+                            <li><strong>Company Story</strong> - Business overview with key statistics
+                                <ul class="mt-2">
+                                    <li>Editable story text</li>
+                                    <li>3 Key Highlights: Year Established, Business Partners (100+), Support Availability (24/7)</li>
+                                    <li><em>Subtitle: "Our Story"</em></li>
+                                </ul>
+                            </li>
+                            <li><strong>Vision & Mission</strong> - Strategic objectives (CMS-driven)
+                                <ul class="mt-2">
+                                    <li>2-column layout with feature cards</li>
+                                    <li><em>Subtitle: "What Drives Us"</em></li>
+                                </ul>
+                            </li>
+                            <li><strong>How We Deliver Value</strong> - Process overview (CMS-driven)
+                                <ul class="mt-2">
+                                    <li>Multi-column grid layout</li>
+                                    <li><em>Subtitle: "Our Process"</em></li>
+                                    <li><em>Description: "Streamlined operations designed to maximize efficiency and minimize costs"</em></li>
+                                </ul>
+                            </li>
+                            <li><strong>Core Values</strong> - Company principles (CMS-driven)
+                                <ul class="mt-2">
+                                    <li>Multi-column card layout</li>
+                                    <li><em>Subtitle: "Our Foundation"</em></li>
+                                </ul>
+                            </li>
+                            <li><strong>Cross-Functional Team</strong> - Expertise areas (NEW)
+                                <ul class="mt-2">
+                                    <li>4 key departments: Sourcing, Quality Control, Logistics, Customer Support</li>
+                                    <li>Replaces generic team description with specific functional areas</li>
+                                    <li><em>Subtitle: "Our Expertise"</em></li>
+                                </ul>
+                            </li>
+                            <li><strong>Call to Action</strong> - Business growth CTA (editable above)
+                                <ul class="mt-2">
+                                    <li>Primary: Request Quote button</li>
+                                    <li>Secondary: View Products button</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <div class="alert alert-success mb-0">
+                            <h6 class="mb-2"><i class="bi bi-check-circle me-2"></i>CXO Improvements Applied</h6>
+                            <ul class="mb-0 small">
+                                <li><strong>Quantifiable metrics:</strong> Added Year Established, 100+ Business Partners, 24/7 Support</li>
+                                <li><strong>Professional titles:</strong> More business-focused section headings</li>
+                                <li><strong>Team section:</strong> Replaced generic text with 4 specific functional areas</li>
+                                <li><strong>Value-focused language:</strong> Emphasis on efficiency, cost reduction, and results</li>
+                                <li><strong>Clear CTAs:</strong> Business-oriented call-to-action buttons</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

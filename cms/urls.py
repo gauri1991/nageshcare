@@ -18,9 +18,16 @@ urlpatterns = [
     path('pages/about/', views.AboutPageView.as_view(), name='page_about'),
     path('pages/contact/', views.ContactPageView.as_view(), name='page_contact'),
     path('pages/products/', views.ProductsPageView.as_view(), name='page_products'),
+    path('pages/request-quote/', views.RequestQuotePageView.as_view(), name='page_request_quote'),
+
+    # Policy Documents
+    path('policies/privacy/', views.PrivacyPolicyView.as_view(), name='privacy_policy'),
+    path('policies/terms/', views.TermsConditionsView.as_view(), name='terms_conditions'),
+    path('policies/refund/', views.RefundPolicyView.as_view(), name='refund_policy'),
 
     # Settings
     path('settings/', views.SiteSettingsView.as_view(), name='settings'),
+    path('theme.css', views.theme_css, name='theme_css'),
 
     # Testimonials Management
     path('testimonials/', views.TestimonialListView.as_view(), name='testimonials'),
@@ -66,4 +73,16 @@ urlpatterns = [
     path('categories/add/', views.CategoryCreateView.as_view(), name='category_create'),
     path('categories/<int:pk>/edit/', views.CategoryUpdateView.as_view(), name='category_edit'),
     path('categories/<int:pk>/delete/', views.CategoryDeleteView.as_view(), name='category_delete'),
+
+    # Inquiry Management - Contact Messages
+    path('inquiries/contact-messages/', views.ContactMessageListView.as_view(), name='contact_messages'),
+    path('inquiries/contact-messages/<int:pk>/', views.ContactMessageDetailView.as_view(), name='contact_message_detail'),
+    path('inquiries/contact-messages/<int:pk>/delete/', views.ContactMessageDeleteView.as_view(), name='contact_message_delete'),
+    path('inquiries/contact-messages/export/', views.export_contact_messages_csv, name='contact_messages_export'),
+
+    # Inquiry Management - Quote Requests
+    path('inquiries/quote-requests/', views.QuoteRequestListView.as_view(), name='quote_requests'),
+    path('inquiries/quote-requests/<int:pk>/', views.QuoteRequestDetailView.as_view(), name='quote_request_detail'),
+    path('inquiries/quote-requests/<int:pk>/delete/', views.QuoteRequestDeleteView.as_view(), name='quote_request_delete'),
+    path('inquiries/quote-requests/export/', views.export_quote_requests_csv, name='quote_requests_export'),
 ]

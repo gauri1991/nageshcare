@@ -1,0 +1,303 @@
+{% extends 'cms/base.html' %}
+
+{% block title %}Contact Message from {{ message.name }} - NageshCare CMS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .detail-card {
+        background: white;
+        border: 1px solid var(--cms-border);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .detail-row {
+        display: flex;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .detail-row:last-child {
+        border-bottom: none;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        min-width: 200px;
+        color: #495057;
+    }
+
+    .detail-value {
+        flex: 1;
+        color: #212529;
+    }
+
+    .reply-card {
+        background: #f8f9fa;
+        border-left: 3px solid var(--cms-primary);
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 4px;
+    }
+
+    .reply-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+    }
+
+    .reply-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .status-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+    }
+
+    .status-indicator.success {
+        background: #28a745;
+    }
+
+    .status-indicator.error {
+        background: #dc3545;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="cms-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h1><i class="bi bi-envelope-open me-2"></i>Contact Message Details</h1>
+                <p class="text-muted mb-0">From {{ message.name }}
+                    {% if not message.is_read %}
+                        <span class="badge bg-primary ms-2">NEW</span>
+                    {% endif %}
+                </p>
+            </div>
+            <a href="{% url 'cms:contact_messages' %}" class="btn btn-cms-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to List
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Left Column: Message Details -->
+        <div class="col-lg-8">
+            <!-- Contact Information -->
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-person me-2"></i>Contact Information</h5>
+                <div class="detail-row">
+                    <div class="detail-label">Name</div>
+                    <div class="detail-value">{{ message.name }}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Email</div>
+                    <div class="detail-value">
+                        <a href="mailto:{{ message.email }}">{{ message.email }}</a>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Phone</div>
+                    <div class="detail-value">
+                        <a href="tel:{{ message.phone }}">{{ message.phone }}</a>
+                    </div>
+                </div>
+                {% if message.business_name %}
+                <div class="detail-row">
+                    <div class="detail-label">Business Name</div>
+                    <div class="detail-value">{{ message.business_name }}</div>
+                </div>
+                {% endif %}
+                <div class="detail-row">
+                    <div class="detail-label">Preferred Contact</div>
+                    <div class="detail-value">{{ message.get_preferred_contact_method_display }}</div>
+                </div>
+                {% if message.best_time_to_call %}
+                <div class="detail-row">
+                    <div class="detail-label">Best Time to Call</div>
+                    <div class="detail-value">{{ message.best_time_to_call }}</div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Message Details -->
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-chat-left-text me-2"></i>Message Details</h5>
+                <div class="detail-row">
+                    <div class="detail-label">Subject</div>
+                    <div class="detail-value">{{ message.get_subject_display }}</div>
+                </div>
+                {% if message.product_interest %}
+                <div class="detail-row">
+                    <div class="detail-label">Product Interest</div>
+                    <div class="detail-value">{{ message.product_interest }}</div>
+                </div>
+                {% endif %}
+                <div class="detail-row">
+                    <div class="detail-label">Message</div>
+                    <div class="detail-value">{{ message.message|linebreaks }}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Received</div>
+                    <div class="detail-value">{{ message.created_at|date:"F d, Y g:i A" }}</div>
+                </div>
+            </div>
+
+            <!-- Reply Form -->
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-reply me-2"></i>Send Reply</h5>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="send_reply">
+
+                    <div class="mb-3">
+                        {{ reply_form.reply_subject.label_tag }}
+                        {{ reply_form.reply_subject }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ reply_form.reply_message.label_tag }}
+                        {{ reply_form.reply_message }}
+                        <small class="form-text text-muted">
+                            Signature will be automatically added from email settings.
+                        </small>
+                    </div>
+
+                    <button type="submit" class="btn btn-cms-primary">
+                        <i class="bi bi-send me-1"></i>Send Reply
+                    </button>
+                </form>
+            </div>
+
+            <!-- Reply History -->
+            {% if replies %}
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-clock-history me-2"></i>Reply History</h5>
+                {% for reply in replies %}
+                <div class="reply-card">
+                    <div class="reply-header">
+                        <div>
+                            <strong>{{ reply.replied_by.get_full_name|default:reply.replied_by.username }}</strong>
+                            <small class="text-muted ms-2">{{ reply.replied_at|date:"M d, Y g:i A" }}</small>
+                        </div>
+                        <div class="reply-status">
+                            {% if reply.email_sent_successfully %}
+                                <span class="status-indicator success"></span>
+                                <small class="text-success">Sent</small>
+                            {% else %}
+                                <span class="status-indicator error"></span>
+                                <small class="text-danger">Failed</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <strong>Subject:</strong> {{ reply.reply_subject }}
+                    </div>
+                    <div class="mb-2">
+                        {{ reply.reply_message|linebreaks }}
+                    </div>
+                    {% if reply.error_message %}
+                    <div class="alert alert-danger alert-sm mb-0">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        <small>Error: {{ reply.error_message }}</small>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Right Column: Status & Actions -->
+        <div class="col-lg-4">
+            <!-- Status Update -->
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-gear me-2"></i>Status & Notes</h5>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="update_status">
+
+                    <div class="mb-3">
+                        {{ status_form.status.label_tag }}
+                        {{ status_form.status }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ status_form.admin_notes.label_tag }}
+                        {{ status_form.admin_notes }}
+                    </div>
+
+                    <button type="submit" class="btn btn-cms-secondary w-100">
+                        <i class="bi bi-check-lg me-1"></i>Update
+                    </button>
+                </form>
+            </div>
+
+            <!-- Message Info -->
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-info-circle me-2"></i>Message Info</h5>
+                <div class="mb-2">
+                    <small class="text-muted">Status</small><br>
+                    {% if message.status == 'new' %}
+                        <span class="badge bg-warning text-dark">New</span>
+                    {% elif message.status == 'contacted' %}
+                        <span class="badge bg-info">Contacted</span>
+                    {% elif message.status == 'closed' %}
+                        <span class="badge bg-secondary">Closed</span>
+                    {% endif %}
+                </div>
+                <div class="mb-2">
+                    <small class="text-muted">Read Status</small><br>
+                    {% if message.is_read %}
+                        <span class="badge bg-success">Read</span>
+                    {% else %}
+                        <span class="badge bg-danger">Unread</span>
+                    {% endif %}
+                </div>
+                <div class="mb-2">
+                    <small class="text-muted">Replies Sent</small><br>
+                    <strong>{{ message.replies.count }}</strong>
+                </div>
+                <div class="mb-2">
+                    <small class="text-muted">Created</small><br>
+                    {{ message.created_at|date:"M d, Y g:i A" }}
+                </div>
+                <div class="mb-2">
+                    <small class="text-muted">Last Updated</small><br>
+                    {{ message.updated_at|date:"M d, Y g:i A" }}
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-lightning me-2"></i>Quick Actions</h5>
+                <div class="d-grid gap-2">
+                    <a href="mailto:{{ message.email }}" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-envelope me-1"></i>Email Directly
+                    </a>
+                    <a href="tel:{{ message.phone }}" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-telephone me-1"></i>Call Now
+                    </a>
+                    {% if message.preferred_contact_method == 'whatsapp' %}
+                    <a href="https://wa.me/{{ message.phone|cut:' '|cut:'+'|cut:'-' }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-success btn-sm">
+                        <i class="bi bi-whatsapp me-1"></i>WhatsApp
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'cms:contact_message_delete' message.pk %}" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this message?')">
+                        <i class="bi bi-trash me-1"></i>Delete Message
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

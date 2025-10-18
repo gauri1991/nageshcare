@@ -1,0 +1,384 @@
+{% extends 'cms/base.html' %}
+
+{% block title %}Edit Request Quote Page - NageshCare CMS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .section-header {
+        background: var(--cms-bg-light);
+        border-left: 3px solid var(--cms-primary);
+        padding: 0.75rem 1rem;
+        margin: 0 -1.5rem 1rem -1.5rem;
+        font-weight: 600;
+        color: var(--cms-primary);
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--cms-border);
+    }
+
+    .accordion-button:not(.collapsed) {
+        background-color: var(--cms-bg-light);
+        color: var(--cms-primary);
+    }
+
+    .metric-preview {
+        background: var(--cms-bg-light);
+        border: 1px solid var(--cms-border);
+        border-radius: 4px;
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="cms-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1><i class="bi bi-file-earmark-text me-2"></i>Edit Request Quote Page</h1>
+        <p class="text-muted mb-0">Manage your request quote page content and process information</p>
+    </div>
+
+    <!-- Request Quote Page Sections -->
+    <div class="cms-card">
+        <div class="accordion" id="requestQuotePageAccordion">
+
+            <!-- Hero Section -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#heroSection">
+                        <i class="bi bi-image me-2"></i>Hero Section
+                    </button>
+                </h2>
+                <div id="heroSection" class="accordion-collapse collapse show" data-bs-parent="#requestQuotePageAccordion">
+                    <div class="accordion-body">
+                        <form method="post" action="{% url 'cms:page_request_quote' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="section" value="hero">
+
+                            <div class="mb-3">
+                                <label class="form-label">Main Title</label>
+                                <input type="text" name="title" class="form-control" value="{{ hero.title|default:'Request Bulk Quote' }}" placeholder="Request Bulk Quote">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Subtitle/Description</label>
+                                <textarea name="description" class="form-control" rows="2" placeholder="Receive detailed pricing, delivery estimates, and volume discounts within 24 hours">{{ hero.description|default:'' }}</textarea>
+                            </div>
+
+                            <h6 class="mt-4 mb-3">Key Metrics (3 metrics displayed below title)</h6>
+
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Metric 1 - Value</label>
+                                    <input type="text" name="metric1_value" class="form-control" value="{{ hero.button1_text|default:'24hrs' }}" placeholder="24hrs">
+                                    <small class="text-muted">Default: "24hrs"</small>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Metric 1 - Label</label>
+                                    <input type="text" name="metric1_label" class="form-control" value="{{ hero.button1_url|default:'Response Time' }}" placeholder="Response Time">
+                                    <small class="text-muted">Default: "Response Time"</small>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Metric 1 - Icon</label>
+                                    <input type="text" name="metric1_icon" class="form-control" value="{{ hero.button2_text|default:'bi bi-clock' }}" placeholder="bi bi-clock">
+                                    <small class="text-muted">Bootstrap icon class</small>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Metric 2 - Value</label>
+                                    <input type="text" name="metric2_value" class="form-control" value="{{ hero.subtitle|default:'Detailed' }}" placeholder="Detailed">
+                                    <small class="text-muted">Default: "Detailed"</small>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Metric 2 - Label</label>
+                                    <input type="text" name="metric2_label" class="form-control" value="{{ hero.button2_url|default:'Cost Breakdown' }}" placeholder="Cost Breakdown">
+                                    <small class="text-muted">Default: "Cost Breakdown"</small>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Metric 2 - Icon</label>
+                                    <input type="text" name="metric2_icon" class="form-control" value="{{ hero.content_alignment|default:'bi bi-file-earmark-text' }}" placeholder="bi bi-file-earmark-text">
+                                    <small class="text-muted">Bootstrap icon class</small>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Metric 3 - Value</label>
+                                    <input type="text" name="metric3_value" class="form-control" value="{{ hero.metric3_value|default:'Zero' }}" placeholder="Zero">
+                                    <small class="text-muted">Default: "Zero"</small>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Metric 3 - Label</label>
+                                    <input type="text" name="metric3_label" class="form-control" value="{{ hero.metric3_label|default:'Obligation' }}" placeholder="Obligation">
+                                    <small class="text-muted">Default: "Obligation"</small>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Metric 3 - Icon</label>
+                                    <input type="text" name="metric3_icon" class="form-control" value="{{ hero.metric3_icon|default:'bi bi-shield-check' }}" placeholder="bi bi-shield-check">
+                                    <small class="text-muted">Bootstrap icon class</small>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-cms-primary">
+                                    <i class="bi bi-check-lg me-1"></i>Save Hero Section
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quote Inclusions -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#quoteInclusions">
+                        <i class="bi bi-list-check me-2"></i>Quote Inclusions (What You'll Receive)
+                        <span class="badge bg-secondary ms-2">{{ quote_inclusions.count }}</span>
+                    </button>
+                </h2>
+                <div id="quoteInclusions" class="accordion-collapse collapse" data-bs-parent="#requestQuotePageAccordion">
+                    <div class="accordion-body">
+                        <p class="text-muted">Manage the 4 benefits that customers will receive with their quote</p>
+                        <div class="mb-3">
+                            <a href="{% url 'cms:feature_cards' %}?section=quote-inclusions" class="btn btn-cms-primary">
+                                <i class="bi bi-grid-3x3-gap me-1"></i>Manage Quote Inclusions
+                            </a>
+                            <a href="{% url 'cms:feature_card_create' %}" class="btn btn-cms-secondary">
+                                <i class="bi bi-plus-lg me-1"></i>Add New
+                            </a>
+                        </div>
+
+                        {% if quote_inclusions %}
+                            <div class="mt-3">
+                                <h6>Currently Active Inclusions:</h6>
+                                {% for inclusion in quote_inclusions %}
+                                    <div class="mb-2 p-2 border rounded">
+                                        <strong><i class="{{ inclusion.icon_class }} me-1"></i>{{ inclusion.title }}</strong>
+                                        <p class="mb-0 small text-muted">{{ inclusion.description|truncatewords:15 }}</p>
+                                        <div class="mt-2">
+                                            <a href="{% url 'cms:feature_card_edit' inclusion.pk %}" class="btn btn-sm btn-outline-primary">
+                                                <i class="bi bi-pencil"></i> Edit
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqSection">
+                        <i class="bi bi-question-circle me-2"></i>FAQ Section
+                    </button>
+                </h2>
+                <div id="faqSection" class="accordion-collapse collapse" data-bs-parent="#requestQuotePageAccordion">
+                    <div class="accordion-body">
+                        <div class="alert alert-info mb-3">
+                            <i class="bi bi-lightbulb me-2"></i><strong>Current Setup:</strong> The FAQ section currently has 5 hardcoded questions in the template. To make them editable through CMS, a separate FAQ model would need to be created.
+                        </div>
+
+                        <h6 class="mb-3">Current FAQ Questions:</h6>
+                        <ol>
+                            <li><strong>Is requesting a quote free?</strong></li>
+                            <li><strong>How long is the quote valid?</strong></li>
+                            <li><strong>Can I negotiate the quoted price?</strong></li>
+                            <li><strong>Will I receive a sample with the quote?</strong></li>
+                            <li><strong>What if I need to modify my requirements after receiving the quote?</strong></li>
+                        </ol>
+
+                        <p class="text-muted mt-3 small">To edit FAQ content, please modify the template file directly at: <code>templates/core/request_quote.html</code> (lines 119-195)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alternative Contact Methods -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contactMethods">
+                        <i class="bi bi-telephone me-2"></i>Alternative Contact Methods
+                    </button>
+                </h2>
+                <div id="contactMethods" class="accordion-collapse collapse" data-bs-parent="#requestQuotePageAccordion">
+                    <div class="accordion-body">
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i><strong>Note:</strong> Contact methods (WhatsApp, Phone, Email) pull information from Site Settings. Update them in the <a href="{% url 'cms:settings' %}">Settings page</a>.
+                        </div>
+
+                        <form method="post" action="{% url 'cms:page_request_quote' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="section" value="contact_methods">
+
+                            <div class="mb-3">
+                                <label class="form-label">Section Title</label>
+                                <input type="text" name="title" class="form-control" value="{{ contact_methods.title|default:'Alternative Contact Methods' }}" placeholder="Alternative Contact Methods">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Section Subtitle</label>
+                                <input type="text" name="subtitle" class="form-control" value="{{ contact_methods.subtitle|default:'Need Immediate Assistance?' }}" placeholder="Need Immediate Assistance?">
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-cms-primary">
+                                    <i class="bi bi-check-lg me-1"></i>Save Contact Methods Section
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Final CTA -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ctaSection">
+                        <i class="bi bi-megaphone me-2"></i>Final Call to Action
+                    </button>
+                </h2>
+                <div id="ctaSection" class="accordion-collapse collapse" data-bs-parent="#requestQuotePageAccordion">
+                    <div class="accordion-body">
+                        <form method="post" action="{% url 'cms:page_request_quote' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="section" value="cta">
+
+                            <div class="mb-3">
+                                <label class="form-label">Title</label>
+                                <input type="text" name="title" class="form-control" value="{{ cta.title|default:'Questions About the Quoting Process?' }}" placeholder="Questions About the Quoting Process?">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea name="description" class="form-control" rows="2" placeholder="Our sales team can clarify quote requirements, delivery timelines, or payment terms before you submit.">{{ cta.description|default:'' }}</textarea>
+                            </div>
+
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-2"></i><strong>Note:</strong> The CTA section includes two buttons: "Call Sales Team" (pulls phone from Site Settings) and "Send Message" (links to contact page).
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-cms-primary">
+                                    <i class="bi bi-check-lg me-1"></i>Save Call to Action
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page Structure Info -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pageStructure">
+                        <i class="bi bi-info-circle me-2"></i>Request Quote Page Structure
+                    </button>
+                </h2>
+                <div id="pageStructure" class="accordion-collapse collapse" data-bs-parent="#requestQuotePageAccordion">
+                    <div class="accordion-body">
+                        <div class="alert alert-primary mb-3">
+                            <h6 class="mb-2"><i class="bi bi-lightbulb me-2"></i>Current Page Layout</h6>
+                            <p class="mb-0 small">The Request Quote page has been optimized from a CXO perspective with clear value propositions and professional language.</p>
+                        </div>
+
+                        <h6 class="mb-3">Page Sections (in order):</h6>
+                        <ol class="mb-4">
+                            <li><strong>Hero Section</strong> - Title: "Request Bulk Quote"
+                                <ul class="mt-2">
+                                    <li>3 Fully Editable Key Metrics (value, label, icon each):</li>
+                                    <li>- Metric 1: Default "24hrs Response Time" with clock icon</li>
+                                    <li>- Metric 2: Default "Detailed Cost Breakdown" with document icon</li>
+                                    <li>- Metric 3: Default "Zero Obligation" with shield icon</li>
+                                    <li>Professional subtitle focusing on deliverables</li>
+                                    <li>Data-driven approach</li>
+                                </ul>
+                            </li>
+                            <li><strong>Quote Inclusions Section</strong> - What customers receive with quote
+                                <ul class="mt-2">
+                                    <li>4 specific benefits with feature card design</li>
+                                    <li>Icons: Calculator, Bar Chart, Truck, Palette</li>
+                                    <li>Benefits: Transparent Pricing, Volume Tiers, Delivery Timeline, Customization Options</li>
+                                </ul>
+                            </li>
+                            <li><strong>Detailed Inquiry Form</strong>
+                                <ul class="mt-2">
+                                    <li>Uses Django Crispy Forms for styling</li>
+                                    <li>Clear heading: "Submit Your Requirements"</li>
+                                    <li>Professional note about confidentiality</li>
+                                </ul>
+                            </li>
+                            <li><strong>FAQ Section</strong> - Quote Process FAQs
+                                <ul class="mt-2">
+                                    <li>5 common questions in Bootstrap accordion</li>
+                                    <li>Topics: Free quotes, validity period, negotiation, samples, modifications</li>
+                                    <li>Professional, transparent answers</li>
+                                </ul>
+                            </li>
+                            <li><strong>Alternative Contact Methods</strong>
+                                <ul class="mt-2">
+                                    <li>3 contact options: WhatsApp, Phone, Email</li>
+                                    <li>Feature card design with gradient icons</li>
+                                    <li>Business hours displayed for phone contact</li>
+                                </ul>
+                            </li>
+                            <li><strong>Final Call to Action</strong>
+                                <ul class="mt-2">
+                                    <li>Title: "Questions About the Quoting Process?"</li>
+                                    <li>Two buttons: "Call Sales Team" and "Send Message"</li>
+                                    <li>Professional, helpful tone without urgency tactics</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <div class="alert alert-success mb-0">
+                            <h6 class="mb-2"><i class="bi bi-check-circle me-2"></i>CXO Improvements Applied</h6>
+                            <ul class="mb-0 small">
+                                <li><strong>Data-driven hero:</strong> 3 concrete metrics instead of generic text</li>
+                                <li><strong>Specific deliverables:</strong> "Quote Inclusions" section with 4 clear benefits</li>
+                                <li><strong>Professional language:</strong> Focus on process clarity and value</li>
+                                <li><strong>Removed fluff:</strong> Eliminated emotional language and urgency tactics</li>
+                                <li><strong>Clear structure:</strong> Logical flow from value prop → form → FAQs → alternatives</li>
+                                <li><strong>Trust building:</strong> Transparent about timelines, processes, and flexibility</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="cms-card">
+        <div class="cms-card-header">
+            <h2><i class="bi bi-link-45deg me-2"></i>Quick Links</h2>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+            <a href="/request-quote" target="_blank" class="btn btn-cms-secondary btn-sm">
+                <i class="bi bi-eye me-1"></i>Preview Request Quote Page
+            </a>
+            <a href="{% url 'cms:feature_cards' %}?section=quote-inclusions" class="btn btn-cms-secondary btn-sm">
+                <i class="bi bi-grid-3x3-gap me-1"></i>Manage Quote Inclusions
+            </a>
+            <a href="{% url 'cms:settings' %}" class="btn btn-cms-secondary btn-sm">
+                <i class="bi bi-gear me-1"></i>Site Settings
+            </a>
+            <a href="{% url 'cms:dashboard' %}" class="btn btn-cms-secondary btn-sm">
+                <i class="bi bi-speedometer2 me-1"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

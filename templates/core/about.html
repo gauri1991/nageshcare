@@ -12,7 +12,7 @@
 {% get_text_content 'about-company-story' as company_story %}
 
 <!-- Hero/Opening Section -->
-<section class="hero-section text-white">
+<section class="hero-section text-white" {% if hero.background_image %}style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ hero.background_image.url }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"{% endif %}>
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-8 mx-auto text-center">
@@ -36,10 +36,32 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <span class="section-subtitle text-center d-block">Our Journey</span>
-                <h2 class="section-title text-center mt-2 mb-5">{{ company_story.title|default:"How We Started" }}</h2>
+                <span class="section-subtitle text-center d-block">Our Story</span>
+                <h2 class="section-title text-center mt-2 mb-5">{{ company_story.title|default:"Building a Trusted Wholesale Network" }}</h2>
 
-                <div class="lead">{{ company_story.content|linebreaks|default:"NageshCare was founded with a vision to make quality personal care and wellness products accessible to businesses of all sizes through wholesale trading." }}</div>
+                <div class="lead text-center mb-4">{{ company_story.content|linebreaks|default:"Founded to bridge the gap between manufacturers and retailers, NageshCare has grown into a reliable wholesale trading partner serving businesses across multiple sectors." }}</div>
+
+                <!-- Key Highlights -->
+                <div class="row g-4 mt-4">
+                    <div class="col-md-4 text-center">
+                        <div class="p-3">
+                            <h3 class="display-4 text-primary-custom mb-2">{% if settings.established_year %}{{ settings.established_year }}{% else %}2020{% endif %}</h3>
+                            <p class="text-muted mb-0">Year Established</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="p-3">
+                            <h3 class="display-4 text-primary-custom mb-2">100+</h3>
+                            <p class="text-muted mb-0">Business Partners</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="p-3">
+                            <h3 class="display-4 text-primary-custom mb-2">24/7</h3>
+                            <p class="text-muted mb-0">Support Available</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -51,7 +73,8 @@
 <section class="section bg-light">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="section-title">Our Vision & Mission</h2>
+            <span class="section-subtitle">What Drives Us</span>
+            <h2 class="section-title mt-2">Vision & Mission</h2>
         </div>
 
         <div class="row g-4">
@@ -77,8 +100,9 @@
 <section class="section">
     <div class="container">
         <div class="text-center mb-5">
-            <span class="section-subtitle">Simplified Operations for Maximum Value</span>
-            <h2 class="section-title mt-2">How We Work - The {{ settings.business_name }} Advantage</h2>
+            <span class="section-subtitle">Our Process</span>
+            <h2 class="section-title mt-2">How We Deliver Value</h2>
+            <p class="text-muted mt-3">Streamlined operations designed to maximize efficiency and minimize costs</p>
         </div>
 
         <div class="row g-4">
@@ -104,7 +128,8 @@
 <section class="section bg-light">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="section-title">Our Core Values</h2>
+            <span class="section-subtitle">Our Foundation</span>
+            <h2 class="section-title mt-2">Core Values</h2>
         </div>
 
         <div class="row g-4">
@@ -121,14 +146,51 @@
 </section>
 {% endif %}
 
-<!-- Team Section -->
+<!-- Team & Expertise Section -->
 <section class="section">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10 text-center">
-                <h2 class="section-title mb-4">The People Behind {{ settings.business_name }}</h2>
-                <p class="lead">Our team brings together expertise in sourcing, quality control, logistics, and customer service. With years of combined experience in wholesale trading and retail operations, we understand both sides of the business equation.</p>
-                <p>From our sourcing specialists who ensure product quality to our customer support team that answers your queries, every team member is dedicated to your success.</p>
+        <div class="text-center mb-5">
+            <span class="section-subtitle">Our Expertise</span>
+            <h2 class="section-title mt-2">Cross-Functional Team</h2>
+            <p class="text-muted mt-3">Industry professionals dedicated to your business success</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <h3 class="h5 mb-3">Sourcing Team</h3>
+                    <p class="text-muted small">Identifying quality suppliers and negotiating competitive pricing</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <h3 class="h5 mb-3">Quality Control</h3>
+                    <p class="text-muted small">Ensuring product standards meet specifications</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <h3 class="h5 mb-3">Logistics</h3>
+                    <p class="text-muted small">Managing inventory and timely delivery</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="bi bi-headset"></i>
+                    </div>
+                    <h3 class="h5 mb-3">Customer Support</h3>
+                    <p class="text-muted small">Providing responsive assistance and solutions</p>
+                </div>
             </div>
         </div>
     </div>
@@ -138,11 +200,22 @@
 {% get_cta 'about' as cta %}
 <section class="cta-section">
     <div class="container text-center">
-        <h2 class="h1 text-white mb-4">{{ cta.title|default:"Partner With Us Today" }}</h2>
-        <p class="lead text-white mb-4">{{ cta.description|default:"Whether you're launching a new venture or expanding your existing operations, we're here to support your journey." }}</p>
-        {% if cta.primary_button_text %}
-        <a href="{{ cta.primary_button_url }}" class="btn btn-secondary-custom btn-lg rounded-pill px-5">{{ cta.primary_button_text }}</a>
-        {% endif %}
+        <h2 class="h1 text-white mb-4">{{ cta.title|default:"Ready to Grow Your Business?" }}</h2>
+        <p class="lead text-white mb-4">{{ cta.description|default:"Partner with a wholesale supplier that understands your challenges and delivers solutions that work." }}</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            {% if cta.primary_button_text %}
+            <a href="{{ cta.primary_button_url }}" class="btn btn-secondary-custom btn-lg px-5">
+                <i class="bi bi-file-earmark-text me-2"></i>{{ cta.primary_button_text }}
+            </a>
+            {% else %}
+            <a href="{% url 'core:request_quote' %}" class="btn btn-secondary-custom btn-lg px-5">
+                <i class="bi bi-file-earmark-text me-2"></i>Request Quote
+            </a>
+            {% endif %}
+            <a href="{% url 'products:list' %}" class="btn btn-outline-light btn-lg px-5">
+                <i class="bi bi-box-seam me-2"></i>View Products
+            </a>
+        </div>
     </div>
 </section>
 

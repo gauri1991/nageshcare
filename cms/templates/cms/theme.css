@@ -1,0 +1,662 @@
+/* Dynamic Theme CSS - Generated from ThemeSettings */
+@import url('https://fonts.googleapis.com/css2?family={{ theme.font_heading|urlencode }}:wght@{{ theme.font_heading_weight }}&family={{ theme.font_body|urlencode }}:wght@{{ theme.font_body_weight }}&display=swap');
+
+:root {
+    /* Color Variables */
+    --color-primary: {{ theme.primary_color }};
+    --color-primary-hover: {{ theme.primary_hover }};
+    --color-secondary: {{ theme.secondary_color }};
+    --color-secondary-hover: {{ theme.secondary_hover }};
+    --color-accent: {{ theme.accent_color }};
+
+    /* Background Colors */
+    --bg-light: {{ theme.background_light }};
+    --bg-dark: {{ theme.background_dark }};
+
+    /* Text Colors */
+    --text-primary: {{ theme.text_primary }};
+    --text-secondary: {{ theme.text_secondary }};
+
+    /* Border Colors */
+    --border-light: {{ theme.border_light }};
+    --border-medium: {{ theme.border_medium }};
+
+    /* Header Colors - Top Bar */
+    --topbar-bg: {{ theme.topbar_bg }};
+    --topbar-text: {{ theme.topbar_text }};
+    --topbar-link: {{ theme.topbar_link }};
+    --topbar-link-hover: {{ theme.topbar_link_hover }};
+
+    /* Header Colors - Navigation */
+    --navbar-bg: {{ theme.navbar_bg }};
+    --navbar-link: {{ theme.navbar_link }};
+    --navbar-link-hover: {{ theme.navbar_link_hover }};
+    --navbar-link-active: {{ theme.navbar_link_active }};
+
+    /* Content & Text Colors */
+    --section-subtitle: {{ theme.section_subtitle }};
+    --text-muted: {{ theme.text_muted }};
+
+    /* Icon Colors */
+    --icon-default: {{ theme.icon_default }};
+    --icon-hover: {{ theme.icon_hover }};
+    --icon-feature: {{ theme.icon_feature }};
+    --icon-trust: {{ theme.icon_trust }};
+
+    /* Footer Colors */
+    --footer-bg: {{ theme.footer_bg }};
+    --footer-heading: {{ theme.footer_heading }};
+    --footer-text: {{ theme.footer_text }};
+    --footer-link: {{ theme.footer_link }};
+    --footer-link-hover: {{ theme.footer_link_hover }};
+    --footer-icon: {{ theme.footer_icon }};
+
+    /* Typography */
+    --font-heading: '{{ theme.font_heading }}', sans-serif;
+    --font-body: '{{ theme.font_body }}', sans-serif;
+    --font-heading-weight: {{ theme.font_heading_weight }};
+    --font-body-weight: {{ theme.font_body_weight }};
+
+    --font-size-base: {{ theme.font_size_base }};
+    --font-size-h1: {{ theme.font_size_h1 }};
+    --font-size-h2: {{ theme.font_size_h2 }};
+    --font-size-h3: {{ theme.font_size_h3 }};
+    --font-size-h4: {{ theme.font_size_h4 }};
+    --font-size-h5: {{ theme.font_size_h5 }};
+    --font-size-h6: {{ theme.font_size_h6 }};
+
+    /* Spacing & Effects */
+    --border-radius: {{ theme.border_radius }};
+    --shadow-default: {{ theme.box_shadow_default }};
+    --shadow-hover: {{ theme.box_shadow_hover }};
+}
+
+/* Typography */
+body {
+    font-family: var(--font-body);
+    font-weight: var(--font-body-weight);
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    color: var(--text-primary);
+}
+
+h1 { font-size: var(--font-size-h1); }
+h2 { font-size: var(--font-size-h2); }
+h3 { font-size: var(--font-size-h3); }
+h4 { font-size: var(--font-size-h4); }
+h5 { font-size: var(--font-size-h5); }
+h6 { font-size: var(--font-size-h6); }
+
+/* Primary Buttons */
+.btn-primary-custom,
+.cta-btn,
+.hero-btn-primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-default);
+    transition: all 0.3s ease;
+}
+
+.btn-primary-custom:hover,
+.cta-btn:hover,
+.hero-btn-primary:hover {
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+/* Secondary Buttons */
+.btn-secondary-custom,
+.hero-btn-secondary {
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+    color: white !important;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-default);
+    transition: all 0.3s ease;
+}
+
+.btn-secondary-custom:hover,
+.hero-btn-secondary:hover {
+    background-color: var(--color-secondary-hover);
+    border-color: var(--color-secondary-hover);
+    color: white !important;
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+/* Ensure icons in buttons are also white */
+.btn-secondary-custom i,
+.hero-btn-secondary i {
+    color: white !important;
+}
+
+/* Accent Badges & Labels */
+.badge-custom,
+.tag,
+.label-accent {
+    background-color: var(--color-accent);
+    color: white;
+    border-radius: calc(var(--border-radius) / 2);
+}
+
+/* Cards */
+.product-card,
+.feature-card,
+.testimonial-card {
+    background: white;
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-default);
+    transition: all 0.3s ease;
+}
+
+.product-card:hover,
+.feature-card:hover,
+.testimonial-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-5px);
+    border-color: var(--color-primary);
+}
+
+/* Links */
+a {
+    color: var(--color-primary);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--color-primary-hover);
+}
+
+/* Sections */
+.section-light {
+    background-color: var(--bg-light);
+}
+
+.section-dark {
+    background-color: var(--bg-dark);
+    color: white;
+}
+
+/* Footer */
+#footer,
+footer {
+    background-color: var(--footer-bg) !important;
+    color: var(--footer-text) !important;
+}
+
+footer *:not(a):not(i) {
+    color: var(--footer-text) !important;
+}
+
+/* Footer Headings */
+footer h1,
+footer h2,
+footer h3,
+footer h4,
+footer h5,
+footer h6,
+footer .h1,
+footer .h2,
+footer .h3,
+footer .h4,
+footer .h5,
+footer .h6,
+footer .footer-heading {
+    color: var(--footer-heading) !important;
+}
+
+/* Footer Links */
+footer a:not(.btn) {
+    color: var(--footer-link) !important;
+    transition: color 0.3s ease;
+}
+
+footer a:not(.btn):hover {
+    color: var(--footer-link-hover) !important;
+}
+
+/* Footer Icons (excluding social media) */
+footer i:not([class*="bi-facebook"]):not([class*="bi-instagram"]):not([class*="bi-linkedin"]):not([class*="bi-whatsapp"]) {
+    color: var(--footer-icon) !important;
+}
+
+/* Text Colors */
+.text-primary-custom {
+    color: var(--color-primary) !important;
+}
+
+/* Override custom.css - connect to theme editor's Secondary Color (accent) */
+.text-secondary-custom {
+    color: var(--color-secondary) !important;
+}
+
+/* Backgrounds */
+.bg-primary-custom {
+    background-color: var(--color-primary) !important;
+}
+
+/* Override custom.css - connect to theme editor's Secondary Color (accent) */
+.bg-secondary-custom {
+    background-color: var(--color-secondary) !important;
+}
+
+/* Borders */
+.border-custom {
+    border-color: var(--border-medium);
+}
+
+/* Forms */
+.form-control:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.2rem rgba({{ theme.primary_color|slice:"1:"|default:"0,0,0" }}, 0.25);
+}
+
+.form-select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.2rem rgba({{ theme.primary_color|slice:"1:"|default:"0,0,0" }}, 0.25);
+}
+
+/* Header & Navigation */
+/* Top Bar */
+#top-bar,
+.top-bar {
+    background-color: var(--topbar-bg) !important;
+    color: var(--topbar-text) !important;
+}
+
+#top-bar *:not(i),
+.top-bar *:not(i) {
+    color: var(--topbar-text) !important;
+}
+
+#top-bar a,
+.top-bar a {
+    color: var(--topbar-link) !important;
+    transition: color 0.3s ease;
+}
+
+#top-bar a:hover,
+.top-bar a:hover {
+    color: var(--topbar-link-hover) !important;
+}
+
+/* Main Navigation */
+#header,
+.navbar-custom,
+.navbar {
+    background-color: var(--navbar-bg) !important;
+    border-bottom: 1px solid var(--border-light);
+    box-shadow: var(--shadow-default);
+}
+
+/* Navigation Menu Items Spacing */
+.navbar-nav .nav-item {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.nav-link,
+.nav-link-custom,
+.navbar-nav .nav-link {
+    color: var(--navbar-link) !important;
+    transition: color 0.3s ease;
+    padding: 0.5rem 1rem;
+}
+
+.nav-link:hover,
+.nav-link-custom:hover,
+.navbar-nav .nav-link:hover {
+    color: var(--navbar-link-hover) !important;
+}
+
+.nav-link.active,
+.nav-link-custom.active,
+.navbar-nav .nav-link.active {
+    color: var(--navbar-link-active) !important;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+}
+
+/* Section Subtitles & Content Text */
+.section-subtitle,
+.section-eyebrow,
+.subtitle,
+.eyebrow-text {
+    color: var(--section-subtitle) !important;
+}
+
+.text-muted,
+.helper-text,
+small.text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* Icon Colors */
+/* Default Icons */
+i:not([class*="bi-facebook"]):not([class*="bi-instagram"]):not([class*="bi-linkedin"]):not([class*="bi-whatsapp"]),
+.icon,
+.icon-default {
+    color: var(--icon-default);
+    transition: color 0.3s ease;
+}
+
+/* Icon Hover State */
+a:hover i:not([class*="bi-facebook"]):not([class*="bi-instagram"]):not([class*="bi-linkedin"]):not([class*="bi-whatsapp"]),
+.icon:hover,
+.icon-default:hover {
+    color: var(--icon-hover);
+}
+
+/* Feature Card Icons */
+.feature-icon {
+    background: linear-gradient(135deg,
+        color-mix(in srgb, var(--icon-feature) 15%, white),
+        color-mix(in srgb, var(--icon-feature) 10%, white));
+    transition: all 0.3s ease;
+}
+
+.feature-icon i,
+.feature-card .icon,
+.feature-card i {
+    color: var(--icon-feature) !important;
+    transition: color 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+    background: linear-gradient(135deg,
+        color-mix(in srgb, var(--icon-hover) 20%, white),
+        color-mix(in srgb, var(--icon-hover) 15%, white));
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px color-mix(in srgb, var(--icon-hover) 30%, transparent);
+}
+
+.feature-card:hover .feature-icon i,
+.feature-card:hover .icon,
+.feature-card:hover i {
+    color: var(--icon-hover) !important;
+}
+
+/* Trust Indicator Icons */
+.trust-indicator i,
+.trust-badge i,
+.badge-icon i {
+    color: var(--icon-trust) !important;
+}
+
+/* Social Media Brand Colors - Override Theme */
+/* Facebook Blue */
+.bi-facebook,
+i.bi-facebook,
+a .bi-facebook {
+    color: #1877F2 !important;
+}
+
+/* Instagram Gradient (using pink as primary) */
+.bi-instagram,
+i.bi-instagram,
+a .bi-instagram {
+    color: #E4405F !important;
+}
+
+/* LinkedIn Blue */
+.bi-linkedin,
+i.bi-linkedin,
+a .bi-linkedin {
+    color: #0A66C2 !important;
+}
+
+/* WhatsApp Green */
+.bi-whatsapp,
+i.bi-whatsapp,
+a .bi-whatsapp {
+    color: #25D366 !important;
+}
+
+/* Exception: WhatsApp Floating Button - allow white icon */
+.whatsapp-float .bi-whatsapp,
+.whatsapp-float i.bi-whatsapp {
+    color: #FFF !important;
+}
+
+/* Footer Social Media Icons - Original Shapes */
+.social-icons-footer .social-icon-link {
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.social-icons-footer .social-icon-link:hover {
+    transform: translateY(-3px);
+}
+
+.social-icons-footer .social-icon-link:hover .bi-facebook {
+    filter: brightness(1.2);
+}
+
+.social-icons-footer .social-icon-link:hover .bi-instagram {
+    filter: brightness(1.2);
+}
+
+.social-icons-footer .social-icon-link:hover .bi-linkedin {
+    filter: brightness(1.2);
+}
+
+.social-icons-footer .social-icon-link:hover .bi-whatsapp {
+    filter: brightness(1.2);
+}
+
+/* Contact Page Social Media Icons - Match Footer Style */
+.social-icons-contact .social-icon-link {
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.social-icons-contact .social-icon-link:hover {
+    transform: translateY(-3px);
+}
+
+.social-icons-contact .social-icon-link:hover .bi-facebook,
+.social-icons-contact .social-icon-link:hover .bi-instagram,
+.social-icons-contact .social-icon-link:hover .bi-linkedin,
+.social-icons-contact .social-icon-link:hover .bi-whatsapp {
+    filter: brightness(1.2);
+}
+
+/* Testimonials */
+.testimonial-rating {
+    color: var(--color-secondary);
+}
+
+/* Industry Cards */
+.industry-card {
+    background: white;
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+}
+
+.industry-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-hover);
+}
+
+/* CTA Sections */
+.cta-section {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Stats */
+.stat-value {
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+}
+
+.stat-label {
+    color: var(--text-secondary);
+}
+
+/* Product Badges */
+.badge-featured {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.badge-new {
+    background-color: var(--color-accent);
+    color: white;
+}
+
+.badge-coming-soon {
+    background-color: var(--color-secondary);
+    color: white;
+}
+
+/* Utility Badges on Product Pages */
+.badge.bg-light {
+    background-color: var(--bg-light) !important;
+    color: var(--color-primary) !important;
+}
+
+/* Urgency & Social Proof Badges - Theme Connected */
+.badge.bg-danger {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
+
+.badge.bg-info {
+    background-color: var(--color-secondary) !important;
+    color: white !important;
+}
+
+.badge.bg-success {
+    background-color: #198754 !important;
+    color: white !important;
+}
+
+/* Alert Boxes - Connect to Theme */
+.alert-warning {
+    background-color: color-mix(in srgb, var(--color-accent) 15%, white) !important;
+    border-color: color-mix(in srgb, var(--color-accent) 30%, white) !important;
+    color: color-mix(in srgb, var(--color-accent) 90%, black) !important;
+}
+
+.alert-info {
+    background-color: color-mix(in srgb, var(--color-secondary) 15%, white) !important;
+    border-color: color-mix(in srgb, var(--color-secondary) 30%, white) !important;
+    color: color-mix(in srgb, var(--color-secondary) 90%, black) !important;
+}
+
+.alert-warning .btn-warning {
+    background-color: var(--color-accent) !important;
+    border-color: var(--color-accent) !important;
+    color: white !important;
+}
+
+.alert-warning .btn-warning:hover {
+    background-color: color-mix(in srgb, var(--color-accent) 85%, black) !important;
+    border-color: color-mix(in srgb, var(--color-accent) 85%, black) !important;
+}
+
+/* Icon Check - Connect to Theme */
+.icon-check {
+    color: var(--color-secondary) !important;
+}
+
+/* Tabs Navigation - Product Detail Page */
+.nav-tabs {
+    border-bottom: 2px solid var(--border-light);
+}
+
+.nav-tabs .nav-link {
+    color: var(--text-primary);
+    border: none;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--color-primary);
+    border-bottom-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--color-primary) !important;
+    background-color: transparent;
+    border-bottom-color: var(--color-primary);
+}
+
+.tab-content {
+    padding-top: 1.5rem;
+}
+
+/* Breadcrumb Navigation */
+.breadcrumb {
+    background-color: transparent;
+}
+
+.breadcrumb-item a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb-item a:hover {
+    color: var(--color-primary-hover);
+}
+
+.breadcrumb-item.active {
+    color: var(--text-muted);
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: var(--text-muted);
+}
+
+/* Outline Buttons */
+.btn-outline-primary-custom {
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary-custom:hover {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+}
+
+/* Image Borders - Product Detail Thumbnails */
+.thumbnail img.border-primary {
+    border-color: var(--color-primary) !important;
+}
+
+/* Quick Contact Box */
+.bg-light.rounded {
+    background-color: var(--bg-light) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    h1 { font-size: calc(var(--font-size-h1) * 0.8); }
+    h2 { font-size: calc(var(--font-size-h2) * 0.85); }
+    h3 { font-size: calc(var(--font-size-h3) * 0.9); }
+}

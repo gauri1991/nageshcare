@@ -13,10 +13,40 @@
 <section class="hero-section text-white">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-8 mx-auto text-center">
-                <h1 class="hero-title text-white mb-4">Quality Products at Wholesale Prices</h1>
-                <p class="lead">Explore Our Carefully Curated Collection of Personal Care and Wellness Products</p>
-                <p>Browse our growing catalog of premium wholesale products. Each item is carefully selected, quality-tested, and available with custom branding options to help you build your business.</p>
+            <div class="col-lg-10 mx-auto text-center">
+                <h1 class="hero-title text-white mb-4">Wholesale Product Catalog</h1>
+                <p class="lead mb-4">Premium personal care and wellness products with competitive bulk pricing and white-label options</p>
+
+                <!-- Key Metrics -->
+                <div class="row g-3 mt-4">
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <i class="bi bi-box-seam fs-3 me-2 text-white"></i>
+                            <div class="text-start">
+                                <h3 class="h4 mb-0">50+</h3>
+                                <small>Product SKUs</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <i class="bi bi-percent fs-3 me-2 text-white"></i>
+                            <div class="text-start">
+                                <h3 class="h4 mb-0">30-50%</h3>
+                                <small>Volume Discounts</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <i class="bi bi-badge-tm fs-3 me-2 text-white"></i>
+                            <div class="text-start">
+                                <h3 class="h4 mb-0">100%</h3>
+                                <small>White-Label Ready</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -98,19 +128,16 @@
                         <p class="text-secondary-custom fw-semibold small mb-2">{{ product.tagline }}</p>
                         {% endif %}
 
-                        <!-- Urgency Indicators -->
-                        {% if not product.is_coming_soon %}
+                        <p class="text-muted mb-3">{{ product.short_description|truncatewords:20 }}</p>
+
+                        <!-- Business Info -->
+                        {% if product.minimum_order_quantity and not product.is_coming_soon %}
                         <div class="mb-2">
-                            <small class="text-danger fw-semibold">
-                                <i class="bi bi-lightning-fill me-1"></i>Limited Stock
-                            </small>
-                            <small class="text-success fw-semibold ms-2">
-                                <i class="bi bi-truck-flatbed me-1"></i>Fast Dispatch
+                            <small class="text-muted">
+                                <i class="bi bi-box-seam me-1"></i>MOQ: <strong>{{ product.minimum_order_quantity }}</strong>
                             </small>
                         </div>
                         {% endif %}
-
-                        <p class="text-muted mb-3">{{ product.short_description|truncatewords:25 }}</p>
 
                         {% if product.features %}
                         <div class="mb-3">
@@ -164,59 +191,53 @@
     </div>
 </section>
 
-<!-- Additional Information Section -->
+<!-- Competitive Advantages Section -->
 <section class="section bg-light">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="section-title">Bulk Ordering Made Easy</h2>
+            <span class="section-subtitle">Why Choose Us</span>
+            <h2 class="section-title mt-2">Wholesale Advantage</h2>
+            <p class="text-muted mt-3">Competitive pricing and comprehensive support for growing businesses</p>
         </div>
 
         <div class="row g-4">
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-3 col-md-6">
                 <div class="feature-card text-center">
-                    <i class="bi bi-percent fs-1 text-secondary-custom mb-3"></i>
-                    <h3 class="h5 mb-3">Volume Discounts</h3>
-                    <p class="text-muted mb-0">The more you order, the more you save</p>
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="bi bi-graph-down-arrow"></i>
+                    </div>
+                    <h3 class="h5 mb-3">Volume Pricing</h3>
+                    <p class="text-muted small mb-0">30-50% bulk discounts on large orders with transparent tier pricing</p>
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-3 col-md-6">
                 <div class="feature-card text-center">
-                    <i class="bi bi-badge-tm fs-1 text-secondary-custom mb-3"></i>
-                    <h3 class="h5 mb-3">Custom Branding</h3>
-                    <p class="text-muted mb-0">White-label solutions for building your brand</p>
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="bi bi-badge-tm"></i>
+                    </div>
+                    <h3 class="h5 mb-3">White-Label Ready</h3>
+                    <p class="text-muted small mb-0">Custom packaging and branding services available on all products</p>
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-3 col-md-6">
                 <div class="feature-card text-center">
-                    <i class="bi bi-award fs-1 text-secondary-custom mb-3"></i>
-                    <h3 class="h5 mb-3">Quality Guarantee</h3>
-                    <p class="text-muted mb-0">Every product is quality-tested before dispatch</p>
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <h3 class="h5 mb-3">Quality Assured</h3>
+                    <p class="text-muted small mb-0">Product testing and compliance certification for B2B requirements</p>
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-3 col-md-6">
                 <div class="feature-card text-center">
-                    <i class="bi bi-truck fs-1 text-secondary-custom mb-3"></i>
-                    <h3 class="h5 mb-3">Fast Shipping</h3>
-                    <p class="text-muted mb-0">Reliable delivery across India</p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="feature-card text-center">
-                    <i class="bi bi-headset fs-1 text-secondary-custom mb-3"></i>
-                    <h3 class="h5 mb-3">Dedicated Support</h3>
-                    <p class="text-muted mb-0">Expert guidance for bulk orders</p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="feature-card text-center">
-                    <i class="bi bi-box-seam fs-1 text-secondary-custom mb-3"></i>
-                    <h3 class="h5 mb-3">Flexible MOQ</h3>
-                    <p class="text-muted mb-0">Minimum order quantities that fit your needs</p>
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <h3 class="h5 mb-3">Reliable Logistics</h3>
+                    <p class="text-muted small mb-0">Pan-India delivery with tracking and flexible MOQ terms</p>
                 </div>
             </div>
         </div>
@@ -226,11 +247,15 @@
 <!-- CTA Section -->
 <section class="cta-section">
     <div class="container text-center">
-        <h2 class="h1 text-white mb-4">Need a Custom Solution?</h2>
-        <p class="lead text-white mb-4">Looking for products not listed in our catalog? We offer custom sourcing services for businesses with specific requirements. Contact our team to discuss your needs.</p>
+        <h2 class="h1 text-white mb-4">Don't See What You Need?</h2>
+        <p class="lead text-white mb-4">We provide custom sourcing and product development services for specific requirements. Speak with our team about your supply chain needs.</p>
         <div class="d-flex gap-3 justify-content-center flex-wrap">
-            <a href="{% url 'core:request_quote' %}" class="btn btn-secondary-custom btn-lg rounded-pill px-5">Request Custom Sourcing</a>
-            <a href="{% url 'core:contact' %}" class="btn btn-outline-light btn-lg rounded-pill px-5">Contact Our Team</a>
+            <a href="{% url 'core:request_quote' %}" class="btn btn-secondary-custom btn-lg px-5">
+                <i class="bi bi-file-earmark-text me-2"></i>Request Quote
+            </a>
+            <a href="{% url 'core:contact' %}" class="btn btn-outline-light btn-lg px-5">
+                <i class="bi bi-telephone me-2"></i>Speak With Team
+            </a>
         </div>
     </div>
 </section>

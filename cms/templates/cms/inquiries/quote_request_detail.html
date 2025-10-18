@@ -1,0 +1,537 @@
+{% extends 'cms/base.html' %}
+
+{% block title %}Quote Request - {{ quote.reference_id }} - NageshCare CMS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .detail-card {
+        background: white;
+        border: 1px solid var(--cms-border);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .detail-row {
+        display: flex;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .detail-row:last-child {
+        border-bottom: none;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        min-width: 200px;
+        color: #495057;
+    }
+
+    .detail-value {
+        flex: 1;
+        color: #212529;
+    }
+
+    .reply-card {
+        background: #f8f9fa;
+        border-left: 3px solid var(--cms-primary);
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 4px;
+    }
+
+    .reply-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+    }
+
+    .reply-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .status-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+    }
+
+    .status-indicator.success {
+        background: #28a745;
+    }
+
+    .status-indicator.error {
+        background: #dc3545;
+    }
+
+    .ref-id-display {
+        font-family: 'Courier New', monospace;
+        background: var(--cms-primary);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        display: inline-block;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    .highlight-box {
+        background: #fff3cd;
+        border: 1px solid #ffc107;
+        border-radius: 4px;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="cms-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h1><i class="bi bi-file-text me-2"></i>Quote Request Details</h1>
+                <p class="text-muted mb-0">
+                    <span class="ref-id-display">{{ quote.reference_id }}</span>
+                </p>
+            </div>
+            <a href="{% url 'cms:quote_requests' %}" class="btn btn-cms-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to List
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Left Column: Quote Details -->
+        <div class="col-lg-8">
+            <!-- Priority Indicators -->
+            {% if quote.custom_branding_required or quote.sample_order_first %}
+            <div class="highlight-box">
+                <strong><i class="bi bi-star-fill me-2"></i>Priority Requirements:</strong>
+                {% if quote.custom_branding_required %}
+                    <span class="badge bg-warning text-dark ms-2">Custom Branding Required</span>
+                {% endif %}
+                {% if quote.sample_order_first %}
+                    <span class="badge bg-info ms-2">Sample Order First</span>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <!-- Business Information -->
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-building me-2"></i>Business Information</h5>
+                <div class="detail-row">
+                    <div class="detail-label">Business Name</div>
+                    <div class="detail-value"><strong>{{ quote.business_name }}</strong></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Business Type</div>
+                    <div class="detail-value">{{ quote.get_business_type_display }}</div>
+                </div>
+                {% if quote.years_in_business %}
+                <div class="detail-row">
+                    <div class="detail-label">Years in Business</div>
+                    <div class="detail-value">{{ quote.years_in_business }}</div>
+                </div>
+                {% endif %}
+                {% if quote.business_website %}
+                <div class="detail-row">
+                    <div class="detail-label">Website</div>
+                    <div class="detail-value"><a href="{{ quote.business_website }}" target="_blank">{{ quote.business_website }}</a></div>
+                </div>
+                {% endif %}
+                {% if quote.gst_number %}
+                <div class="detail-row">
+                    <div class="detail-label">GST Number</div>
+                    <div class="detail-value">{{ quote.gst_number }}</div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Contact Information -->
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-person me-2"></i>Contact Person</h5>
+                <div class="detail-row">
+                    <div class="detail-label">Name</div>
+                    <div class="detail-value">{{ quote.name }}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Email</div>
+                    <div class="detail-value"><a href="mailto:{{ quote.email }}">{{ quote.email }}</a></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Phone</div>
+                    <div class="detail-value"><a href="tel:{{ quote.phone }}">{{ quote.phone }}</a></div>
+                </div>
+                {% if quote.whatsapp_number %}
+                <div class="detail-row">
+                    <div class="detail-label">WhatsApp</div>
+                    <div class="detail-value">{{ quote.whatsapp_number }}</div>
+                </div>
+                {% endif %}
+                {% if quote.alternative_contact %}
+                <div class="detail-row">
+                    <div class="detail-label">Alternative Contact</div>
+                    <div class="detail-value">{{ quote.alternative_contact }}</div>
+                </div>
+                {% endif %}
+                <div class="detail-row">
+                    <div class="detail-label">Preferred Contact Method</div>
+                    <div class="detail-value">{{ quote.get_preferred_contact_method_display }}</div>
+                </div>
+                {% if quote.best_time_to_reach %}
+                <div class="detail-row">
+                    <div class="detail-label">Best Time to Reach</div>
+                    <div class="detail-value">{{ quote.best_time_to_reach }}</div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Product Requirements -->
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-box-seam me-2"></i>Product Requirements</h5>
+                <div class="detail-row">
+                    <div class="detail-label">Products Interested</div>
+                    <div class="detail-value">{{ quote.product_interests|linebreaks }}</div>
+                </div>
+                {% if quote.tissue_variant %}
+                <div class="detail-row">
+                    <div class="detail-label">Tissue Variant</div>
+                    <div class="detail-value">{{ quote.tissue_variant }}</div>
+                </div>
+                {% endif %}
+                {% if quote.tissue_fragrance %}
+                <div class="detail-row">
+                    <div class="detail-label">Tissue Fragrance</div>
+                    <div class="detail-value">{{ quote.tissue_fragrance }}</div>
+                </div>
+                {% endif %}
+                {% if quote.tissue_quantity %}
+                <div class="detail-row">
+                    <div class="detail-label">Tissue Quantity</div>
+                    <div class="detail-value">{{ quote.tissue_quantity }}</div>
+                </div>
+                {% endif %}
+                {% if quote.dhoop_pack_size %}
+                <div class="detail-row">
+                    <div class="detail-label">Dhoop Pack Size</div>
+                    <div class="detail-value">{{ quote.dhoop_pack_size }}</div>
+                </div>
+                {% endif %}
+                {% if quote.dhoop_fragrance %}
+                <div class="detail-row">
+                    <div class="detail-label">Dhoop Fragrance</div>
+                    <div class="detail-value">{{ quote.dhoop_fragrance }}</div>
+                </div>
+                {% endif %}
+                {% if quote.dhoop_quantity %}
+                <div class="detail-row">
+                    <div class="detail-label">Dhoop Quantity</div>
+                    <div class="detail-value">{{ quote.dhoop_quantity }}</div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Order Details -->
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-calendar-check me-2"></i>Order Details</h5>
+                {% if quote.order_frequency %}
+                <div class="detail-row">
+                    <div class="detail-label">Order Frequency</div>
+                    <div class="detail-value">{{ quote.get_order_frequency_display }}</div>
+                </div>
+                {% endif %}
+                {% if quote.timeline %}
+                <div class="detail-row">
+                    <div class="detail-label">Timeline</div>
+                    <div class="detail-value">{{ quote.timeline }}</div>
+                </div>
+                {% endif %}
+                <div class="detail-row">
+                    <div class="detail-label">Sample Order First</div>
+                    <div class="detail-value">
+                        {% if quote.sample_order_first %}
+                            <span class="badge bg-success">Yes</span>
+                        {% else %}
+                            <span class="badge bg-secondary">No</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customization & Branding -->
+            {% if quote.custom_branding_required %}
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-tag me-2"></i>Customization & Branding</h5>
+                <div class="detail-row">
+                    <div class="detail-label">Custom Branding</div>
+                    <div class="detail-value"><span class="badge bg-warning text-dark">Required</span></div>
+                </div>
+                {% if quote.brand_name %}
+                <div class="detail-row">
+                    <div class="detail-label">Brand Name</div>
+                    <div class="detail-value">{{ quote.brand_name }}</div>
+                </div>
+                {% endif %}
+                <div class="detail-row">
+                    <div class="detail-label">Has Logo</div>
+                    <div class="detail-value">
+                        {% if quote.has_logo %}
+                            <span class="badge bg-success">Yes</span>
+                        {% else %}
+                            <span class="badge bg-secondary">No</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if quote.branding_requirements %}
+                <div class="detail-row">
+                    <div class="detail-label">Branding Requirements</div>
+                    <div class="detail-value">{{ quote.branding_requirements|linebreaks }}</div>
+                </div>
+                {% endif %}
+                {% if quote.logo_file %}
+                <div class="detail-row">
+                    <div class="detail-label">Logo File</div>
+                    <div class="detail-value">
+                        <a href="{{ quote.logo_file.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-download me-1"></i>Download Logo
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <!-- Delivery & Logistics -->
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-truck me-2"></i>Delivery & Logistics</h5>
+                <div class="detail-row">
+                    <div class="detail-label">Delivery Location</div>
+                    <div class="detail-value">
+                        {{ quote.delivery_city }}, {{ quote.delivery_state }} - {{ quote.delivery_pin }}
+                    </div>
+                </div>
+                {% if quote.delivery_address_type %}
+                <div class="detail-row">
+                    <div class="detail-label">Address Type</div>
+                    <div class="detail-value">{{ quote.delivery_address_type }}</div>
+                </div>
+                {% endif %}
+                {% if quote.special_delivery_requirements %}
+                <div class="detail-row">
+                    <div class="detail-label">Special Requirements</div>
+                    <div class="detail-value">{{ quote.special_delivery_requirements|linebreaks }}</div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Budget & Other Info -->
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-currency-rupee me-2"></i>Additional Information</h5>
+                {% if quote.budget_range %}
+                <div class="detail-row">
+                    <div class="detail-label">Budget Range</div>
+                    <div class="detail-value">{{ quote.budget_range }}</div>
+                </div>
+                {% endif %}
+                {% if quote.payment_terms_preference %}
+                <div class="detail-row">
+                    <div class="detail-label">Payment Terms Preference</div>
+                    <div class="detail-value">{{ quote.payment_terms_preference }}</div>
+                </div>
+                {% endif %}
+                {% if quote.how_heard_about_us %}
+                <div class="detail-row">
+                    <div class="detail-label">How They Heard About Us</div>
+                    <div class="detail-value">{{ quote.how_heard_about_us }}</div>
+                </div>
+                {% endif %}
+                {% if quote.specific_requirements %}
+                <div class="detail-row">
+                    <div class="detail-label">Specific Requirements</div>
+                    <div class="detail-value">{{ quote.specific_requirements|linebreaks }}</div>
+                </div>
+                {% endif %}
+                <div class="detail-row">
+                    <div class="detail-label">Wants Call Discussion</div>
+                    <div class="detail-value">
+                        {% if quote.wants_call_discussion %}
+                            <span class="badge bg-success">Yes</span>
+                        {% else %}
+                            <span class="badge bg-secondary">No</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reply Form -->
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-reply me-2"></i>Send Quote</h5>
+                <form method="post" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="send_reply">
+
+                    <div class="mb-3">
+                        {{ reply_form.reply_subject.label_tag }}
+                        {{ reply_form.reply_subject }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ reply_form.reply_message.label_tag }}
+                        {{ reply_form.reply_message }}
+                        <small class="form-text text-muted">
+                            Include your quote details, pricing, and terms. Signature will be automatically added.
+                        </small>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ reply_form.attachment.label_tag }}
+                        {{ reply_form.attachment }}
+                        {{ reply_form.attachment.help_text }}
+                    </div>
+
+                    <button type="submit" class="btn btn-cms-primary">
+                        <i class="bi bi-send me-1"></i>Send Quote
+                    </button>
+                </form>
+            </div>
+
+            <!-- Reply History -->
+            {% if replies %}
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-clock-history me-2"></i>Quote History</h5>
+                {% for reply in replies %}
+                <div class="reply-card">
+                    <div class="reply-header">
+                        <div>
+                            <strong>{{ reply.replied_by.get_full_name|default:reply.replied_by.username }}</strong>
+                            <small class="text-muted ms-2">{{ reply.replied_at|date:"M d, Y g:i A" }}</small>
+                        </div>
+                        <div class="reply-status">
+                            {% if reply.email_sent_successfully %}
+                                <span class="status-indicator success"></span>
+                                <small class="text-success">Sent</small>
+                            {% else %}
+                                <span class="status-indicator error"></span>
+                                <small class="text-danger">Failed</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <strong>Subject:</strong> {{ reply.reply_subject }}
+                    </div>
+                    <div class="mb-2">
+                        {{ reply.reply_message|linebreaks }}
+                    </div>
+                    {% if reply.attachment %}
+                    <div class="mb-2">
+                        <a href="{{ reply.attachment.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-paperclip me-1"></i>View Attachment
+                        </a>
+                    </div>
+                    {% endif %}
+                    {% if reply.error_message %}
+                    <div class="alert alert-danger alert-sm mb-0">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        <small>Error: {{ reply.error_message }}</small>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Right Column: Status & Actions -->
+        <div class="col-lg-4">
+            <!-- Status Update -->
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-gear me-2"></i>Status & Notes</h5>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="update_status">
+
+                    <div class="mb-3">
+                        {{ status_form.status.label_tag }}
+                        {{ status_form.status }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ status_form.admin_notes.label_tag }}
+                        {{ status_form.admin_notes }}
+                    </div>
+
+                    <button type="submit" class="btn btn-cms-secondary w-100">
+                        <i class="bi bi-check-lg me-1"></i>Update
+                    </button>
+                </form>
+            </div>
+
+            <!-- Quote Info -->
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-info-circle me-2"></i>Quote Info</h5>
+                <div class="mb-2">
+                    <small class="text-muted">Reference ID</small><br>
+                    <span class="ref-id-display" style="font-size: 0.9rem; padding: 0.25rem 0.5rem;">{{ quote.reference_id }}</span>
+                </div>
+                <div class="mb-2">
+                    <small class="text-muted">Status</small><br>
+                    {% if quote.status == 'new' %}
+                        <span class="badge bg-warning text-dark">New</span>
+                    {% elif quote.status == 'reviewing' %}
+                        <span class="badge bg-info">Under Review</span>
+                    {% elif quote.status == 'quoted' %}
+                        <span class="badge bg-success">Quote Sent</span>
+                    {% elif quote.status == 'negotiating' %}
+                        <span class="badge bg-primary">In Negotiation</span>
+                    {% elif quote.status == 'accepted' %}
+                        <span class="badge bg-success">Accepted</span>
+                    {% elif quote.status == 'rejected' %}
+                        <span class="badge bg-danger">Rejected</span>
+                    {% elif quote.status == 'closed' %}
+                        <span class="badge bg-secondary">Closed</span>
+                    {% endif %}
+                </div>
+                <div class="mb-2">
+                    <small class="text-muted">Quotes Sent</small><br>
+                    <strong>{{ quote.replies.count }}</strong>
+                </div>
+                <div class="mb-2">
+                    <small class="text-muted">Created</small><br>
+                    {{ quote.created_at|date:"M d, Y g:i A" }}
+                </div>
+                <div class="mb-2">
+                    <small class="text-muted">Last Updated</small><br>
+                    {{ quote.updated_at|date:"M d, Y g:i A" }}
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="detail-card">
+                <h5 class="mb-3"><i class="bi bi-lightning me-2"></i>Quick Actions</h5>
+                <div class="d-grid gap-2">
+                    <a href="mailto:{{ quote.email }}" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-envelope me-1"></i>Email Directly
+                    </a>
+                    <a href="tel:{{ quote.phone }}" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-telephone me-1"></i>Call Now
+                    </a>
+                    {% if quote.whatsapp_number %}
+                    <a href="https://wa.me/{{ quote.whatsapp_number|cut:' '|cut:'+'|cut:'-' }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-success btn-sm">
+                        <i class="bi bi-whatsapp me-1"></i>WhatsApp
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'cms:quote_request_delete' quote.pk %}" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this quote request?')">
+                        <i class="bi bi-trash me-1"></i>Delete Request
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

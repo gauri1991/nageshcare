@@ -1,0 +1,121 @@
+{% extends 'cms/base.html' %}
+
+{% block title %}Terms & Conditions - NageshCare CMS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .policy-editor {
+        background: white;
+        border: 1px solid var(--cms-border);
+        border-radius: 8px;
+        padding: 2rem;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--cms-border);
+    }
+
+    .info-alert {
+        background: #E7F3FF;
+        border: 1px solid #9DCDFF;
+        border-radius: 6px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="cms-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h1><i class="bi bi-file-text me-2"></i>Terms & Conditions</h1>
+                <p class="text-muted mb-0">Edit your website's Terms & Conditions document</p>
+            </div>
+            <a href="{% url 'cms:dashboard' %}" class="btn btn-cms-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Policy Editor -->
+    <div class="cms-card">
+        <form method="post" action="{% url 'cms:terms_conditions' %}">
+            {% csrf_token %}
+
+            <div class="info-alert">
+                <i class="bi bi-info-circle me-2"></i>
+                <strong>Note:</strong> These Terms & Conditions will be displayed on your public website.
+                Make sure to clearly outline the rules and guidelines for using your services.
+            </div>
+
+            <div class="mb-4">
+                <label for="title" class="form-label fw-bold">Policy Title <span class="text-danger">*</span></label>
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    class="form-control"
+                    value="{{ policy.title|default:'Terms & Conditions' }}"
+                    placeholder="Terms & Conditions"
+                    required
+                >
+                <small class="text-muted">Main heading for the policy page</small>
+            </div>
+
+            <div class="mb-4">
+                <label for="content" class="form-label fw-bold">Policy Content <span class="text-danger">*</span></label>
+                <textarea
+                    id="content"
+                    name="content"
+                    class="form-control"
+                    rows="20"
+                    placeholder="Enter your Terms & Conditions content here...
+
+Example sections to include:
+1. Introduction
+2. Acceptance of Terms
+3. Use of Service
+4. Product Information and Pricing
+5. Ordering and Payment Terms
+6. Shipping and Delivery
+7. Returns and Exchanges
+8. Limitation of Liability
+9. Intellectual Property Rights
+10. Governing Law
+11. Contact Information"
+                    required
+                >{{ policy.content|default:'' }}</textarea>
+                <small class="text-muted">
+                    You can use basic HTML formatting or plain text. Supported tags: &lt;p&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;br&gt;
+                </small>
+            </div>
+
+            {% if policy.updated_at %}
+            <div class="alert alert-light">
+                <small class="text-muted">
+                    <i class="bi bi-clock-history me-1"></i>
+                    Last updated: {{ policy.updated_at|date:"F d, Y g:i A" }}
+                </small>
+            </div>
+            {% endif %}
+
+            <div class="form-actions">
+                <a href="{% url 'cms:dashboard' %}" class="btn btn-cms-secondary">
+                    <i class="bi bi-x-lg me-1"></i>Cancel
+                </a>
+                <button type="submit" class="btn btn-cms-primary">
+                    <i class="bi bi-check-lg me-1"></i>Save Terms & Conditions
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

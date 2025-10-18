@@ -50,11 +50,53 @@ python manage.py collectstatic --noinput
 
 echo ""
 echo "========================================="
+echo "Checking port 8000..."
+echo "========================================="
+
+# Check if port 8000 is already in use
+PORT_IN_USE=$(lsof -ti:8000 2>/dev/null)
+
+if [ ! -z "$PORT_IN_USE" ]; then
+    echo "⚠️  Port 8000 is already in use by process ID(s): $PORT_IN_USE"
+    echo "Killing the process(es)..."
+    kill -9 $PORT_IN_USE 2>/dev/null
+    sleep 1
+
+    # Verify the process was killed
+    STILL_RUNNING=$(lsof -ti:8000 2>/dev/null)
+    if [ -z "$STILL_RUNNING" ]; then
+        echo "✓ Successfully killed process(es) on port 8000"
+    else
+        echo "❌ Failed to kill process on port 8000. Please kill it manually:"
+        echo "   sudo kill -9 $STILL_RUNNING"
+        exit 1
+    fi
+else
+    echo "✓ Port 8000 is available"
+fi
+
+echo ""
+echo "========================================="
 echo "✓ Starting development server..."
 echo "========================================="
 echo ""
-echo "Access your site at: http://127.0.0.1:8000/"
-echo "Admin panel at: http://127.0.0.1:8000/admin/"
+
+# Get local IP address for LAN access
+LOCAL_IP=$(hostname -I | awk '{print $1}')
+
+echo "📱 Local Access (this machine):"
+echo "   http://127.0.0.1:8000/"
+echo ""
+echo "🌐 LAN Access (other devices on network):"
+if [ ! -z "$LOCAL_IP" ]; then
+    echo "   http://$LOCAL_IP:8000/"
+else
+    echo "   Unable to detect LAN IP"
+fi
+echo ""
+echo "🔗 Quick Links:"
+echo "   Admin: http://127.0.0.1:8000/admin/"
+echo "   CMS:   http://127.0.0.1:8000/cms/"
 echo ""
 echo "Press Ctrl+C to stop the server"
 echo ""

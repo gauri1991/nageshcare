@@ -3,6 +3,7 @@ from django.contrib import messages
 from inquiries.models import ContactMessage, QuoteRequest
 from inquiries.forms import ContactForm, QuoteRequestForm
 from products.models import Product
+from cms.models import TextContent
 
 
 def home(request):
@@ -51,3 +52,33 @@ def request_quote(request):
 
     context = {'form': form}
     return render(request, 'core/request_quote.html', context)
+
+
+def privacy_policy(request):
+    """Privacy Policy page view"""
+    policy = TextContent.objects.filter(
+        page_name='policies',
+        section_identifier='privacy-policy'
+    ).first()
+    context = {'policy': policy}
+    return render(request, 'policies/privacy_policy.html', context)
+
+
+def terms_conditions(request):
+    """Terms & Conditions page view"""
+    policy = TextContent.objects.filter(
+        page_name='policies',
+        section_identifier='terms-conditions'
+    ).first()
+    context = {'policy': policy}
+    return render(request, 'policies/terms_conditions.html', context)
+
+
+def refund_policy(request):
+    """Refund Policy page view"""
+    policy = TextContent.objects.filter(
+        page_name='policies',
+        section_identifier='refund-policy'
+    ).first()
+    context = {'policy': policy}
+    return render(request, 'policies/refund_policy.html', context)

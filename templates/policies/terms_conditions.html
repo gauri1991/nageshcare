@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load cms_tags %}
+
+{% block title %}{{ policy.title|default:"Terms & Conditions" }} - {{ settings.business_name }}{% endblock %}
+
+{% block meta_description %}Read the Terms & Conditions for using {{ settings.business_name }}'s services and making purchases.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="hero-title text-white mb-4">{{ policy.title|default:"Terms & Conditions" }}</h1>
+                <p class="lead">Please read these terms carefully before using our services</p>
+                {% if policy.updated_at %}
+                <p class="text-white-50 small mt-3">
+                    <i class="bi bi-clock-history me-1"></i>Last updated: {{ policy.updated_at|date:"F d, Y" }}
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Policy Content Section -->
+<section class="section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                {% if policy.content %}
+                    <div class="policy-content">
+                        {{ policy.content|safe|linebreaks }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <strong>Terms & Conditions are being updated.</strong> Please check back soon or contact us directly for information about our terms of service.
+                    </div>
+                {% endif %}
+
+                <!-- Contact Information -->
+                <div class="mt-5 p-4 bg-light rounded">
+                    <h3 class="h5 mb-3 text-primary-custom">Questions About Our Terms?</h3>
+                    <p class="mb-3">If you have any questions about these Terms & Conditions, please contact us:</p>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <p class="mb-1">
+                                <i class="bi bi-envelope text-primary-custom me-2"></i>
+                                <strong>Email:</strong> <a href="mailto:{{ settings.email_primary }}">{{ settings.email_primary }}</a>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-1">
+                                <i class="bi bi-telephone text-primary-custom me-2"></i>
+                                <strong>Phone:</strong> <a href="tel:{{ settings.phone_primary }}">{{ settings.phone_primary }}</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

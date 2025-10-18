@@ -54,8 +54,8 @@
                         <h4 class="h6 text-secondary-custom mb-2"><i class="bi bi-whatsapp me-2"></i>WhatsApp Business</h4>
                         <p class="mb-1"><strong>{{ settings.phone_whatsapp }}</strong></p>
                         <p class="text-muted small">Quick responses for urgent inquiries</p>
-                        {% if settings.whatsapp_url %}
-                        <a href="{{ settings.whatsapp_url }}" class="btn btn-sm btn-outline-success" target="_blank">
+                        {% if settings.phone_whatsapp %}
+                        <a href="https://wa.me/{{ settings.phone_whatsapp|cut:' '|cut:'+'|cut:'-' }}" class="btn btn-sm btn-outline-success" target="_blank" rel="noopener noreferrer">
                             <i class="bi bi-whatsapp me-1"></i>Click to Chat
                         </a>
                         {% endif %}
@@ -72,78 +72,24 @@
 
                     <div class="mb-4">
                         <h4 class="h6 text-secondary-custom mb-2"><i class="bi bi-share-fill me-2"></i>Social Media</h4>
-                        <div class="d-flex gap-2">
+                        <div class="d-flex gap-3 social-icons-contact">
                             {% if settings.facebook_url %}
-                            <a href="{{ settings.facebook_url }}" class="btn btn-outline-primary btn-sm" target="_blank">
-                                <i class="bi bi-facebook"></i>
+                            <a href="{{ settings.facebook_url }}" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Facebook">
+                                <i class="bi bi-facebook fs-4"></i>
                             </a>
                             {% endif %}
                             {% if settings.instagram_url %}
-                            <a href="{{ settings.instagram_url }}" class="btn btn-outline-primary btn-sm" target="_blank">
-                                <i class="bi bi-instagram"></i>
+                            <a href="{{ settings.instagram_url }}" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Instagram">
+                                <i class="bi bi-instagram fs-4"></i>
                             </a>
                             {% endif %}
                             {% if settings.linkedin_url %}
-                            <a href="{{ settings.linkedin_url }}" class="btn btn-outline-primary btn-sm" target="_blank">
-                                <i class="bi bi-linkedin"></i>
+                            <a href="{{ settings.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="LinkedIn">
+                                <i class="bi bi-linkedin fs-4"></i>
                             </a>
                             {% endif %}
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Business Address & Map Section -->
-<section class="section bg-light">
-    <div class="container">
-        <div class="row g-5">
-            <div class="col-lg-6">
-                <h2 class="section-title mb-4">Visit Our Office</h2>
-
-                <div class="mb-4">
-                    <h3 class="h5 text-primary-custom mb-3">Office Address</h3>
-                    <p class="mb-1"><strong>{{ settings.business_name }}</strong></p>
-                    {% if settings.address_line1 %}<p class="mb-1">{{ settings.address_line1 }}</p>{% endif %}
-                    {% if settings.address_line2 %}<p class="mb-1">{{ settings.address_line2 }}</p>{% endif %}
-                    <p class="mb-1">{{ settings.city }}, {{ settings.state }} - {{ settings.pincode }}</p>
-                    <p class="mb-3">India</p>
-                </div>
-
-                <div class="mb-4">
-                    <h3 class="h5 text-primary-custom mb-3">Business Hours</h3>
-                    <p class="mb-3">{{ settings.business_hours|linebreaks }}</p>
-                </div>
-
-                <p class="alert alert-info">
-                    <i class="bi bi-info-circle me-2"></i><strong>Note:</strong> We welcome scheduled visits for business discussions and product demonstrations. Please call ahead to ensure our team is available to meet with you.
-                </p>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="feature-card h-100">
-                    <h3 class="h5 mb-3 text-primary-custom">What to Expect</h3>
-                    <h4 class="h6 mb-3">Our Response Commitment</h4>
-
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><i class="bi bi-envelope icon-check"></i> <strong>Email Inquiries:</strong> Within 24 hours (business days)</li>
-                        <li class="mb-2"><i class="bi bi-telephone icon-check"></i> <strong>Phone Calls:</strong> Immediate during business hours</li>
-                        <li class="mb-2"><i class="bi bi-whatsapp icon-check"></i> <strong>WhatsApp Messages:</strong> Within 2-4 hours (business hours)</li>
-                        <li class="mb-2"><i class="bi bi-chat-dots icon-check"></i> <strong>Contact Form:</strong> Within 24 hours (business days)</li>
-                    </ul>
-
-                    <hr class="my-4">
-
-                    <h4 class="h6 mb-3">What Happens Next:</h4>
-                    <ol class="ps-3">
-                        <li>You submit your inquiry through any of our contact channels</li>
-                        <li>Our team reviews your requirements</li>
-                        <li>We prepare a detailed response or quote</li>
-                        <li>You receive personalized assistance based on your needs</li>
-                        <li>We schedule a follow-up call if required</li>
-                    </ol>
                 </div>
             </div>
         </div>
@@ -155,33 +101,39 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10 text-center">
-                <h2 class="h1 text-white mb-4">Our Commitment to You</h2>
-                <p class="lead mb-4">At {{ settings.business_name }}, we believe in building relationships, not just completing transactions. When you contact us:</p>
+                <h2 class="h1 text-white mb-4">Why Partner With Us</h2>
+                <p class="lead mb-5">{{ settings.business_name }} delivers reliable wholesale solutions backed by industry expertise and transparent business practices.</p>
 
-                <div class="row g-3 text-white mb-4">
-                    <div class="col-md-6">
-                        <i class="bi bi-check-circle-fill fs-4 mb-2"></i>
-                        <p>You'll speak with knowledgeable team members who understand our products</p>
+                <div class="row g-4 text-white mb-5">
+                    <div class="col-md-3 col-sm-6">
+                        <i class="bi bi-people-fill fs-1 mb-3"></i>
+                        <h3 class="h5 mb-2">Expert Team</h3>
+                        <p class="mb-0">Direct access to product specialists</p>
                     </div>
-                    <div class="col-md-6">
-                        <i class="bi bi-check-circle-fill fs-4 mb-2"></i>
-                        <p>You'll receive honest, transparent information about pricing and availability</p>
+                    <div class="col-md-3 col-sm-6">
+                        <i class="bi bi-graph-up-arrow fs-1 mb-3"></i>
+                        <h3 class="h5 mb-2">Transparent Pricing</h3>
+                        <p class="mb-0">Clear quotes with no hidden costs</p>
                     </div>
-                    <div class="col-md-6">
-                        <i class="bi bi-check-circle-fill fs-4 mb-2"></i>
-                        <p>We'll work to understand your unique business needs</p>
+                    <div class="col-md-3 col-sm-6">
+                        <i class="bi bi-lightning-charge-fill fs-1 mb-3"></i>
+                        <h3 class="h5 mb-2">Fast Response</h3>
+                        <p class="mb-0">Quick turnaround on inquiries</p>
                     </div>
-                    <div class="col-md-6">
-                        <i class="bi bi-check-circle-fill fs-4 mb-2"></i>
-                        <p>You'll get practical solutions, not just generic answers</p>
+                    <div class="col-md-3 col-sm-6">
+                        <i class="bi bi-award-fill fs-1 mb-3"></i>
+                        <h3 class="h5 mb-2">Quality Assured</h3>
+                        <p class="mb-0">Consistent product standards</p>
                     </div>
                 </div>
 
-                <p class="lead">Your success is our success. We're not satisfied until you have everything you need to make an informed decision.</p>
-
                 <div class="mt-4">
-                    <a href="{% url 'core:request_quote' %}" class="btn btn-secondary-custom btn-lg rounded-pill px-5 me-2 mb-2">Request Bulk Quote</a>
-                    <a href="tel:{{ settings.phone_primary }}" class="btn btn-outline-light btn-lg rounded-pill px-5 mb-2">Call Us Now</a>
+                    <a href="{% url 'core:request_quote' %}" class="btn btn-secondary-custom btn-lg px-5 me-2 mb-2">
+                        <i class="bi bi-file-earmark-text me-2"></i>Request Quote
+                    </a>
+                    <a href="tel:{{ settings.phone_primary }}" class="btn btn-outline-light btn-lg px-5 mb-2">
+                        <i class="bi bi-telephone me-2"></i>Call Now
+                    </a>
                 </div>
             </div>
         </div>
