@@ -7,6 +7,17 @@ Run this on your server to check configuration and dependencies.
 import sys
 import os
 
+# Configure PyMySQL as MySQLdb replacement BEFORE any Django imports
+# This must happen early, before Django tries to load the database backend
+try:
+    import MySQLdb
+except ImportError:
+    try:
+        import pymysql
+        pymysql.install_as_MySQLdb()
+    except ImportError:
+        pass  # Will be caught in package check below
+
 print("=" * 80)
 print("DJANGO APP DIAGNOSTIC TOOL")
 print("=" * 80)
