@@ -72,3 +72,17 @@ PROJECT_SUMMARY.md
 # Test files
 test_*.py
 check_images.py
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Backups
+backups/
+*.backup
+*.sql
+*.dump
+
+# Production-specific
+public_html/

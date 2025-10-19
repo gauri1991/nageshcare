@@ -1,9 +1,12 @@
+# Production dependencies for NageshCare Django App
+# Install with: pip install -r requirements.txt
+
 # Django Core
 Django>=4.2,<5.0
-django-environ>=0.11.0
 
-# Database
-psycopg2-binary>=2.9.0  # PostgreSQL adapter (can switch to SQLite for dev)
+# Database Adapters
+psycopg2-binary>=2.9.0  # PostgreSQL
+mysqlclient>=2.2.0      # MySQL (for cPanel)
 
 # Image Handling
 Pillow>=10.0.0
@@ -15,18 +18,10 @@ crispy-bootstrap5>=0.7
 # Admin Enhancements
 django-import-export>=3.3.0
 
-# Email
-django-anymail>=10.0  # For production email services
-
-# Utilities
-python-decouple>=3.8  # Environment variable management
+# File Management
 django-cleanup>=8.0.0  # Automatic cleanup of old files
 
-# Development Tools
-django-debug-toolbar>=4.2.0
-django-extensions>=3.2.0
-
-# Production Server
+# Production Server (WSGI)
 gunicorn>=21.0.0
 
 # Security
@@ -34,3 +29,6 @@ django-cors-headers>=4.3.0
 
 # SEO
 django-meta>=2.3.0
+
+# Utilities
+python-dotenv>=1.0.0  # Environment variable management

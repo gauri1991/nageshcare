@@ -1,0 +1,55 @@
+# .htaccess for Django app on cPanel
+# This file should be placed in your public_html directory
+
+# Force HTTPS (SSL)
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Serve static files directly
+<IfModule mod_alias.c>
+    Alias /static /home/username/nageshcare/public_html/static
+    Alias /media /home/username/nageshcare/public_html/media
+</IfModule>
+
+# Allow access to static and media files
+<Directory "/home/username/nageshcare/public_html/static">
+    Options -Indexes
+    AllowOverride None
+    Require all granted
+</Directory>
+
+<Directory "/home/username/nageshcare/public_html/media">
+    Options -Indexes
+    AllowOverride None
+    Require all granted
+</Directory>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "DENY"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Prevent access to sensitive files
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "\.(py|pyc|pyo|db|sqlite|sqlite3|log|ini|env)$">
+    Require all denied
+</FilesMatch>
+
+# Cache static resources
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+</IfModule>
