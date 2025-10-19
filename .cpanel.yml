@@ -1,0 +1,42 @@
+---
+# cPanel Deployment Configuration for nageshcare.com
+# This file enables Git Version Control deployment in cPanel
+
+deployment:
+  tasks:
+    # Set proper permissions
+    - export DEPLOYPATH=/home/wrgccpiz/public_html/nageshcare
+
+    # Copy all files to deployment directory
+    - /bin/cp -R * $DEPLOYPATH
+
+    # Copy hidden files (.env, .htaccess, etc.)
+    - /bin/cp -R .[^.]* $DEPLOYPATH 2>/dev/null || true
+
+    # Set correct permissions
+    - /bin/chmod 755 $DEPLOYPATH
+    - /bin/chmod 644 $DEPLOYPATH/.htaccess 2>/dev/null || true
+    - /bin/chmod 600 $DEPLOYPATH/.env 2>/dev/null || true
+
+    # Install Python dependencies if requirements.txt changed
+    - |
+      if [ -f "$DEPLOYPATH/requirements.txt" ]; then
+        source /home/wrgccpiz/virtualenv/public_html/nageshcare/3.12/bin/activate
+        pip install -r $DEPLOYPATH/requirements.txt
+      fi
+
+    # Run Django migrations
+    - |
+      cd $DEPLOYPATH
+      source /home/wrgccpiz/virtualenv/public_html/nageshcare/3.12/bin/activate
+      python manage.py migrate --noinput
+
+    # Collect static files
+    - |
+      cd $DEPLOYPATH
+      source /home/wrgccpiz/virtualenv/public_html/nageshcare/3.12/bin/activate
+      python manage.py collectstatic --noinput
+
+    # Restart the Python app by touching tmp/restart.txt
+    - mkdir -p $DEPLOYPATH/tmp
+    - /bin/touch $DEPLOYPATH/tmp/restart.txt
