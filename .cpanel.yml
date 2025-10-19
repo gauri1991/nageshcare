@@ -7,20 +7,17 @@ deployment:
     # Set deployment path
     - export DEPLOYPATH=/home/wrgccpiz/public_html/nageshcare
 
-    # Use rsync to copy only changed files (much faster!)
-    # Exclude large/unnecessary directories
-    - >
-      /usr/bin/rsync -av --delete
-      --exclude='.git'
-      --exclude='*.pyc'
-      --exclude='__pycache__'
-      --exclude='.env'
-      --exclude='db.sqlite3'
-      --exclude='media/'
-      --exclude='staticfiles/'
-      --exclude='logs/'
-      --exclude='*.log'
-      ./ $DEPLOYPATH/
+    # Ensure deployment directory exists
+    - /bin/mkdir -p $DEPLOYPATH
+
+    # Copy all files from repository to deployment path
+    - /bin/cp -R * $DEPLOYPATH/ 2>/dev/null || true
+
+    # Copy hidden files (.htaccess, etc.)
+    - /bin/cp .htaccess $DEPLOYPATH/ 2>/dev/null || true
+    - /bin/cp .gitignore $DEPLOYPATH/ 2>/dev/null || true
+    - /bin/cp .env.example $DEPLOYPATH/ 2>/dev/null || true
+    - /bin/cp .env.production $DEPLOYPATH/ 2>/dev/null || true
 
     # Create necessary directories if they don't exist
     - /bin/mkdir -p $DEPLOYPATH/media
