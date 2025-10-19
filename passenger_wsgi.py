@@ -73,6 +73,18 @@ except ImportError:
 # Set the settings module
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nageshcare_website.settings')
 
-# Import Django application
-from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
+# Import Django application with error handling
+try:
+    from django.core.wsgi import get_wsgi_application
+    application = get_wsgi_application()
+except Exception as e:
+    # If Django fails to load, create a simple error application
+    import traceback
+    error_message = f"Django Application Failed to Load\n\n{str(e)}\n\n{traceback.format_exc()}"
+
+    def application(environ, start_response):
+        """Fallback WSGI app that shows the error"""
+        status = '500 Internal Server Error'
+        response_headers = [('Content-Type', 'text/plain; charset=utf-8')]
+        start_response(status, response_headers)
+        return [error_message.encode('utf-8')]
