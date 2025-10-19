@@ -5,8 +5,8 @@
 Django>=4.2,<5.0
 
 # Database Adapters
-# psycopg2-binary>=2.9.0  # PostgreSQL (uncomment if needed)
-PyMySQL>=1.1.0          # MySQL (pure Python, no compilation needed)
+mysqlclient>=2.2.0      # MySQL (native C driver, faster but requires compilation)
+PyMySQL>=1.1.0          # MySQL (pure Python fallback if mysqlclient fails)
 
 # Image Handling
 Pillow>=10.0.0
@@ -32,3 +32,6 @@ django-meta>=2.3.0
 
 # Utilities
 python-dotenv>=1.0.0  # Environment variable management
+
+# Static Files (Production)
+whitenoise>=6.5.0  # Simplified static file serving
