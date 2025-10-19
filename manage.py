@@ -56,6 +56,13 @@ def main():
                 # Silently continue if .env can't be parsed
                 pass
 
+    # Configure PyMySQL to act as MySQLdb replacement for Django
+    try:
+        import pymysql
+        pymysql.install_as_MySQLdb()
+    except ImportError:
+        pass
+
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nageshcare_website.settings')
     try:
         from django.core.management import execute_from_command_line
