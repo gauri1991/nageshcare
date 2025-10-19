@@ -1,11 +1,11 @@
 ---
 # cPanel Deployment Configuration for nageshcare.com
-# Deploys directly to public_html root (main domain document root)
+# Deploys to public_html/nageshcare subdirectory
 
 deployment:
   tasks:
-    # Set deployment path to public_html root
-    - export DEPLOYPATH=/home/wrgccpiz/public_html
+    # Set deployment path to nageshcare subdirectory
+    - export DEPLOYPATH=/home/wrgccpiz/public_html/nageshcare
 
     # Ensure deployment directory exists
     - /bin/mkdir -p $DEPLOYPATH
