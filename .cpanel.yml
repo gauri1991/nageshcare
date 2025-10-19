@@ -22,5 +22,20 @@ deployment:
       --exclude='*.log'
       ./ $DEPLOYPATH/
 
-    # Restart the Python app
+    # Create necessary directories if they don't exist
+    - /bin/mkdir -p $DEPLOYPATH/media
+    - /bin/mkdir -p $DEPLOYPATH/staticfiles
+    - /bin/mkdir -p $DEPLOYPATH/logs
+    - /bin/mkdir -p $DEPLOYPATH/tmp
+
+    # Set proper permissions
+    - /bin/chmod 755 $DEPLOYPATH
+    - /bin/chmod 755 $DEPLOYPATH/manage.py
+    - /bin/chmod 644 $DEPLOYPATH/.htaccess 2>/dev/null || true
+    - /bin/chmod -R 755 $DEPLOYPATH/static 2>/dev/null || true
+    - /bin/chmod -R 755 $DEPLOYPATH/media 2>/dev/null || true
+    - /bin/chmod -R 755 $DEPLOYPATH/staticfiles 2>/dev/null || true
+
+    # Restart the Python app by touching passenger_wsgi.py
+    - /bin/touch $DEPLOYPATH/passenger_wsgi.py
     - /bin/touch $DEPLOYPATH/tmp/restart.txt 2>/dev/null || true
