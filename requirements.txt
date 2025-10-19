@@ -5,8 +5,8 @@
 Django>=4.2,<5.0
 
 # Database Adapters
-psycopg2-binary>=2.9.0  # PostgreSQL
-mysqlclient>=2.2.0      # MySQL (for cPanel)
+# psycopg2-binary>=2.9.0  # PostgreSQL (uncomment if needed)
+PyMySQL>=1.1.0          # MySQL (pure Python, no compilation needed)
 
 # Image Handling
 Pillow>=10.0.0

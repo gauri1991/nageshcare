@@ -8,6 +8,13 @@ Place this file in the root of your application directory on cPanel.
 import os
 import sys
 
+# Configure PyMySQL to act as MySQLdb replacement
+try:
+    import pymysql
+    pymysql.install_as_MySQLdb()
+except ImportError:
+    pass
+
 # Add your project directory to the sys.path
 # IMPORTANT: Update this path to match your cPanel directory structure
 # Example: /home/username/nageshcare
