@@ -1,11 +1,11 @@
 ---
 # cPanel Deployment Configuration for nageshcare.com
-# Uses rsync for efficient deployment - only copies changed files
+# Deploys directly to public_html root (main domain document root)
 
 deployment:
   tasks:
-    # Set deployment path
-    - export DEPLOYPATH=/home/wrgccpiz/public_html/nageshcare
+    # Set deployment path to public_html root
+    - export DEPLOYPATH=/home/wrgccpiz/public_html
 
     # Ensure deployment directory exists
     - /bin/mkdir -p $DEPLOYPATH
