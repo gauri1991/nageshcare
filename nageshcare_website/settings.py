@@ -10,11 +10,11 @@ To switch environments, set DJANGO_ENV environment variable:
     export DJANGO_ENV=production  # For production (default)
 """
 
-import os
+from decouple import config
 
 # Determine which settings to use based on environment
 # Default to production for safety - development must be explicitly set
-DJANGO_ENV = os.environ.get('DJANGO_ENV', 'production')
+DJANGO_ENV = config('DJANGO_ENV', default='production')
 
 if DJANGO_ENV == 'development':
     from .settings_dev import *

@@ -5,6 +5,7 @@ Common settings shared between development and production.
 
 from pathlib import Path
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -117,5 +118,5 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 
 # Default email addresses
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'info@nageshcare.com')
-SERVER_EMAIL = os.environ.get('SERVER_EMAIL', 'admin@nageshcare.com')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='info@nageshcare.com')
+SERVER_EMAIL = config('SERVER_EMAIL', default='admin@nageshcare.com')
