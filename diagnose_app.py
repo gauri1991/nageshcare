@@ -120,6 +120,14 @@ print("-" * 80)
 # Add project to path
 sys.path.insert(0, BASE_DIR)
 
+# Configure PyMySQL before Django
+try:
+    import pymysql
+    pymysql.install_as_MySQLdb()
+    print("✓ PyMySQL configured as MySQLdb")
+except ImportError:
+    print("✗ PyMySQL not available")
+
 try:
     # Set Django settings
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nageshcare_website.settings')
