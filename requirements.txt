@@ -5,9 +5,8 @@
 Django>=4.2,<5.0
 
 # Database Adapters
-mysqlclient>=2.2.0  # MySQL adapter (same as working project)
-# mysqlclient>=2.2.0           # Alternative: native C driver (requires compilation)
-# PyMySQL>=1.1.0               # Alternative: pure Python driver
+PyMySQL>=1.1.0  # Pure Python MySQL driver (no compilation needed)
+# mysqlclient>=2.2.0           # Alternative: native C driver (requires compilation - failed on this server)
 
 # Image Handling
 Pillow>=10.0.0

@@ -17,6 +17,13 @@ if project_home not in sys.path:
 # Change to project directory
 os.chdir(project_home)
 
+# Configure PyMySQL as MySQLdb replacement (for django.db.backends.mysql)
+try:
+    import MySQLdb
+except ImportError:
+    import pymysql
+    pymysql.install_as_MySQLdb()
+
 # Set Django settings module
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nageshcare_website.settings')
 

@@ -56,8 +56,8 @@ print("PYTHON PACKAGES CHECK")
 print("-" * 80)
 required_packages = {
     'django': 'Django',
-    'mysql.connector': 'mysql-connector-python',
-    'dotenv': 'python-dotenv',
+    'pymysql': 'PyMySQL',
+    'decouple': 'python-decouple',
     'PIL': 'Pillow',
     'crispy_forms': 'django-crispy-forms',
 }
@@ -78,13 +78,13 @@ env_file = os.path.join(BASE_DIR, '.env')
 if os.path.exists(env_file):
     print(f"✓ .env file exists ({os.path.getsize(env_file)} bytes)")
 
-    # Try loading with dotenv
+    # Try loading with decouple
     try:
-        from dotenv import load_dotenv
-        load_dotenv(env_file)
-        print("✓ Loaded .env with python-dotenv")
+        from decouple import config, Config, RepositoryEnv
+        env_config = Config(RepositoryEnv(env_file))
+        print("✓ Loaded .env with python-decouple")
     except ImportError:
-        print("⚠ python-dotenv not available, using fallback")
+        print("⚠ python-decouple not available, using fallback")
 
     # Check critical variables
     critical_vars = [
