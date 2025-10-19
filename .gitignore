@@ -78,6 +78,9 @@ check_images.py
 .env.local
 .env.production
 
+# Development requirements (not needed in production)
+requirements-dev.txt
+
 # Backups
 backups/
 *.backup
