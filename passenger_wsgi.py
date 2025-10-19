@@ -16,23 +16,49 @@ sys.path.insert(0, SITE_ROOT)
 
 # Load environment variables from .env file FIRST (before setting defaults)
 # This uses python-dotenv for proper .env parsing
+env_loaded = False
 try:
     from dotenv import load_dotenv
     env_file = os.path.join(SITE_ROOT, '.env')
     if os.path.exists(env_file):
-        load_dotenv(env_file)
+        load_dotenv(env_file, override=True)
+        env_loaded = True
 except ImportError:
     # Fallback to manual parsing if python-dotenv not available
     env_file = os.path.join(SITE_ROOT, '.env')
     if os.path.exists(env_file):
-        with open(env_file) as f:
-            for line in f:
-                line = line.strip()
-                if line and not line.startswith('#') and '=' in line:
-                    key, value = line.split('=', 1)
-                    # Remove quotes if present
-                    value = value.strip().strip('"').strip("'")
-                    os.environ.setdefault(key.strip(), value)
+        try:
+            with open(env_file, 'r', encoding='utf-8') as f:
+                for line_num, line in enumerate(f, 1):
+                    line = line.strip()
+                    # Skip empty lines and comments
+                    if not line or line.startswith('#'):
+                        continue
+                    # Parse key=value pairs
+                    if '=' in line:
+                        # Handle comments at end of line
+                        if '#' in line:
+                            # Find the first = and #
+                            eq_pos = line.index('=')
+                            hash_pos = line.index('#')
+                            # Only strip comment if # comes after =
+                            if hash_pos > eq_pos:
+                                line = line[:hash_pos].strip()
+
+                        key, value = line.split('=', 1)
+                        key = key.strip()
+                        value = value.strip()
+                        # Remove quotes if present
+                        if (value.startswith('"') and value.endswith('"')) or \
+                           (value.startswith("'") and value.endswith("'")):
+                            value = value[1:-1]
+                        # Only set if not already in environment
+                        if key and key not in os.environ:
+                            os.environ[key] = value
+            env_loaded = True
+        except Exception as e:
+            # Log error but continue - app might work with cPanel environment variables
+            pass
 
 # Ensure production environment (can be overridden by .env)
 os.environ.setdefault('DJANGO_ENV', 'production')
