@@ -78,8 +78,11 @@ CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',')
 
 # Static and Media Files - cPanel paths
 # These paths should match your cPanel directory structure
-STATIC_ROOT = os.environ.get('STATIC_ROOT', str(BASE_DIR / 'public_html/static'))
-MEDIA_ROOT = os.environ.get('MEDIA_ROOT', str(BASE_DIR / 'public_html/media'))
+STATIC_ROOT = os.environ.get('STATIC_ROOT', str(BASE_DIR / 'staticfiles'))
+MEDIA_ROOT = os.environ.get('MEDIA_ROOT', str(BASE_DIR / 'media'))
+
+# WhiteNoise settings for serving static files
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # Logging Configuration for Production

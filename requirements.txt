@@ -5,7 +5,7 @@
 Django>=4.2,<5.0
 
 # Database Adapters
-mysql-connector-python>=8.0.0  # Oracle's official MySQL driver (pure Python)
+mysqlclient>=2.2.0  # MySQL adapter (same as working project)
 # mysqlclient>=2.2.0           # Alternative: native C driver (requires compilation)
 # PyMySQL>=1.1.0               # Alternative: pure Python driver
 
@@ -32,7 +32,10 @@ django-cors-headers>=4.3.0
 django-meta>=2.3.0
 
 # Utilities
-python-dotenv>=1.0.0  # Environment variable management
+python-decouple>=3.8  # Environment variable management (same as working project)
 
 # Static Files (Production)
-whitenoise>=6.5.0  # Simplified static file serving
+whitenoise>=6.11.0  # Simplified static file serving
+
+# Database URL parsing
+dj-database-url>=3.0.0  # Parse database URLs
