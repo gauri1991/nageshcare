@@ -63,16 +63,6 @@ except ImportError:
 # Ensure production environment (can be overridden by .env)
 os.environ.setdefault('DJANGO_ENV', 'production')
 
-# Configure MySQL adapter (try mysqlclient first, fallback to PyMySQL)
-try:
-    import MySQLdb  # mysqlclient provides this
-except ImportError:
-    try:
-        import pymysql
-        pymysql.install_as_MySQLdb()
-    except ImportError:
-        pass
-
 # Set the settings module
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nageshcare_website.settings')
 

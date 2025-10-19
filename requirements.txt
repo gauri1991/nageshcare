@@ -5,8 +5,9 @@
 Django>=4.2,<5.0
 
 # Database Adapters
-mysqlclient>=2.2.0      # MySQL (native C driver, faster but requires compilation)
-PyMySQL>=1.1.0          # MySQL (pure Python fallback if mysqlclient fails)
+mysql-connector-python>=8.0.0  # Oracle's official MySQL driver (pure Python)
+# mysqlclient>=2.2.0           # Alternative: native C driver (requires compilation)
+# PyMySQL>=1.1.0               # Alternative: pure Python driver
 
 # Image Handling
 Pillow>=10.0.0

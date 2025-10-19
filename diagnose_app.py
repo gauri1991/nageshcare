@@ -56,7 +56,7 @@ print("PYTHON PACKAGES CHECK")
 print("-" * 80)
 required_packages = {
     'django': 'Django',
-    'pymysql': 'PyMySQL',
+    'mysql.connector': 'mysql-connector-python',
     'dotenv': 'python-dotenv',
     'PIL': 'Pillow',
     'crispy_forms': 'django-crispy-forms',
@@ -119,14 +119,6 @@ print("-" * 80)
 
 # Add project to path
 sys.path.insert(0, BASE_DIR)
-
-# Configure PyMySQL before Django
-try:
-    import pymysql
-    pymysql.install_as_MySQLdb()
-    print("✓ PyMySQL configured as MySQLdb")
-except ImportError:
-    print("✗ PyMySQL not available")
 
 try:
     # Set Django settings
