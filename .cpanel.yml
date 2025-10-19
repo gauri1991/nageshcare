@@ -1,23 +1,26 @@
 ---
 # cPanel Deployment Configuration for nageshcare.com
-# This file enables Git Version Control deployment in cPanel
-# Simplified version - only copies files, run setup commands manually
+# Uses rsync for efficient deployment - only copies changed files
 
 deployment:
   tasks:
     # Set deployment path
     - export DEPLOYPATH=/home/wrgccpiz/public_html/nageshcare
 
-    # Copy all files to deployment directory
-    - /bin/cp -R * $DEPLOYPATH
-
-    # Copy hidden files (.htaccess, etc.) - .env should already exist
-    - /bin/cp -R .[^.]* $DEPLOYPATH 2>/dev/null || true
-
-    # Set correct permissions
-    - /bin/chmod 755 $DEPLOYPATH
-    - /bin/chmod 644 $DEPLOYPATH/.htaccess 2>/dev/null || true
+    # Use rsync to copy only changed files (much faster!)
+    # Exclude large/unnecessary directories
+    - >
+      /usr/bin/rsync -av --delete
+      --exclude='.git'
+      --exclude='*.pyc'
+      --exclude='__pycache__'
+      --exclude='.env'
+      --exclude='db.sqlite3'
+      --exclude='media/'
+      --exclude='staticfiles/'
+      --exclude='logs/'
+      --exclude='*.log'
+      ./ $DEPLOYPATH/
 
     # Restart the Python app
-    - mkdir -p $DEPLOYPATH/tmp
-    - /bin/touch $DEPLOYPATH/tmp/restart.txt
+    - /bin/touch $DEPLOYPATH/tmp/restart.txt 2>/dev/null || true
