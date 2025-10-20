@@ -3,6 +3,11 @@ Production settings for nageshcare_website project.
 Use this for cPanel/production deployment.
 """
 
+# Initialize PyMySQL as MySQLdb replacement
+# This must be done before any Django database imports
+import pymysql
+pymysql.install_as_MySQLdb()
+
 from .settings_base import *
 from decouple import config, Csv
 
