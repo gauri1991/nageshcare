@@ -1,0 +1,32 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/wrgccpiz/public_html/nageshcare
+
+    # Remove git directory and venv (not needed on server)
+    - /bin/rm -Rf $DEPLOYPATH/.git
+    - /bin/rm -Rf $DEPLOYPATH/venv
+
+    # IMPORTANT: Don't remove db.sqlite3 - preserve production data
+    # - /bin/rm -f $DEPLOYPATH/db.sqlite3
+
+    # Copy all files from repository to deployment path
+    - /bin/cp -R * $DEPLOYPATH
+
+    # Copy only specific hidden files (not all)
+    - /bin/cp .gitignore $DEPLOYPATH 2>/dev/null || true
+
+    # Set proper permissions
+    - /bin/chmod 755 $DEPLOYPATH
+    - /bin/chmod 755 $DEPLOYPATH/manage.py
+    - /bin/chmod -R 755 $DEPLOYPATH/static
+    - /bin/chmod -R 755 $DEPLOYPATH/media 2>/dev/null || true
+    - /bin/chmod -R 755 $DEPLOYPATH/staticfiles 2>/dev/null || true
+
+    # Create necessary directories
+    - /bin/mkdir -p $DEPLOYPATH/media
+    - /bin/mkdir -p $DEPLOYPATH/staticfiles
+    - /bin/mkdir -p $DEPLOYPATH/logs
+
+    # Touch passenger_wsgi.py to restart the application
+    - /bin/touch $DEPLOYPATH/passenger_wsgi.py
