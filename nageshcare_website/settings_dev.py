@@ -29,17 +29,17 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Development Tools
 INSTALLED_APPS += [
-    'django_extensions',
-    'debug_toolbar',
+    # 'django_extensions',
+    # 'debug_toolbar',  # Disabled for now - can be enabled if needed
 ]
 
-MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
+# MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 
 # Debug Toolbar Configuration
-INTERNAL_IPS = [
-    '127.0.0.1',
-    'localhost',
-]
+# INTERNAL_IPS = [
+#     '127.0.0.1',
+#     'localhost',
+# ]
 
 
 # Logging Configuration for Development

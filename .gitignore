@@ -1,31 +1,21 @@
+# NageshCare Django Project - Git Ignore File
+
 # Python
-*.pyc
-__pycache__/
 *.py[cod]
 *$py.class
+__pycache__/
 *.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
 *.egg
+*.egg-info/
+dist/
+build/
+.Python
 
 # Virtual Environment
 venv/
 ENV/
 env/
-.venv
+.venv/
 
 # Django
 *.log
@@ -33,6 +23,15 @@ db.sqlite3
 db.sqlite3-journal
 /staticfiles/
 /media/
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
 
 # IDE
 .vscode/
@@ -42,50 +41,31 @@ db.sqlite3-journal
 *~
 .DS_Store
 
-# Environment variables
-.env
-.env.local
-
-# Logs
-logs/*.log
-
-# Coverage
+# Testing
 .coverage
 htmlcov/
+.pytest_cache/
+.tox/
 
 # Backup files
 *.bak
 *.backup
-
-# Reference files and documentation
-referencefiles/
-webplan.md
-content.md
-claude.md
-cmsplan.md
-colorplan.md
-cxoplan.md
-CXO_IMPROVEMENT_RECOMMENDATIONS.md
-PLACEHOLDER_CHECKLIST.md
-PROJECT_SUMMARY.md
-
-# Test files
-test_*.py
-check_images.py
-
-# Environment files
-.env
-.env.local
-.env.production
-
-# Development requirements (not needed in production)
-requirements-dev.txt
-
-# Backups
-backups/
-*.backup
 *.sql
-*.dump
 
-# Production-specific
-public_html/
+# Temporary files
+*.tmp
+tmp/
+temp/
+
+# OS
+Thumbs.db
+.DS_Store
+Desktop.ini
+
+# Project specific
+referencefiles/
+extrafiles/
+claude.md
+
+# Keep these templates
+!.env.example

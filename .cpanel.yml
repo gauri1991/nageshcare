@@ -1,38 +1,38 @@
 ---
-# cPanel Deployment Configuration for nageshcare.com
-# Deploys to public_html/nageshcare subdirectory
+# cPanel Deployment Configuration for NageshCare
+# This file configures automatic deployment from Git repository to cPanel
 
 deployment:
   tasks:
-    # Set deployment path to nageshcare subdirectory
+    # Step 1: Deploy all files to the application directory
     - export DEPLOYPATH=/home/wrgccpiz/public_html/nageshcare
 
-    # Ensure deployment directory exists
-    - /bin/mkdir -p $DEPLOYPATH
+    # Step 2: Copy all repository files to deployment path
+    - /bin/cp -R * $DEPLOYPATH
 
-    # Copy all files from repository to deployment path
-    - /bin/cp -R * $DEPLOYPATH/ 2>/dev/null || true
+    # Step 3: Copy hidden files (like .htaccess, .env)
+    - /bin/cp -R .[^.]* $DEPLOYPATH 2>/dev/null || true
 
-    # Copy hidden files (.htaccess, etc.)
-    - /bin/cp .htaccess $DEPLOYPATH/ 2>/dev/null || true
-    - /bin/cp .gitignore $DEPLOYPATH/ 2>/dev/null || true
-    - /bin/cp .env.example $DEPLOYPATH/ 2>/dev/null || true
-    - /bin/cp .env.production $DEPLOYPATH/ 2>/dev/null || true
+    # Step 4: Navigate to deployment directory
+    - cd $DEPLOYPATH
 
-    # Create necessary directories if they don't exist
-    - /bin/mkdir -p $DEPLOYPATH/media
-    - /bin/mkdir -p $DEPLOYPATH/staticfiles
-    - /bin/mkdir -p $DEPLOYPATH/logs
-    - /bin/mkdir -p $DEPLOYPATH/tmp
+    # Step 5: Activate virtual environment and install/update dependencies
+    - source /home/wrgccpiz/virtualenv/public_html/nageshcare/3.12/bin/activate
+    - pip install -r requirements.txt --upgrade
 
-    # Set proper permissions
-    - /bin/chmod 755 $DEPLOYPATH
-    - /bin/chmod 755 $DEPLOYPATH/manage.py
-    - /bin/chmod 644 $DEPLOYPATH/.htaccess 2>/dev/null || true
-    - /bin/chmod -R 755 $DEPLOYPATH/static 2>/dev/null || true
-    - /bin/chmod -R 755 $DEPLOYPATH/media 2>/dev/null || true
-    - /bin/chmod -R 755 $DEPLOYPATH/staticfiles 2>/dev/null || true
+    # Step 6: Run Django management commands
+    - python manage.py migrate --noinput
+    - python manage.py collectstatic --noinput --clear
 
-    # Restart the Python app by touching passenger_wsgi.py
-    - /bin/touch $DEPLOYPATH/passenger_wsgi.py
-    - /bin/touch $DEPLOYPATH/tmp/restart.txt 2>/dev/null || true
+    # Step 7: Create necessary directories
+    - mkdir -p logs media staticfiles
+
+    # Step 8: Set proper permissions
+    - chmod -R 755 $DEPLOYPATH
+    - chmod 600 $DEPLOYPATH/.env
+
+    # Step 9: Restart the Passenger application
+    - touch $DEPLOYPATH/passenger_wsgi.py
+
+    # Step 10: Log deployment
+    - echo "Deployment completed at $(date)" >> $DEPLOYPATH/logs/deployment.log
