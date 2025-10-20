@@ -10,8 +10,11 @@ deployment:
     # Step 2: Copy all repository files to deployment path
     - /bin/cp -R * $DEPLOYPATH
 
-    # Step 3: Copy hidden files (like .htaccess, .env)
-    - /bin/cp -R .[^.]* $DEPLOYPATH 2>/dev/null || true
+    # Step 3: Copy only specific hidden files (not all)
+    # DO NOT copy .htaccess (it goes in parent directory, not here)
+    # DO NOT copy .git directory or backup files
+    - /bin/cp .gitignore $DEPLOYPATH 2>/dev/null || true
+    - /bin/cp .env $DEPLOYPATH 2>/dev/null || true
 
     # Step 4: Navigate to deployment directory
     - cd $DEPLOYPATH
@@ -28,8 +31,12 @@ deployment:
     - mkdir -p logs media staticfiles
 
     # Step 8: Set proper permissions
-    - chmod -R 755 $DEPLOYPATH
-    - chmod 600 $DEPLOYPATH/.env
+    - chmod 755 $DEPLOYPATH
+    - chmod 755 $DEPLOYPATH/manage.py
+    - chmod -R 755 $DEPLOYPATH/static 2>/dev/null || true
+    - chmod -R 755 $DEPLOYPATH/staticfiles 2>/dev/null || true
+    - chmod -R 755 $DEPLOYPATH/media 2>/dev/null || true
+    - chmod 600 $DEPLOYPATH/.env 2>/dev/null || true
 
     # Step 9: Restart the Passenger application
     - touch $DEPLOYPATH/passenger_wsgi.py
