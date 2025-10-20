@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 """
 WSGI config for cPanel deployment using Phusion Passenger.
-Simplified version - lets cPanel handle virtualenv and environment setup.
-Configured for: nageshcare.com
+Minimal configuration - lets cPanel handle infrastructure.
 """
 
 import os
@@ -20,9 +19,6 @@ os.chdir(project_home)
 
 # Set Django settings module
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nageshcare_website.settings')
-
-# Ensure DJANGO_ENV is set to production
-os.environ.setdefault('DJANGO_ENV', 'production')
 
 # Import Django WSGI application
 from django.core.wsgi import get_wsgi_application
